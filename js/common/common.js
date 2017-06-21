@@ -37,7 +37,7 @@ function getString(url,async){
 function postJson(data){
     $.ajax({
         type: 'POST',
-        url: "http://192.168.13.14:9090/servlet-demo/ProductServlet",
+        url: "http://192.168.13.41:8080/servlet-demo/ProductServlet",
         data: data,
         success: function(data){},
         dataType: "json",

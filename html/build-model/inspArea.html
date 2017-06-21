@@ -110,7 +110,6 @@
 
             // 单击保存按钮
             $("#saveModel").on("click",function () {
-                console.log(JSON.stringify(buildModel));
                 postJson(JSON.stringify(buildModel));
             });
 
@@ -417,12 +416,13 @@
             $('#tree').on('nodeSelected', function(event, data) {
                 /*selectedNode = data;*/
                 selectedNode = $('#tree').treeview('getSelected')[0];
-                selecttreeNode();
+                afterSelecttreeNode();
                 selectROI();
             });
         }
 
-        function selecttreeNode(){
+        // 树节点选中后的处理
+        function afterSelecttreeNode(){
             $("#imageToolbar").css("display","none");
             $("#groupToolbar").css("display","none");
             $("#objectToolbar").css("display","none");

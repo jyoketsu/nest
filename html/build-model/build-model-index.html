@@ -8,14 +8,11 @@
     <script src="../../js/common/flow.js"></script>
 
     <script>
+        var flow = "";
         $(document).ready(function () {
-            var flow;
-            $("")
-            /*if(){
-
-            }*/
             $("#newModel").on("click",function () {
-                initFlow("./../../config/build-model/flowConfig.json");
+                //flowInit();
+                initFlow(flow);
                 // 新建产品
                 // 读取产品原始模板：product.json文件
                 var productModel = getJson("/nest/FSQBM/QBM/Product.json",false);
@@ -24,6 +21,7 @@
             });
             
             $("#openModel").on("click",function () {
+                //flowInit();
                 initFlow("./../../config/build-model/flowConfig.json");
 
                 var productModel = getJson("/nest/product/2/2.json",false);
@@ -32,11 +30,22 @@
             });
 
             $("#openModelOnserver").on("click",function () {
+                //flowInit();
                 initFlow("./../../config/build-model/flowConfig.json");
 
-                var testData = getString("http://192.168.13.14:9090/servlet-demo/ProductServlet",false);
+                var testData = getString("http://192.168.13.41:8080/servlet-demo/ProductServlet",false);
                 sessionStorage.setItem("buildModel",testData);
             });
+
+            function flowInit(){
+                // 选择流程
+                var name = $("[name=flow]:checked")[0].val();
+                if(name="flow1"){
+                    flow = "./../../config/build-model/flowConfig.json";
+                } else if(name="flow2"){
+                    flow = "./../../config/build-model/flowConfig2.json";
+                }
+            }
         });
     </script>
 </head>

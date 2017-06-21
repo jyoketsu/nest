@@ -99,9 +99,6 @@ function addRegionToBuildModel(graphObject){
         // 分组数据
         currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
         currentGroup.RegionList.push(region);
-        // 记录图形所在的工位-参考图-分组-对象id
-        ids.push(objectIndex);
-        graphObject.ids = ids;
         // 新增对象
         addObject(graphObject.id);
         // 选中ROI
@@ -112,15 +109,9 @@ function addRegionToBuildModel(graphObject){
         ids.push(selectedNode.id);
         var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
         currentObject.RegionIDList.push({ID:graphObject.id});
-        // 记录图形所在的工位-参考图-分组-对象id
-        graphObject.ids = ids;
     } else if(selectedNode.nodeType=="inspMethod" || selectedNode.nodeType=="region"){ // 当前选中的节点是对象子节点
         var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
         currentObject.RegionIDList.push({ID:graphObject.id});
-        // 记录图形所在的工位-参考图-分组-对象id
-        var objectIds = [];
-        $.extend(true,objectIds,ids);
-        graphObject.ids = objectIds;
         // 分组数据 RegionList
         ids.splice(ids.length-1,1);
         currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
@@ -128,8 +119,48 @@ function addRegionToBuildModel(graphObject){
     }
 }
 
+// 更新建模数据的region
+function updateRegionInBuildModel(graphObject){
+    var outer = pointToOuter(graphObject.pointList);
+
+    var workStationList = buildModel.Product.WorkStationList;
+    // 寻找使用当前检测区的对象节点
+    outerloop:
+    for(var i=0;i<workStationList.length;i++){
+        var workStation = workStationList[i];
+        var refImageList = workStation.RefImageList;
+        for (var j=0;j<refImageList.length;j++){
+            var refImage = refImageList[j];
+            var groupList = refImage.GroupList;
+            for(var k=0;k<groupList.length;k++){
+                var group = groupList[k];
+                var regionList = group.RegionList;
+                for(var l=0;l<regionList.length;l++){
+                    if(regionList[l].Attribute.ID == graphObject.id){
+                        regionList[l].Outer = outer;
+                        break outerloop;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 点的转换
+function pointToOuter(pointList){
+    var outer="";
+    for(var i=0;i<pointList.length;i++){
+        var point = pointList[i];
+        outer+=Math.round(point.imageX)+","+Math.round(point.imageY)+","
+    }
+    outer = outer.substring(0,outer.length-1);
+    return outer;
+}
+
 // 选中树节点
 function selectNode(currentGraph){
+    var idsList = new Array();
+    var workStationList = buildModel.Product.WorkStationList;
     // 寻找使用当前检测区的对象节点
     for(var i=0;i<workStationList.length;i++){
         var workStation = workStationList[i];
@@ -138,56 +169,32 @@ function selectNode(currentGraph){
             var refImage = refImageList[j];
             var groupList = refImage.GroupList;
             for(var k=0;k<groupList.length;k++){
-                var regionList = groupList[k].RegionList;
-                // 循环建模数据中所有的regionList
-                for(var l=0;l<regionList.length;l++){
-                    var graphId = parseInt(regionList[l].Attribute.ID);
-                    var outer = regionList[l].Outer.split(",");
-                    var tempPointList = [];
-                    for(var outerIndex=0;outerIndex<outer.length;){
-                        var imageX=parseInt(outer[outerIndex]);
-                        var imageY=parseInt(outer[outerIndex+1]);
-                        var canvasPoint = getCanvasPoint(options.focalPoint,imageX,imageY);
-                        tempPointList.push({
-                            canvasX:canvasPoint.canvasX,
-                            canvasY:canvasPoint.canvasY,
-                            imageX:imageX,
-                            imageY:imageY
-                        });
-                        outerIndex=outerIndex+2;
+               var group = groupList[k];
+                var inspObjList = group.InspObjList;
+                for(var l=0;l<inspObjList.length;l++){
+                    var inspObj = inspObjList[l];
+                    var regionIDList = inspObj.RegionIDList;
+                    for(var m=0;m<regionIDList.length;m++){
+                        if(regionIDList[m].ID == currentGraph.id){
+                            var ids = [workStation.Attribute.ID,refImage.Attribute.ID,group.Attribute.ID,inspObj.Attribute.ID];
+                            idsList.push(ids);
+                        }
                     }
-                    // 更新图形索引
-                    if(graphId>=graphIndex){
-                        graphIndex = graphId;
-                        graphIndex++;
-                    }
-                    var graphObject = {
-                        id : graphId,
-                        graphType : "polygon",
-                        isSelected : false,
-                        pointList : tempPointList,
-                        // 当前画图形时背景位图的偏移量
-                        currentDeg : deg,
-                        // 当前压缩比
-                        compressRatio: compressRatio
-                    }
-                    graphList.push(graphObject);
                 }
             }
         }
-
     }
 
-
-
-    /*var node = findNodeInTreeNode(previousSelectedGraph.ids);
-    selectedNode.state.selected=false;
-    node.state.selected=true;
-    $('#tree').treeview(treeNode);
-    selectedNode = node;
-    $('#tree').treeview(treeNode);
-    treeEvent();
-    selecttreeNode();*/
+    for(var i=0;i<idsList.length;i++){
+        var node = findNodeInTreeNode(idsList[i]);
+        selectedNode.state.selected=false;
+        node.state.selected=true;
+        selectedNode = node;
+        $('#tree').treeview(treeNode);
+        treeEvent();
+        //$('#tree').treeview('selectNode', [ nodeId, { silent: true } ]);
+        afterSelecttreeNode();
+    }
 }
 
 $(document).ready(function(){
@@ -873,7 +880,7 @@ function selectGraph() {
                 if (flag) {
                     that.selected(currentGraph,null);
                     // 工位树选中
-                    selectNode();
+                    selectNode(currentGraph);
                     return;
                 }
                 // 圆角矩形
@@ -899,7 +906,7 @@ function selectGraph() {
                 if (flag) {
                     that.selected(currentGraph,null);
                     // 工位树选中
-                    selectNode();
+                    selectNode(currentGraph);
                     return;
                 }
             }
@@ -948,6 +955,9 @@ function selectGraph() {
                 }
             }
             that.isDragging = false;
+
+            // 更新buildModel中的数据
+            updateRegionInBuildModel(previousSelectedGraph);
 
             /*// 发送消息，将拖动后的图形数据发送给外部函数
             that.publishSubscribeService.publish("afterMoveGraph",that.previousSelectedGraph);*/
