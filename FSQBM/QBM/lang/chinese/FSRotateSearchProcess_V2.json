@@ -1,0 +1,77 @@
+﻿{
+  "Translation": {
+    "Module": {
+      "Name": "FSRotateSearchProcess_V2",
+      "LangItem": [
+        {
+          "Src": "FSRotateSearchProcess_V2",
+          "Dst": "背景旋转定位"
+        },
+        {
+          "Src": "ID_PARA_AreaSearchScore_1",
+          "Dst": "搜索分数"
+        },
+        {
+          "Src": "ID_DISP_AreaSearchScore_1",
+          "Dst": "区域定位搜索分数"
+        },
+        {
+          "Src": "ID_PARA_AreaSearchHeight_2",
+          "Dst": "搜索高度"
+        },
+        {
+          "Src": "ID_DISP_AreaSearchHeight_2",
+          "Dst": "区域定位搜索高度"
+        },
+        {
+          "Src": "ID_PARA_AreaSearchWidth_3",
+          "Dst": "搜索宽度"
+        },
+        {
+          "Src": "ID_DISP_AreaSearchWidth_3",
+          "Dst": "区域定位搜索宽度"
+        },
+        {
+          "Src": "ID_PARA_ActFluxWidth_4",
+          "Dst": "波动范围"
+        },
+        {
+          "Src": "ID_DISP_ActFluxWidth_4",
+          "Dst": "区域定位波动范围限制"
+        },
+        {
+          "Src": "ID_PARA_AreaSearchOffset_5",
+          "Dst": "搜索偏移"
+        },
+        {
+          "Src": "ID_DISP_AreaSearchOffset_5",
+          "Dst": "区域定位搜索偏移限制"
+        },
+        {
+          "Src": "ID_PARA_SaveFailedPic_6",
+          "Dst": "保存搜索失败图片"
+        },
+        {
+          "Src": "ID_DISP_SaveFailedPic_6",
+          "Dst": "是否保存区域定位失败图片到指定文件夹"
+        },
+        {
+          "Src": "ID_PARA_EnableAreaSearch_7",
+          "Dst": "开启区域定位"
+        },
+        {
+          "Src": "ID_DISP_EnableAreaSearch_7",
+          "Dst": "是否开启区域定位功能"
+        },
+        {
+          "Src": "ID_PARA_EnableCtrlSearchWidth_8",
+          "Dst": "开启搜索宽度限制"
+        },
+        {
+          "Src": "ID_DISP_EnableCtrlSearchWidth_8",
+          "Dst": "是否开启区域定位搜索宽度限制"
+        }
+      ]
+    }
+  }
+}

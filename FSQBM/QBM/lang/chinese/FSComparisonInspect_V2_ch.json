@@ -1,0 +1,277 @@
+﻿{
+  "Translation": {
+    "Module": {
+      "Name": "FSComparisonInspect_V2",
+      "LangItem": [
+        {
+          "Src": "FSComparisonInspect_V2",
+          "Dst": "比对检测"
+        },
+        {
+          "Src": "ID_PARA_Bginspectobj_1",
+          "Dst": "是否是背景层的检测对象"
+        },
+        {
+          "Src": "ID_PARA_Invaded_2",
+          "Dst": "是否允许前景侵入"
+        },
+        {
+          "Src": "ID_PARA_Studynum_3",
+          "Dst": "检测对象学习张数"
+        },
+        {
+          "Src": "ID_PARA_Totalblobsarea_4",
+          "Dst": "允许blobs可疑点面积总和"
+        },
+        {
+          "Src": "ID_PARA_Hgreytolerance_7",
+          "Dst": "生成阈值图时上浮值"
+        },
+        {
+          "Src": "ID_PARA_Lgreytolerance_8",
+          "Dst": "生成阈值图时下浮值"
+        },
+        {
+          "Src": "ID_PARA_Edgeenlarge_9",
+          "Dst": "边缘放宽像素数"
+        },
+        {
+          "Src": "ID_PARA_Hdispersedpoint_10",
+          "Dst": "是否允许散点检测"
+        },
+        {
+          "Src": "ID_PARA_Hminarea_11",
+          "Dst": "亮图最小面积"
+        },
+        {
+          "Src": "ID_PARA_Hmaxarea_12",
+          "Dst": "亮图最大面积"
+        },
+        {
+          "Src": "ID_PARA_Hminenergy_13",
+          "Dst": "亮图最小能量"
+        },
+        {
+          "Src": "ID_PARA_Hmincount_14",
+          "Dst": "亮图最小个数"
+        },
+        {
+          "Src": "ID_PARA_Hdefectname_15",
+          "Dst": "亮图-散点-缺陷名称"
+        },
+        {
+          "Src": "ID_PARA_Ldispersedpoint_16",
+          "Dst": "暗图-是否检测散点缺陷"
+        },
+        {
+          "Src": "ID_PARA_Lminarea_17",
+          "Dst": "暗图最小面积"
+        },
+        {
+          "Src": "ID_PARA_Lmaxarea_18",
+          "Dst": "暗图最大面积"
+        },
+        {
+          "Src": "ID_PARA_Lminenergy_19",
+          "Dst": "暗图最小能量"
+        },
+        {
+          "Src": "ID_PARA_Lmincount_20",
+          "Dst": "暗图最小个数"
+        },
+        {
+          "Src": "ID_PARA_Ldefectname_21",
+          "Dst": "暗图-散点-缺陷名称"
+        },
+        {
+          "Src": "ID_PARA_Hdetectblock_22",
+          "Dst": "亮图-是否检测块缺陷"
+        },
+        {
+          "Src": "ID_PARA_Hblockdefectarea_23",
+          "Dst": "亮图-块缺陷-面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Hadjblockdefectarea_24",
+          "Dst": "亮图-块缺陷-面积自适应阈值"
+        },
+        {
+          "Src": "ID_PARA_Hblockdefectenergy_25",
+          "Dst": "亮图-块缺陷-能量阈值"
+        },
+        {
+          "Src": "ID_PARA_Hadjblockdefectenergy_26",
+          "Dst": "亮图-块缺陷-能量自适应阈值"
+        },
+        {
+          "Src": "ID_PARA_Hblockdefectareaper_27",
+          "Dst": "亮图-块缺陷-面积比例"
+        },
+        {
+          "Src": "ID_PARA_Hblockdefectenergyper_28",
+          "Dst": "亮图-块缺陷-能量比例"
+        },
+        {
+          "Src": "ID_PARA_Hblockdefectname_29",
+          "Dst": "亮图-块缺陷-缺陷名称"
+        },
+        {
+          "Src": "ID_PARA_Hdefectpoint_30",
+          "Dst": "亮图-是否检测点缺陷"
+        },
+        {
+          "Src": "ID_PARA_Hpointdefectarea_31",
+          "Dst": "亮图-点缺陷-面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Hadjpointdefectarea_32",
+          "Dst": "亮图-点缺陷-面积自适应阈值"
+        },
+        {
+          "Src": "ID_PARA_Hpointdefectenergy_33",
+          "Dst": "亮图-点缺陷-能量阈值"
+        },
+        {
+          "Src": "ID_PARA_Hadjpointdefectenergy_34",
+          "Dst": "亮图-点缺陷-能量自适应阈值"
+        },
+        {
+          "Src": "ID_PARA_Hpointdefectareaper_35",
+          "Dst": "亮图-点缺陷-面积比例"
+        },
+        {
+          "Src": "ID_PARA_Hpointdefectenergyper_36",
+          "Dst": "亮图-点缺陷-能量比例"
+        },
+        {
+          "Src": "ID_PARA_Hpointdefectname_37",
+          "Dst": "亮图-点缺陷-缺陷名称"
+        },
+        {
+          "Src": "ID_PARA_Ldetectblock_38",
+          "Dst": "暗图-是否检测块缺陷"
+        },
+        {
+          "Src": "ID_PARA_Lblockdefectarea_39",
+          "Dst": "暗图-块缺陷-面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Ladjblockdefectarea_40",
+          "Dst": "暗图-块缺陷-面积自适应阈值"
+        },
+        {
+          "Src": "ID_PARA_Lblockdefectenergy_41",
+          "Dst": "暗图-块缺陷-能量阈值"
+        },
+        {
+          "Src": "ID_PARA_Ladjblockdefectenergy_42",
+          "Dst": "暗图-块缺陷-能量自适应阈值"
+        },
+        {
+          "Src": "ID_PARA_Lblockdefectareaper_43",
+          "Dst": "暗图-块缺陷-面积比例"
+        },
+        {
+          "Src": "ID_PARA_Lblockdefectenergyper_44",
+          "Dst": "暗图-块缺陷-能量比例"
+        },
+        {
+          "Src": "ID_PARA_Lblockdefectname_45",
+          "Dst": "暗图-块缺陷-缺陷名称"
+        },
+        {
+          "Src": "ID_PARA_Ldetectpoint_46",
+          "Dst": "暗图-是否检测点缺陷"
+        },
+        {
+          "Src": "ID_PARA_Lpointdefectarea_47",
+          "Dst": "暗图-点缺陷-面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Ladjpointdefectarea_48",
+          "Dst": "暗图-点缺陷-面积自适应阈值"
+        },
+        {
+          "Src": "ID_PARA_Lpointdefectenergy_49",
+          "Dst": "暗图-点缺陷-能量阈值"
+        },
+        {
+          "Src": "ID_PARA_Ladjpointdefectenergy_50",
+          "Dst": "暗图-点缺陷-能量自适应阈值"
+        },
+        {
+          "Src": "ID_PARA_Lpointdefectareaper_51",
+          "Dst": "暗图-点缺陷-面积比例"
+        },
+        {
+          "Src": "ID_PARA_Lpointdefectenergyper_52",
+          "Dst": "暗图-点缺陷-能量比例"
+        },
+        {
+          "Src": "ID_PARA_Lblockdefectname_53",
+          "Dst": "暗图-块缺陷-缺陷名称"
+        },
+        {
+          "Src": "ID_PARAD_Hblobimage_54",
+          "Dst": "亮Blob图"
+        },
+        {
+          "Src": "ID_PARAD_Lblobimage_55",
+          "Dst": "暗Blob图"
+        },
+        {
+          "Src": "ID_PARAD_Defectcontour_56",
+          "Dst": "缺陷位置"
+        },
+        {
+          "Src": "ID_DefectType_Name_1",
+          "Dst": "缺陷名称_白色散点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_1",
+          "Dst": "缺陷分数_白色散点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_2",
+          "Dst": "缺陷名称_黑色散点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_2",
+          "Dst": "缺陷分数_黑色散点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_3",
+          "Dst": "缺陷名称_白点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_3",
+          "Dst": "缺陷分数_白点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_4",
+          "Dst": "缺陷名称_黑点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_4",
+          "Dst": "缺陷分数_黑点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_5",
+          "Dst": "缺陷名称_白色块缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_5",
+          "Dst": "缺陷分数_白色块缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_6",
+          "Dst": "缺陷名称_黑色块缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_6",
+          "Dst": "缺陷分数_黑色块缺陷"
+        }
+      ]
+    }
+  }
+}

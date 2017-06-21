@@ -1,0 +1,733 @@
+{
+    "ParamList": [
+      {
+        "Name": "ID_PARA_Bginspectobj_1",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "This Inspect Object Is Blackground or Not",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Invaded_2",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "If Allow Foreground Invade In Background",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Studynum_3",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "20",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%255",
+        "Tips": "The Number of This Inspect Object Is Need to Study",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Totalblobsarea_4",
+        "Type": "5",
+        "DefaultValue": "15000",
+        "Value": "15000",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "The Sum of The Blobs' Area",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hgreytolerance_7",
+        "Type": "5",
+        "DefaultValue": "2",
+        "Value": "2",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%255",
+        "Tips": "Up Offset While Generating Thresh Image With learning result",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lgreytolerance_8",
+        "Type": "5",
+        "DefaultValue": "2",
+        "Value": "2",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%255",
+        "Tips": "Low Offset While Generating Thresh Image With learning result",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Edgeenlarge_9",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Edge Enlarge",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hdispersedpoint_10",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Detect Dispersed Point for High Image or Not",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hminarea_11",
+        "Type": "5",
+        "DefaultValue": "5",
+        "Value": "5",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Min Area in Disperse Detection",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hmaxarea_12",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "30",
+        "Value": "30",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Max Area in Disperse Detection",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hminenergy_13",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Min Energy in Disperse Detection",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hmincount_14",
+        "Type": "5",
+        "DefaultValue": "25",
+        "Value": "25",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Min Count in Disperse Detection",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hdefectname_15",
+        "Type": "1",
+        "DefaultValue": "0",
+        "Value": "白色散点",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Defect Name",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ldispersedpoint_16",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Detect Dispersed Point for Low Image or Not",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lminarea_17",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "6",
+        "Value": "6",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Min Area in Disperse Detection",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lmaxarea_18",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "31",
+        "Value": "31",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Max Area in Disperse Detection",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lminenergy_19",
+        "Type": "5",
+        "DefaultValue": "51",
+        "Value": "51",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Min Energy in Disperse Detection",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lmincount_20",
+        "Type": "5",
+        "DefaultValue": "26",
+        "Value": "26",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Min Count in Disperse Detection",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ldefectname_21",
+        "Type": "1",
+        "DefaultValue": "0",
+        "Value": "黑色散点",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Defect Name",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hdetectblock_22",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Detect Block for High Image or Not",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hblockdefectarea_23",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "70",
+        "Value": "70",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Area in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hadjblockdefectarea_24",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Adjust Area in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hblockdefectenergy_25",
+        "Type": "5",
+        "DefaultValue": "30",
+        "Value": "60",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Energy in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hadjblockdefectenergy_26",
+        "Type": "5",
+        "DefaultValue": "20",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Adjust Energy in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hblockdefectareaper_27",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Area Percentage in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hblockdefectenergyper_28",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Energy Percentage in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hblockdefectname_29",
+        "Type": "1",
+        "DefaultValue": "0",
+        "Value": "白色块",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Defect Name",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hdefectpoint_30",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Detect Point for High Image or Not",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hpointdefectarea_31",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "40",
+        "Value": "35",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Area in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hadjpointdefectarea_32",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "25",
+        "Value": "25",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Adjust Area in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hpointdefectenergy_33",
+        "Type": "5",
+        "DefaultValue": "80",
+        "Value": "60",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Energy in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hadjpointdefectenergy_34",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Adjust Energy in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hpointdefectareaper_35",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Area Percentage in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hpointdefectenergyper_36",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Energy Percentage in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Hpointdefectname_37",
+        "Type": "1",
+        "DefaultValue": "0",
+        "Value": "白点",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Defect Name",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ldetectblock_38",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Detect Block for Low Image or Not",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lblockdefectarea_39",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "70",
+        "Value": "70",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Area in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ladjblockdefectarea_40",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Adjust Area in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lblockdefectenergy_41",
+        "Type": "5",
+        "DefaultValue": "30",
+        "Value": "60",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Energy in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ladjblockdefectenergy_42",
+        "Type": "5",
+        "DefaultValue": "20",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Adjust Energy in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lblockdefectareaper_43",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Area Percentage in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lblockdefectenergyper_44",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Energy Percentage in Block Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lblockdefectname_45",
+        "Type": "1",
+        "DefaultValue": "0",
+        "Value": "白色块",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Defect Name",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ldetectpoint_46",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Detect Point for Low Image or Not",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lpointdefectarea_47",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "40",
+        "Value": "35",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Area in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ladjpointdefectarea_48",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "25",
+        "Value": "25",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Adjust Area in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lpointdefectenergy_49",
+        "Type": "5",
+        "DefaultValue": "80",
+        "Value": "60",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Energy in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ladjpointdefectenergy_50",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Adjust Energy in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lpointdefectareaper_51",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Area Percentage in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lpointdefectenergyper_52",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Energy Percentage in Point Defect",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lblockdefectname_53",
+        "Type": "1",
+        "DefaultValue": "0",
+        "Value": "白点",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Defect Name",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Hblobimage_54",
+        "Type": "2",
+        "DefaultValue": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Tips": "Defect Name",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Lblobimage_55",
+        "Type": "2",
+        "DefaultValue": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Tips": "Defect Name",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Defectcontour_56",
+        "Type": "1",
+        "DefaultValue": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Tips": "Defect Contour",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_1",
+        "Type": "1",
+        "DefaultValue": "白色散点缺陷",
+        "Value": "白色散点缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_1",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_1",
+        "Type": "5",
+        "DefaultValue": "16",
+        "Value": "16",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_2",
+        "Type": "1",
+        "DefaultValue": "黑色散点缺陷",
+        "Value": "黑色散点缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_2",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_2",
+        "Type": "5",
+        "DefaultValue": "17",
+        "Value": "17",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_3",
+        "Type": "1",
+        "DefaultValue": "白点缺陷",
+        "Value": "白点缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_3",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_3",
+        "Type": "5",
+        "DefaultValue": "18",
+        "Value": "18",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_4",
+        "Type": "1",
+        "DefaultValue": "黑点缺陷",
+        "Value": "黑点缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_4",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_4",
+        "Type": "5",
+        "DefaultValue": "19",
+        "Value": "19",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_5",
+        "Type": "1",
+        "DefaultValue": "白色块缺陷",
+        "Value": "白色块缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_5",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_5",
+        "Type": "5",
+        "DefaultValue": "20",
+        "Value": "20",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_6",
+        "Type": "1",
+        "DefaultValue": "黑色块缺陷",
+        "Value": "黑色块缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_6",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_6",
+        "Type": "5",
+        "DefaultValue": "21",
+        "Value": "21",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      }
+    ]
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>建模</title>
+    <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
+    <script src="../../js/common/common.js"></script>
+    <script src="../../js/common/flow.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var flow;
+            $("")
+            /*if(){
+
+            }*/
+            $("#newModel").on("click",function () {
+                initFlow("./../../config/build-model/flowConfig.json");
+                // 新建产品
+                // 读取产品原始模板：product.json文件
+                var productModel = getJson("/nest/FSQBM/QBM/Product.json",false);
+                // 将数据保存到session中
+                sessionStorage.setItem("buildModel",JSON.stringify(productModel));
+            });
+            
+            $("#openModel").on("click",function () {
+                initFlow("./../../config/build-model/flowConfig.json");
+
+                var productModel = getJson("/nest/product/2/2.json",false);
+                 // 将数据保存到session中
+                 sessionStorage.setItem("buildModel",JSON.stringify(productModel));
+            });
+
+            $("#openModelOnserver").on("click",function () {
+                initFlow("./../../config/build-model/flowConfig.json");
+
+                var testData = getString("http://192.168.13.14:9090/servlet-demo/ProductServlet",false);
+                sessionStorage.setItem("buildModel",testData);
+            });
+        });
+    </script>
+</head>
+<body>
+<div>
+    <input type="radio" checked="checked" name="flow" value="flow1" />
+    正常流程：产品信息-检测范围-检测区
+
+    <br />
+    <input type="radio" name="flow" value="flow2" />
+    流程2：检测区-检测范围-产品信息
+
+    <br>
+    <button id="newModel">新建模板</button>
+    <button id="openModel">打开本地模板</button>
+    <button id="openModelOnserver">打开服务器模板</button>
+</div>
+
+</body>
+</html>

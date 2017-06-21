@@ -1,0 +1,169 @@
+{
+    "ParamList": [
+      {
+        "Name": "ID_PARA_Gaussmethod_1",
+        "Type": "6",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%1",
+        "Tips": "Whether to use Gauss method or enhanced method, 0:enhanced method; 1:Gauss method.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Threshval_2",
+        "Type": "4",
+        "DefaultValue": "0.03",
+        "Value": "0.03",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%100",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Connectionval_3",
+        "Type": "4",
+        "DefaultValue": "6",
+        "Value": "6",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%10",
+        "Tips": "The value to connect adjacent defect.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lightdetect_4",
+        "Type": "6",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%1",
+        "Tips": "Whether to perform light defect detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lightareaval_5",
+        "Type": "4",
+        "DefaultValue": "150",
+        "Value": "150",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "50%%500",
+        "Tips": "The area threshold value of light defect.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Darkdetect_6",
+        "Type": "6",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%1",
+        "Tips": "Whether to perform dark defect detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Darkareaval_7",
+        "Type": "4",
+        "DefaultValue": "150",
+        "Value": "150",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "50%%500",
+        "Tips": "The area threshold value of dark defect.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Multipleval_8",
+        "Type": "4",
+        "DefaultValue": "10",
+        "Value": "10",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%100",
+        "Tips": "The multiplier of image brightening.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Incrementval_9",
+        "Type": "4",
+        "DefaultValue": "150",
+        "Value": "150",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%255",
+        "Tips": "The subtrahend of image brightening.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Premaxlightdefpos_10",
+        "Type": "1",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Premaxdarkdefpos_11",
+        "Type": "1",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Maxlightdefpos_12",
+        "Type": "1",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Maxdarkdefpos_13",
+        "Type": "1",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_1",
+        "Type": "1",
+        "DefaultValue": "漏色缺陷",
+        "Value": "漏色缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_1",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_1",
+        "Type": "5",
+        "DefaultValue": "15",
+        "Value": "15",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      }
+    ]
+}

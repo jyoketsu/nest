@@ -1,0 +1,153 @@
+{
+    "ParamList": [
+      {
+        "Name": "ID_PARA_RSearchScore_1",
+        "Type": "5",
+        "DefaultValue": "70",
+        "Value": "70",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "20%%100",
+        "Tips": "ID_DISP_RSearchScore_1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_RSearchHeight_2",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "160",
+        "Value": "160",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%300",
+        "Tips": "ID_DSIP_RSearchHeight_2",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_RSearchWidth_3",
+        "Unit": "Pixel",
+        "DispUnit": "Pixel",
+        "Type": "5",
+        "DefaultValue": "120",
+        "Value": "120",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%300",
+        "Tips": "ID_DISP_RSearchWidth_3",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_RSearchDistanceRatio_4",
+        "Type": "5",
+        "DefaultValue": "3",
+        "Value": "3",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%10",
+        "Tips": "ID_DISP_RSearchDistanceRatio_4",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_EnableProcessRange_5",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "0",
+        "Tips": "ID_DISP_EnableProcessRange_5",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_ModelLine_6",
+        "Type": "1",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Tips": "ID_DISP_ModelLine_6",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_InspLine_7",
+        "Type": "1",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Tips": "ID_DISP_InspLine_7",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_LineCenterShiftX_8",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Tips": "ID_DISP_LineCenterShiftX_8",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_LineCenterShiftY_9",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Tips": "ID_DISP_LineCenterShiftY_9",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_LineShiftAngle_10",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Tips": "ID_DISP_LineShiftAngle_10",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Count_0",
+        "Type": "5",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_1",
+        "Type": "1",
+        "DefaultValue": "图像转正失败",
+        "Value": "图像转正失败",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_1",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "-1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_1",
+        "Type": "5",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      }
+    ]
+}

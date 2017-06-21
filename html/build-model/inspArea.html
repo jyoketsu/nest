@@ -1,0 +1,1280 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>检测区</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <!-- awesome图标 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+
+    <!-- jquery-ui -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.css">
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+
+    <!-- treeview插件 -->
+    <script src="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+
+    <!-- nest样式 -->
+    <link rel="stylesheet" href="../../standard/css/nest.css">
+    <script src="../../standard/js/nest.js"></script>
+
+    <script src="../../js/build-model/bulidModel.js"></script>
+    <script src="../../js/common/common.js"></script>
+    <script src="../../js/common/flow.js"></script>
+    <script src="../../js/build-model/roi.js"></script>
+
+    <style>
+        form{
+            padding: 5px;
+        }
+        .algorithm-param{
+            display: none;
+        }
+        #collapse-button {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            z-index: 1000;
+        }
+        .absoluteCenter {
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
+            margin: auto;
+        }
+    </style>
+
+    <script>
+        // 工位树节点
+        var treeNode = "";
+        // 选中的树节点
+        var selectedNode = "";
+        // 分组索引
+        var groupIndex = 1;
+        // 对象索引
+        var objectIndex = 1;
+        // todo 算法路径
+        var algorithmPath = "./../../FSQBM/QBM/PlugIns/";
+        var language = "chinese";
+        var paramLanguagePath = "./../../FSQBM/QBM/lang/"+language+"/";
+        // 当前算法
+        var currentAlgorithm = "";
+        // 当前算法参数
+        var algorithmParam = "";
+        // WebSocket连接
+        var ws = null;
+        // 建模数据
+        var buildModel = "";
+
+        $(document).ready(function(){
+            // WebSocket连接
+            if ("WebSocket" in window) {
+                ws = new WebSocket("ws://localhost:8181");
+                ws.onopen = function(){
+                    console.log("websocket已连接");
+
+                }
+                ws.onmessage = function (e) {
+                    var data = JSON.parse(e.data);
+                    var clientType = data.header.clientType;
+                    var command = data.body.command;
+                    if(clientType=="IPUServer"){
+                        if(command=="paramDebug"){
+                            console.log("调试参数",data);
+                            var debugParam = data.body.param.paramList;
+                            updateParamValue(debugParam);
+                        }
+                    }
+                }
+            } else {
+                // 浏览器不支持WebSocket
+                alert("您的浏览器不支持 WebSocket!");
+            }
+
+            // 初始化
+            // 获取session中的建模数据
+            buildModel = JSON.parse(sessionStorage.getItem("buildModel"));
+            console.log("buildModel : ",buildModel);
+            // 初始化工位树
+            treeNode = getStationTree(buildModel,false);
+            console.log("treeNode",treeNode);
+            $('#tree').treeview(treeNode);
+            treeEvent();
+
+            // 初始化算法列表
+            var inspMethodList = buildModel.Product.InspMethodList;
+            initAlgorithmSelect(inspMethodList);
+
+            // 单击保存按钮
+            $("#saveModel").on("click",function () {
+                console.log(JSON.stringify(buildModel));
+                postJson(JSON.stringify(buildModel));
+            });
+
+            // 单击退出按钮
+            $("#quit").on("click",function(){
+                var prePage = sessionStorage.getItem("prePage");
+                window.location.href = "../build-model/build-model-index.html";
+                /*if(prePage == "product-info"){
+                    window.location.href = "../product-info/product-info.html";
+                } else if (prePage == "product-detect"){
+                    window.location.href = "../product-detect/product-detect.html";
+                }*/
+            });
+            // 单击上一步按钮
+            $("#prevStep").on("click",function(){
+                preFlow();
+            });
+            // 单击下一步按钮
+            $("#nextStep").on("click",function(){
+                // todo delete 将数据保存到session中
+                sessionStorage.setItem("buildModel",JSON.stringify(buildModel));
+                nextFlow();
+            });
+
+            setTreeContainerHeight();
+
+            // 切换算法选择
+            $("#algorithm-select").on("change",function () {
+                var methodId = $(this).val();
+                var methodInfo = findInspMethodById(methodId);
+                console.log("methodInfo",methodInfo);
+                // 生成模板
+                generateAlgorithmParam(methodInfo.paramList,methodInfo.languageData);
+                // 更新树节点--对象节点
+                updateObjectNode(methodId,translate(methodInfo.methodName,methodInfo.languageData));
+                // 更新对象建模数据
+                updateObjectBuildModel(methodInfo);
+            });
+
+            // 更新对象节点检测方法名
+            function updateObjectNode(methodId,methodName){
+                var currentObjectNode = "";
+                if(selectedNode.nodeType=="inspMethod"||selectedNode.nodeType=="region"){
+                    currentObjectNode = $('#tree').treeview('getParent', selectedNode);
+                } else if(selectedNode.nodeType=="object"){
+                    currentObjectNode = selectedNode;
+                }
+                for(var i=0;i<treeNode.data.length;i++){
+                    var stationNode = treeNode.data[i];
+                    for(var j=0;j<stationNode.nodes.length;j++){
+                        var refImageNode = stationNode.nodes[j];
+                        for(var k=0;k<refImageNode.nodes.length;k++){
+                            var groupNode = refImageNode.nodes[k];
+                            for(var l=0;l<groupNode.nodes.length;l++){
+                                var objectNode = groupNode.nodes[l];
+                                if(objectNode.id==currentObjectNode.id){
+                                    // 更新检测方法名
+                                    objectNode.nodes[0].text=methodName;
+                                    objectNode.nodes[0].methodId=methodId;
+                                    console.log("objectNode------",objectNode);
+                                }
+                            }
+                        }
+                    }
+                }
+                $('#tree').treeview(treeNode);
+                treeEvent();
+            }
+
+            // 单击调试按钮
+            $("#paramDebug").on("click",function () {
+                if(ws.readyState==WebSocket.OPEN){
+                    var message = {
+                        "header":{
+                            "visionSysId":"",
+                            "clientType":"ICW",
+                            "version": "1.0.0"
+                        },
+                        "body":{
+                            "command":"paramDebug",
+                            "ipm":"",
+                            "param":{
+                                "inspMethodID":$("#algorithm-select").val(),
+                                "paramList":algorithmParam.ParamList
+                            }
+                        }
+                    }
+                    ws.send(JSON.stringify(message));
+                }
+            });
+
+            $('#collapse').on("click",function(){
+                if($('#tree').treeview('getNode', 0).state.expanded){
+                    $('#tree').treeview('collapseAll');
+                    $('#collapse').find("i").attr("class","fa fa-plus");
+                } else {
+                    $('#tree').treeview('expandAll');
+                    $('#collapse').find("i").attr("class","fa fa-minus");
+                }
+            });
+
+
+            // 点击新增分组按钮
+            $("#addGroup").on("click",function () {
+                // selectedNode为参考图节点
+                selectedNode.state.expanded = true;
+                selectedNode.state.selected = false;
+                // 工位节点
+                var currentWorkStationNode = $('#tree').treeview('getParent', selectedNode);
+                console.log("CurrentWorkStationNode",currentWorkStationNode);
+
+                // 分组信息
+                var groupInfo = {
+                    ID:groupIndex,
+                    Name:"分组#"+groupIndex,
+                    WorkStationID:currentWorkStationNode.id,
+                    RefImageID:selectedNode.id
+                }
+
+                if(selectedNode.nodes){
+                    selectedNode.nodes.push(
+                            {
+                                id:groupInfo.ID,
+                                text: groupInfo.Name,
+                                icon: "fa fa-sitemap",
+                                nodeType: "group",
+                                state: {
+                                    selected: true
+                                },
+                                parents:[groupInfo.WorkStationID,groupInfo.RefImageID]
+                            }
+                    );
+                } else {
+                    selectedNode.nodes = [{
+                        id: groupInfo.ID,
+                        text: groupInfo.Name,
+                        icon: "fa fa-sitemap",
+                        nodeType: "group",
+                        state:{
+                            selected: true
+                        },
+                        parents:[groupInfo.WorkStationID,groupInfo.RefImageID]
+                    }];
+                }
+
+                // 分组索引+1
+                groupIndex++;
+
+                // 替换原始treeNode中的当前参考图节点
+                for(var i=0;i<treeNode.data.length;i++){
+                    var stationNode = treeNode.data[i];
+                    if(stationNode.id == currentWorkStationNode.id){
+                        // 遍历原始树参考图节点
+                        for(var j=0;j<stationNode.nodes.length;j++){
+                            var refImgNode = stationNode.nodes[j];
+                            if(refImgNode.id == selectedNode.id){
+                                $.extend(true,refImgNode,selectedNode);
+                            }
+                        }
+                    }
+                }
+
+                $('#tree').treeview(treeNode);
+                treeEvent();
+                selectedNode = $('#tree').treeview('getSelected')[0];
+                // 显示分组工具栏
+                $("#imageToolbar").css("display","none");
+                $("#groupToolbar").css("display","block");
+                $("#objectToolbar").css("display","none");
+
+                // 新增分组建模数据
+                addGroupBuildModel(groupInfo);
+            });
+
+            // 点击删除分组按钮
+            $("#deleteGroup").on("click",function () {
+                // 当前参考图节点
+                var currentImageNode = $('#tree').treeview('getParent', selectedNode);
+                // 当前工位节点
+                var currentWorkStationNode = $('#tree').treeview('getParent', currentImageNode);
+                var selectedGroupIndex = 0;
+                // 遍历分组
+                for(var i=0;i<currentImageNode.nodes.length;i++){
+                    if(currentImageNode.nodes[i].nodeId == selectedNode.nodeId){
+                        selectedGroupIndex = i;
+                    }
+                }
+                // 从参考图节点中删除该分组节点
+                currentImageNode.nodes.splice(selectedGroupIndex,1);
+                currentImageNode.state.selected = true;
+                console.log("deletedImageNode",currentImageNode);
+
+                // 替换原始treeNode中的当前参考图节点
+                for(var i=0;i<treeNode.data.length;i++){
+                    var stationNode = treeNode.data[i];
+                    if(stationNode.id == currentWorkStationNode.id){
+                        // 遍历原始树参考图节点
+                        for(var j=0;j<stationNode.nodes.length;j++){
+                            var refImgNode = stationNode.nodes[j];
+                            if(refImgNode.id == currentImageNode.id){
+                                /*refImgNode = selectedNode;*/
+                                $.extend(true,refImgNode,currentImageNode);
+                            }
+                        }
+                    }
+                }
+
+                // 删除分组建模数据
+                deleteGroupBuildModel(selectedNode);
+
+                $('#tree').treeview(treeNode);
+                treeEvent();
+                selectedNode = $('#tree').treeview('getSelected')[0];
+                // 显示对象工具栏
+                $("#imageToolbar").css("display","block");
+                $("#groupToolbar").css("display","none");
+                $("#objectToolbar").css("display","none");
+            });
+
+            // 点击新增对象按钮
+            $("#addObject").on("click",function () {
+                addObject(null);
+            });
+
+            // 点击删除对象按钮
+            $("#deleteObject").on("click",function () {
+                // 当前分组节点
+                var currentGroupNode = $('#tree').treeview('getParent', selectedNode);
+                // 当前参考图节点
+                var currentImageNode = $('#tree').treeview('getParent', currentGroupNode);
+                // 当前工位节点
+                var currentWorkStationNode = $('#tree').treeview('getParent', currentImageNode);
+
+                var selectedObjectIndex = 0;
+                // 遍历对象
+                for(var i=0;i<currentGroupNode.nodes.length;i++){
+                    if(currentGroupNode.nodes[i].id == selectedNode.id){
+                        selectedObjectIndex = i;
+                    }
+                }
+                // 从对象list中删除该对象
+                currentGroupNode.nodes.splice(selectedObjectIndex,1);
+                currentGroupNode.state.selected = true;
+
+                // 替换原始treeNode中的当前分组节点
+                for(var i=0;i<treeNode.data.length;i++){
+                    var stationNode = treeNode.data[i];
+                    if(stationNode.id == currentWorkStationNode.id){
+                        // 遍历原始树参考图节点
+                        for(var j=0;j<stationNode.nodes.length;j++){
+                            var refImgNode = stationNode.nodes[j];
+                            if(refImgNode.id == currentImageNode.id){
+                                for(var k=0;k<refImgNode.nodes.length;k++){
+                                    if(refImgNode.nodes[k].id == currentGroupNode.id){
+                                        $.extend(true,refImgNode.nodes[k],currentGroupNode);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 删除对象建模数据
+                deleteObjectBuildModel(selectedNode);
+
+                $('#tree').treeview(treeNode);
+                treeEvent();
+                selectedNode = $('#tree').treeview('getSelected')[0];
+                // 显示对象工具栏
+                $("#imageToolbar").css("display","none");
+                $("#groupToolbar").css("display","block");
+                $("#objectToolbar").css("display","none");
+            });
+
+            
+            // 点击折叠按钮
+            $("#collapse-button").on("click",function(){
+                if($(this).find("i").attr("class")=="fa fa-angle-double-right"){
+                    hideRightContent();
+                } else {
+                    showRightContent();
+                }
+            });
+        });
+
+        $(window).resize(function () {
+            setTreeContainerHeight();
+        });
+
+        // 工具提示
+        $(function () {
+            $('.btnTooltip').tooltip();
+        })
+
+        function setTreeContainerHeight() {
+            var btnGroupHeight = $('#btnToolbar').height();
+            var treeContainerHeight = $('#treeContainer').parent().height();
+            $('#treeContainer').height(treeContainerHeight-btnGroupHeight);
+        }
+
+        // 工位树事件
+        function treeEvent() {
+            // 点击工位树节点
+            $('#tree').on('nodeSelected', function(event, data) {
+                /*selectedNode = data;*/
+                selectedNode = $('#tree').treeview('getSelected')[0];
+                selecttreeNode();
+                selectROI();
+            });
+        }
+
+        function selecttreeNode(){
+            $("#imageToolbar").css("display","none");
+            $("#groupToolbar").css("display","none");
+            $("#objectToolbar").css("display","none");
+
+            if(selectedNode.nodeType == "workStation"){
+                hideRightContent();
+            }else if(selectedNode.nodeType == "refImage"){
+                $("#imageToolbar").css("display","block");
+                hideRightContent();
+            } else if(selectedNode.nodeType == "group"){
+                $("#groupToolbar").css("display","block");
+                hideRightContent();
+            } else if(selectedNode.nodeType == "object"){
+                // 显示对象工具按钮
+                $("#objectToolbar").css("display","block");
+                // 显示算法参数界面
+                showRightContent();
+
+                // 更新算法参数界面
+                var ids = [];
+                $.extend(true,ids,selectedNode.parents);
+                ids.push(selectedNode.id);
+                var methodInfo = findInspMethod(ids);
+                generateAlgorithmParam(methodInfo.paramList,methodInfo.languageData);
+                $("#algorithm-select").val(selectedNode.nodes[0].methodId);
+                // 更新界面对象名
+                $("#objectName").html(selectedNode.text);
+            } else if(selectedNode.nodeType == "inspMethod"||selectedNode.nodeType == "region"){
+                // 显示算法参数界面
+                showRightContent();
+
+                // 对象节点
+                var objectNode = $('#tree').treeview('getParent', selectedNode);
+                // 更新算法参数界面
+                var methodInfo = findInspMethod(selectedNode.parents);
+                generateAlgorithmParam(methodInfo.paramList,methodInfo.languageData);
+                $("#algorithm-select").val(objectNode.nodes[0].methodId);
+                // 更新界面对象名
+                $("#objectName").html(objectNode.text);
+            }
+        }
+
+        function selectROI(){
+            // 选中ROI
+            var ids = [];
+            $.extend(true,ids,selectedNode.parents);
+            if(selectedNode.nodeType == "object"){
+                ids.push(selectedNode.id);
+                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                if(currentObject.RegionIDList.length!=0){
+                    selectGraphById(currentObject.RegionIDList[0].ID);
+                }
+            } else if(selectedNode.nodeType == "inspMethod"||selectedNode.nodeType == "region"){
+                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                if(currentObject.RegionIDList.length!=0){
+                    selectGraphById(currentObject.RegionIDList[0].ID);
+                }
+            }
+        }
+
+        // 新增对象事件
+        function addObject(regionID){
+
+            // 当前参考图节点
+            var currentImageNode = $('#tree').treeview('getParent', selectedNode);
+            // 当前工位节点
+            var currentWorkStationNode = $('#tree').treeview('getParent', currentImageNode);
+
+            // buildModelImageData
+            var buildModelImageData = findImgInbuildModel(currentImageNode.id);
+            console.log("buildModelImageData",buildModelImageData);
+            // 获取默认检测算法
+            var defaultInspID = buildModelImageData.Attribute.DefaultInspID;
+            var methodInfo = findInspMethodById(defaultInspID);
+            console.log("methodInfo",methodInfo);
+            // 翻译算法名
+            var methodName = translate(methodInfo.methodName,methodInfo.languageData);
+
+            var regionIDList = [];
+            if(regionID!=null||regionID!=undefined){
+                regionIDList.push({
+                    ID:regionID
+                });
+            }
+            // 对象信息
+            var objectInfo = {
+                ID:objectIndex,
+                Name:"对象#"+objectIndex,
+                WorkStationID:selectedNode.parents[0],
+                RefImageID:selectedNode.parents[1],
+                GroupID:selectedNode.id,
+                InspMethodID:defaultInspID,
+                RegionIDList:regionIDList,
+                ParamList:methodInfo.paramList
+            }
+
+            selectedNode.state.expanded = true;
+            selectedNode.state.selected = false;
+            if(selectedNode.nodes){
+                selectedNode.nodes.push(
+                        {
+                            id: objectInfo.ID,
+                            text: objectInfo.Name,
+                            icon: "fa fa-cube",
+                            nodeType: "object",
+                            parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID],
+                            state: {
+                                expanded:true,
+                                selected: true
+                            },
+                            nodes:[
+                                {
+                                    text: methodName,
+                                    icon: "fa fa-gear",
+                                    nodeType: "inspMethod",
+                                    methodId: defaultInspID,
+                                    parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
+                                },
+                                {
+                                    text: "",
+                                    icon: "fa fa-pencil-square-o",
+                                    nodeType:"region",
+                                    parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
+                                }
+                            ]
+                        }
+                );
+            } else {
+                selectedNode.nodes = [{
+                    id: objectInfo.ID,
+                    text: objectInfo.Name,
+                    icon: "fa fa-cube",
+                    nodeType: "object",
+                    parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID],
+                    state:{
+                        expanded:true,
+                        selected: true
+                    },
+                    nodes:[
+                        {
+                            text: methodName,
+                            icon: "fa fa-gear",
+                            nodeType: "inspMethod",
+                            methodId: defaultInspID,
+                            parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
+                        },
+                        {
+                            text: "",
+                            icon: "fa fa-pencil-square-o",
+                            nodeType:"region",
+                            parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
+                        }
+                    ]
+                }];
+            }
+            objectIndex++;
+
+            // 替换原始treeNode中的当前分组节点
+            for(var i=0;i<treeNode.data.length;i++){
+                var stationNode = treeNode.data[i];
+                if(stationNode.id == currentWorkStationNode.id){
+                    // 遍历原始树参考图节点
+                    for(var j=0;j<stationNode.nodes.length;j++){
+                        var refImgNode = stationNode.nodes[j];
+                        if(refImgNode.id == currentImageNode.id){
+                            for(var k=0;k<refImgNode.nodes.length;k++){
+                                if(refImgNode.nodes[k].id == selectedNode.id){
+                                    $.extend(true,refImgNode.nodes[k],selectedNode);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            $('#tree').treeview(treeNode);
+            treeEvent();
+            selectedNode = $('#tree').treeview('getSelected')[0];
+            // 显示对象工具栏
+            $("#imageToolbar").css("display","none");
+            $("#groupToolbar").css("display","none");
+            $("#objectToolbar").css("display","block");
+
+            $("#algorithm-select").val(defaultInspID);
+            // 生成算法参数界面
+            generateAlgorithmParam(methodInfo.paramList,methodInfo.languageData);
+            // 显示算法参数界面
+            showRightContent();
+
+            // 新增对象建模数据
+            addObjectBuildModel(objectInfo);
+        }
+
+        // 初始化算法选择下拉框
+        function initAlgorithmSelect(inspMethodList) {
+            var $algorithmSelect = $("#algorithm-select");
+            var option = "";
+            var languageData = "";
+            for(var i=0;i<inspMethodList.length;i++){
+                var methodId = inspMethodList[i].Attribute.ID;
+                var methodName = inspMethodList[i].Attribute.Name;
+                languageData = getLanguageData(paramLanguagePath+methodName+".json",language)
+                        .Translation.Module.LangItem;
+                var methadDispName = translate(methodName,languageData);
+                option+='<option value="'+methodId+'">'+methadDispName+'</option>';
+            }
+            $algorithmSelect.append(option);
+        }
+
+        // 获取算法语言翻译
+        function getLanguageData(path,language) {
+            var data = "";
+            if(language=="chinese"){
+                var temp = path.split(".json");
+                data = getJson(temp[0]+"_ch.json",false);
+            }
+            return data;
+        }
+
+        // 生成检测算法参数界面
+        function generateAlgorithmParam(paramList,languageData ){
+            // 基础参数
+            var $baseParamContainer = $("#baseParam");
+            // 高级参数
+            var $hgParamContainer = $("#hgParam");
+            // 仿真结果参数
+            var $debugParamContainer = $("#debugParam");
+            // 清空
+            $baseParamContainer.empty();
+            $hgParamContainer.empty();
+            $debugParamContainer.empty();
+            // 循环生成
+            for(var i=0;i<paramList.length;i++){
+                var paramItem = paramList[i];
+                var id = paramItem.Name;
+                var paramName = translate(id,languageData);
+                var defaultValue = paramItem.Value;
+                var tip = translate(paramItem.Tips,languageData);
+                var type = paramItem.Type;
+
+                // 0：算法参数 -1：仿真结果参数
+                var classifyValue = paramItem.ClassifyValue;
+                // 1：基础参数 2：高级参数
+                var authority = paramItem.Authority;
+
+                var model="";
+                // 文本框
+                if(type=="1"||type=="2"||type=="4"||type=="5"){
+                    model='<div class="form-group">' +
+                            '<label class="col-sm-6 control-label">'+paramName+'</label>' +
+                            '<div class="col-sm-6">' +
+                            '<input type="text" class="form-control" id="'+id+'" value="'+defaultValue+'" title="'+tip+'" onchange="updateParam(this)">' +
+                            '</div>' +
+                            '</div>';
+                } else if(type=="3"){// checkbox
+                    model='<div class="form-group"><label class="col-sm-12"><input type="checkbox" id="'+id+'" value="" title="'+tip+'" onchange="updateParam(this)">'+paramName+'</label></div>';
+
+                } else if(type=="6"||type=="7"||type=="8"){// 下拉框
+                    var options = paramItem.Range.split("%%");
+                    var option="";
+                    for(var j=0;j<options.length;j++){
+                        if(defaultValue == options[j]){
+                            option+='<option value="'+options[j]+'" selected>'+options[j]+'</option>';
+                        } else {
+                            option+='<option value="'+options[j]+'">'+options[j]+'</option>';
+                        }
+                    }
+                    model='<div class="form-group">' +
+                            '<label class="col-sm-6 control-label">'+paramName+'</label>' +
+                            '<div class="col-sm-6">' +
+                            '<select class="form-control" id="'+id+'" value="'+defaultValue+'" title="'+tip+'" onchange="updateParam(this)">'+option+'</select>' +
+                            '</div></div>';
+                }
+                // 算法参数
+                if(classifyValue==undefined||classifyValue=="0"){
+                    // 基础参数
+                    if(authority=="1"){
+                        $baseParamContainer.append(model);
+                    } else if(authority=="2"){ // 高级参数
+                        $hgParamContainer.append(model);
+                    }
+
+                } else if(classifyValue=="-1"){ // 仿真结果参数
+                    $debugParamContainer.append(model);
+                }
+            }
+        }
+
+        // 获取翻译
+        function translate(src,dic){
+            var result=src;
+            for(var i=0;i<dic.length;i++){
+                if(src==dic[i].Src){
+                    result = dic[i].Dst;
+                    return result;
+                }
+            }
+        }
+        
+        // 根据参数信息更新界面参数值
+        function updateParamValue(paramList) {
+            for(var i=0;i<paramList.length;i++){
+                $("#"+paramList[i].Name).val(paramList[i].Value);
+            }
+        }
+
+        // 在建模数据中查找指定参考图
+        function findImgInbuildModel(imgId){
+            for(var i=0;i<buildModel.Product.WorkStationList.length;i++){
+                var workStation = buildModel.Product.WorkStationList[i];
+                for(var j=0;j<workStation.RefImageList.length;j++){
+                    var refImage = workStation.RefImageList[j];
+                    if(refImage.Attribute.ID==imgId){
+                        return refImage;
+                    }
+                }
+            }
+        }
+
+        // 获取指定的检测方法
+        function findInspMethod(ids) {
+            var inspObj = findObjectInArray(buildModel.Product.WorkStationList,ids);
+            var methodId = inspObj.Attribute.InspMethodID;
+            var methodName = "";
+            for(var i=0;i<buildModel.Product.InspMethodList.length;i++){
+                var inspMethod = buildModel.Product.InspMethodList[i];
+                if(inspMethod.Attribute.ID==methodId){
+                    methodName = inspMethod.Attribute.Name;
+                    break;
+                }
+            }
+
+            var inspMethodFileName = inspMethod.Attribute.Name+".json";
+            // 获取翻译语言信息
+            var languageData = getLanguageData(paramLanguagePath+inspMethodFileName,language)
+                    .Translation.Module.LangItem;
+            var paramList = inspObj.ParamList;
+            return {
+                methodId:methodId,
+                methodName:methodName,
+                paramList:paramList,
+                languageData:languageData
+            }
+        }
+
+        // 根据id获取指定的检测方法
+        function findInspMethodById(id) {
+            var methodName = "";
+            for(var i=0;i<buildModel.Product.InspMethodList.length;i++){
+                var inspMethod = buildModel.Product.InspMethodList[i];
+                if(inspMethod.Attribute.ID==id){
+                    methodName = inspMethod.Attribute.Name;
+                    break;
+                }
+            }
+
+            // 初始化算法参数界面
+            var inspMethodFileName = inspMethod.Attribute.Name+".json";
+            // 获取算法参数信息
+            algorithmParam = getJson(algorithmPath+inspMethodFileName,false);
+            // 获取翻译语言信息
+            var languageData = getLanguageData(paramLanguagePath+inspMethodFileName,language)
+                    .Translation.Module.LangItem;
+            return {
+                methodId:id,
+                methodName:methodName,
+                paramList:algorithmParam.ParamList,
+                languageData:languageData
+            }
+        }
+
+        // 新增分组建模数据
+        function addGroupBuildModel(groupInfo){
+            var group = {
+                Attribute:{
+                    ID:"",
+                    Name:"",
+                    Level:"0",
+                    WorkStationID:"",
+                    RefImageID:""
+                },
+                AssocList:[
+                    {
+                        Attribute:{
+                            ID: "1",
+                            Enable: "1",
+                            Type: "1"
+                        },
+                        MainNode:{
+                            Attribute:{
+                                ID:"1",
+                                Type:"1"
+                            }
+                        },
+                        SubNode:{
+                            Attribute:{
+                                ID:"-1",
+                                Type:"1"
+                            }
+                        }
+                    }
+                ],
+                RegionList:[],
+                InspObjList:[]
+            }
+            group.Attribute = groupInfo;
+
+            // 更新建模数据
+            var groupList = findObjectInArray(
+                    buildModel.Product.WorkStationList,
+                    [groupInfo.WorkStationID,groupInfo.RefImageID]).GroupList;
+            groupList.push(group);
+        }
+
+        // 删除分组建模数据
+        function deleteGroupBuildModel(selectedNode){
+            var groupList = findObjectInArray(buildModel.Product.WorkStationList,selectedNode.parents).GroupList;
+            var targetIndex = 0;
+            for(var i=0;i<groupList.length;i++){
+                if(groupList[i].Attribute.ID == selectedNode.id){
+                    targetIndex = i;
+                }
+            }
+            groupList.splice(targetIndex,1);
+        }
+
+        // 新增对象建模数据
+        function addObjectBuildModel(objectInfo){
+            var object = {
+                Attribute:{
+                    ID:"",
+                    Name:"",
+                    WorkStationID:"",
+                    RefImageID:"",
+                    CamImageID:"",
+                    GroupID:"",
+                    InspMethodID:""
+                },
+                RegionIDList:objectInfo.RegionIDList,
+                ParamList:objectInfo.ParamList
+            }
+            object.Attribute = objectInfo;
+
+            // 更新建模数据
+            var inspObjList = findObjectInArray(
+                    buildModel.Product.WorkStationList,
+                    [objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID]).InspObjList;
+            inspObjList.push(object);
+        }
+
+        // 更新对象建模数据
+        function updateObjectBuildModel(methodInfo){
+            var ids = [];
+            if(selectedNode.nodeType=="object"){
+                $.extend(true,ids,selectedNode.parents);
+                ids.push(selectedNode.id);
+            }else{
+                $.extend(true,ids,selectedNode.parents);
+            }
+
+            var inspObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
+            inspObject.Attribute.InspMethodID = methodInfo.methodId;
+            inspObject.ParamList = methodInfo.paramList;
+        }
+
+        // 根据界面用户输入，更新object中相应的值
+        function updateParam(paramItem){
+            var ids=[];
+            if(selectedNode.nodeType=="object"){
+                $.extend(true,ids,selectedNode.parents);
+                ids.push(selectedNode.id);
+            } else {
+                $.extend(true,ids,selectedNode.parents);
+            }
+            var paramList = findObjectInArray(buildModel.Product.WorkStationList,ids).ParamList;
+            for(var i=0;i<paramList.length;i++){
+                if(paramList[i].Name == paramItem.id){
+                    paramList[i].Value = paramItem.value;
+                    break;
+                }
+            }
+        }
+
+        // 删除对象建模数据
+        function deleteObjectBuildModel(selectedNode){
+            var inspObjList = findObjectInArray(buildModel.Product.WorkStationList,selectedNode.parents).InspObjList;
+            var targetIndex = 0;
+            for(var i=0;i<inspObjList.length;i++){
+                if(inspObjList[i].Attribute.ID == selectedNode.id){
+                    targetIndex = i;
+                }
+            }
+            inspObjList.splice(targetIndex,1);
+        }
+
+        // 从根array中寻找指定对象，参数为包含此对象的所有父节点的id
+        function findObjectInArray(array,parentsIds){
+            var ids = [];
+            var tempIds = getBuildModelStructure();
+
+            for(var i=0;i<parentsIds.length;i++){
+                ids.push({
+                    id:parentsIds[i],
+                    childNodeName:tempIds[i].childNodeName
+                });
+            }
+
+            var index = 0;
+
+            var array = listLoop(array);
+
+            function listLoop(array){
+                for(var i=0;i<array.length;i++){
+                    var info = ids[index];
+                    if(array[i].Attribute.ID == info.id){
+                        if(index+1==ids.length){
+                            return array[i];
+                        } else {
+                            array = eval("array[i]."+info.childNodeName);
+                            index++;
+                            return listLoop(array);
+                        }
+                    }
+                }
+            }
+
+            return array;
+        }
+
+        // 从根treenode中寻找指定节点，参数为包含此对象的所有父节点的id
+        function findNodeInTreeNode(ids){
+            var index = 0;
+
+            var array = listLoop(treeNode.data);
+
+            function listLoop(array){
+                for(var i=0;i<array.length;i++){
+                    if(array[i].id == ids[index]){
+                        if(index+1==ids.length){
+                            return array[i];
+                        } else {
+                            array = array[i].nodes;
+                            index++;
+                            return listLoop(array);
+                        }
+                    }
+                }
+            }
+
+            return array;
+        }
+
+        function getBuildModelStructure(){
+            return [
+                {
+                    arrayName:"stationList",
+                    childNodeName:"RefImageList"
+                },
+                {
+                    arrayName:"refImageList",
+                    childNodeName:"GroupList"
+                },
+                {
+                    arrayName:"groupList",
+                    childNodeName:"InspObjList"
+                },
+                {
+                    arrayName:"inspObjList",
+                    childNodeName:""
+                }
+            ]
+        }
+
+
+        // 显示右侧区域
+        function showRightContent(){
+            // jquery ui switchClass
+            $("#right-content").css( "display", "block");
+            $("#center-content").switchClass( "col-md-9", "col-md-6", 500);
+            $("#collapse-button").find("i").attr("class","fa fa-angle-double-right");
+        }
+
+        // 隐藏右侧区域
+        function hideRightContent() {
+            $("#right-content").css( "display", "none");
+            $("#center-content").switchClass( "col-md-6", "col-md-9", 500);
+            $("#collapse-button").find("i").attr("class","fa fa-angle-double-left");
+        }
+    </script>
+</head>
+<body>
+    <div class="nest-head">
+        <!-- tab菜单 -->
+        <div class="nest-tab-navbar">
+            <ul class="nav nav-tabs" role="tablist">
+                <li>
+                    <a href="#" class="nest-logo">
+                        <img alt="Brand" src="../../standard/image/focusight.png">
+                    </a>
+                </li>
+                <li role="presentation" class="active"><a href="#system" aria-controls="system" role="tab" data-toggle="tab"><i class="fa fa-gears" aria-hidden="true"></i> 系统</a></li>
+                <li role="presentation"><a href="#object" aria-controls="object" role="tab" data-toggle="tab"><i class="fa fa-check-square-o" aria-hidden="true"></i> 对象</a></li>
+                <li role="presentation"><a href="#auto" aria-controls="auto" role="tab" data-toggle="tab"><i class="fa fa-automobile" aria-hidden="true"></i> 自动</a></li>
+                <li role="presentation"><a href="#view" aria-controls="view" role="tab" data-toggle="tab"><i class="fa fa-image" aria-hidden="true"></i> 视图</a></li>
+            </ul>
+            <!-- 标签面板 -->
+            <div class="tab-content nestTabContent">
+                <div role="tabpanel" class="tab-pane fade in active" id="system">
+                    <!-- tab菜单导航条 -->
+                    <nav class="navbar navbar-default nestTabNavbar">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="#"></a>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">操作</a></li>
+                                    <li><a href="#" id="saveModel"><i class="fa fa-save" aria-hidden="true"></i>保存</a></li>
+                                    <li><a href="#"><i class="fa fa-clone" aria-hidden="true"></i>另存为</a></li>
+                                    <li><a href="#"><i class="fa fa-trash" aria-hidden="true"></i>删除模板</a></li>
+                                    <li><a href="#" id="quit"><i class="fa fa-sign-out" aria-hidden="true"></i>退出</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="object">
+                    <!-- tab菜单导航条 -->
+                    <nav class="navbar navbar-default nestTabNavbar">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="#"></a>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbar-collapse-2">
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">操作</a></li>
+                                    <li><a href="#" id="selectRoi"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 选择</a></li>
+                                    <li><a href="#" id="deleteRoi"><i class="fa fa-trash" aria-hidden="true"></i> 删除</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">ROI</a></li>
+                                    <li><a href="#" id="newSquare">矩形</a></li>
+                                    <li><a href="#" id="newPolygon">多边形</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">层次</a></li>
+                                    <li><a href="#"><i class="fa fa-long-arrow-down" aria-hidden="true"></i> 至于底层</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="auto">
+                    <!-- tab菜单导航条 -->
+                    <nav class="navbar navbar-default nestTabNavbar">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="#"></a>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbar-collapse-3">
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">自动功能</a></li>
+                                    <li><a href="#"><i class="fa fa-photo" aria-hidden="true"></i> 背景检测区</a></li>
+                                    <li><a href="#"><i class="fa fa-picture-o" aria-hidden="true"></i> 前景检测区</a></li>
+                                    <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i> 定位核</a></li>
+                                    <li><a href="#"><i class="fa fa-gear" aria-hidden="true"></i> 参数设置</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">可变信息</a></li>
+                                    <li><a href="#"><i class="fa fa-barcode" aria-hidden="true"></i> 一维码</a></li>
+                                    <li><a href="#"><i class="fa fa-barcode" aria-hidden="true"></i> 一维字符码</a></li>
+                                    <li><a href="#"><i class="fa fa-qrcode" aria-hidden="true"></i> 二维码</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">区域</a></li>
+                                    <li><a href="#"><i class="fa fa-compress" aria-hidden="true"></i> 腐蚀</a></li>
+                                    <li><a href="#"><i class="fa fa-expand" aria-hidden="true"></i> 膨胀</a></li>
+                                    <li><a href="#"><i class="fa fa-gear" aria-hidden="true"></i> 参数设置</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="view">
+                    <!-- tab菜单导航条 -->
+                    <nav class="navbar navbar-default nestTabNavbar">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="#"></a>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbar-collapse-4">
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">适应</a></li>
+                                    <li><a href="#" id="fitOrigin"><i class="fa fa-image" aria-hidden="true"></i> 原始图像</a></li>
+                                    <li><a href="#" id="fitWidth"><i class="fa fa-arrows-h" aria-hidden="true"></i> 适应宽度</a></li>
+                                    <li><a href="#" id="fitHeight"><i class="fa fa-arrows-v" aria-hidden="true"></i> 适应高度</a></li>
+                                    <li><a href="#" id="fitWindow"><i class="fa fa-arrows-alt" aria-hidden="true"></i> 适应窗口</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">缩放</a></li>
+                                    <li><a href="#" id="zoomIn"><i class="fa fa-search-plus" aria-hidden="true"></i> 放大</a></li>
+                                    <li><a href="#" id="zoomOut"><i class="fa fa-search-minus" aria-hidden="true"></i> 缩小</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">元素</a></li>
+                                    <li><a href="#"><i class="fa fa-square" aria-hidden="true"></i> 显示掩膜</a></li>
+                                    <li><a href="#"><i class="fa fa-square-o" aria-hidden="true"></i> 动态边框</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--主体内容-->
+    <div class="nest-content">
+        <div class="container-fluid">
+            <a class="btn btn-default" href="#" role="button" id="collapse-button"><i class="fa fa-angle-double-left"></i></a>
+            <div class="row">
+                <!--布局左侧内容-->
+                <div class="col-md-3 nestCol">
+                    <div class="nest-section">
+                        <div class="btn-toolbar" role="toolbar" aria-label="..." id="btnToolbar">
+                            <div class="btn-group btn-group-sm nest-btn-group" role="group" aria-label="...">
+                                <button type="button" class="btn btn-default" id="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
+                            <div class="btn-group btn-group-sm nest-btn-group" role="group" id="imageToolbar" style="display: none">
+                                <button type="button" class="btn btn-info btnTooltip" title="增加分组" id="addGroup"><i class="fa fa-plus-square"></i></button>
+                            </div>
+                            <div class="btn-group btn-group-sm nest-btn-group" role="group" id="groupToolbar" style="display: none">
+                                <button type="button" class="btn btn-info btnTooltip" title="增加对象" id="addObject"><i class="fa fa-plus-square"></i></button>
+                                <button type="button" class="btn btn-danger btnTooltip" title="删除分组" id="deleteGroup"><i class="fa fa-trash"></i></button>
+                            </div>
+                            <div class="btn-group btn-group-sm nest-btn-group" role="group" id="objectToolbar" style="display: none">
+                                <button type="button" class="btn btn-danger btnTooltip" title="删除对象" id="deleteObject"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div id="treeContainer" style="overflow: auto;">
+                            <div id="tree"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--布局中间内容-->
+                <div class="col-md-9 nestCol" id="center-content">
+                    <div class="nest-section">
+                        <div id="canvas_container" class="canvas_container" style="position: relative;width: 100%;height: 100%;">
+                            <canvas id="canvas_compress" class="absoluteCenter" style="position: absolute;z-index: 1;display: none"></canvas>
+                            <canvas id="canvas_bg" class="absoluteCenter" style="position: absolute;z-index: 1;background-color: #0a0a0a;"></canvas>
+                            <canvas id="canvas_bak" class="absoluteCenter" style="position: absolute;z-index: 1;"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!--布局右侧内容-->
+                <div class="col-md-3 nestCol" id="right-content" style="display: none">
+                    <div class="nest-section">
+                        <!--面板-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title" id="objectName">对象#1</h3>
+                            </div>
+                            <div class="panel-body" style="padding: 5px">
+                                <form class="form-horizontal nest-small-form">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <select class="form-control" id="algorithm-select"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="nest-small-tab">
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#baseParam" aria-controls="home" role="tab" data-toggle="tab">基本参数</a></li>
+                                            <li role="presentation"><a href="#hgParam" aria-controls="profile" role="tab" data-toggle="tab">高级参数</a></li>
+                                            <li role="presentation"><a href="#debugParam" aria-controls="messages" role="tab" data-toggle="tab">调试结果</a></li>
+                                            <li role="presentation"><button class="btn btn-default btn-xs" id="paramDebug" type="button" style="margin-top: 3px">调试</button></li>
+                                        </ul>
+
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane active" id="baseParam">基本参数</div>
+                                            <div role="tabpanel" class="tab-pane" id="hgParam">高级参数</div>
+                                            <div role="tabpanel" class="tab-pane" id="debugParam">调试结果</div>
+                                        </div>
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nest-footer">
+        <nav class="navbar navbar-default nestStepChangeBar">
+            <div class="container-fluid">
+                <div class="navbar-form">
+                    <button class="btn btn-default nestStepChangeBarLeftButton" id="prevStep"><i class="fa fa-chevron-left"></i> 上一步</button>
+                    <button class="btn btn-default nestStepChangeBarRightButton" id="nextStep">下一步 <i class="fa fa-circle-o"></i></button>
+                </div>
+            </div>
+        </nav>
+    </div>
+</body>
+<!--加载中-->
+<div class="modal fade" id="canvasLoadingModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="height: 50px;">
+                <i class="fa fa-spinner fa-spin fa-2x" style="margin-left: 200px;"></i>加载中......
+            </div>
+        </div>
+    </div>
+</div>
+</html>

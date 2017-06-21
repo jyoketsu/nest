@@ -1,0 +1,411 @@
+{
+    "Product": {
+        "ParamList": [
+            {
+                "Name": "ID_PARA_Maxdefnum_901",
+                "Value": "10",
+                "DefaultValue": "1",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_PARA_Hresolution_902",
+                "Value": "0.06",
+                "DefaultValue": "1000",
+                "Type": "4",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_PARA_Vresolution_903",
+                "Value": "0.06",
+                "DefaultValue": "1000",
+                "Type": "4",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_PARA_Inspectwhilestudy_904",
+                "Value": "0",
+                "DefaultValue": "0",
+                "Type": "3",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_PARA_Twiceblobanalyze_905",
+                "Value": "1",
+                "DefaultValue": "1",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_PARA_Savedefpic_906",
+                "Value": "0",
+                "DefaultValue": "0",
+                "Type": "3",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_1",
+                "Value": "二维码解码失败",
+                "DefaultValue": "二维码解码失败",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_1",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_2",
+                "Value": "条码解码失败",
+                "DefaultValue": "条码解码失败",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_2",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_3",
+                "Value": "条码整体缺陷",
+                "DefaultValue": "条码整体缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_3",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_4",
+                "Value": "条码蹭脏缺陷",
+                "DefaultValue": "条码蹭脏缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_4",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_5",
+                "Value": "条码斑点缺陷",
+                "DefaultValue": "条码斑点缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_5",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_6",
+                "Value": "条码黑拉丝缺陷",
+                "DefaultValue": "条码黑拉丝缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_6",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_7",
+                "Value": "条码白拉丝缺陷",
+                "DefaultValue": "条码白拉丝缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_7",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_8",
+                "Value": "条码重影缺陷",
+                "DefaultValue": "条码重影缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_8",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_9",
+                "Value": "条码背景缺陷",
+                "DefaultValue": "条码背景缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_9",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_10",
+                "Value": "条码长边背景缺陷",
+                "DefaultValue": "条码长边背景缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_10",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_11",
+                "Value": "条码歪版缺陷",
+                "DefaultValue": "条码歪版缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_11",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_12",
+                "Value": "条码偏位缺陷",
+                "DefaultValue": "条码偏位缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_12",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_13",
+                "Value": "条码长短边缺陷",
+                "DefaultValue": "条码长短边缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_13",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_14",
+                "Value": "字符识读失败",
+                "DefaultValue": "字符识读失败",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_14",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_15",
+                "Value": "漏色缺陷",
+                "DefaultValue": "漏色缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_15",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_16",
+                "Value": "白色散点缺陷",
+                "DefaultValue": "白色散点缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_16",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_17",
+                "Value": "黑色散点缺陷",
+                "DefaultValue": "黑色散点缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_17",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_18",
+                "Value": "白点缺陷",
+                "DefaultValue": "白点缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_18",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_19",
+                "Value": "黑点缺陷",
+                "DefaultValue": "黑点缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_19",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_20",
+                "Value": "白色块缺陷",
+                "DefaultValue": "白色块缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_20",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            },
+            {
+                "Name": "ID_DefectType_DefaultName_21",
+                "Value": "黑色块缺陷",
+                "DefaultValue": "黑色块缺陷",
+                "Type": "1",
+                "DispEnable": "1",
+                "ModifyEnable": "1"
+            },
+            {
+                "Name": "ID_DefectType_DefaultScore_21",
+                "Value": "100",
+                "DefaultValue": "100",
+                "Type": "5",
+                "DispEnable": "1",
+                "ModifyEnable": "1",
+                "Range": "0%%100"
+            }
+        ]
+    }
+}

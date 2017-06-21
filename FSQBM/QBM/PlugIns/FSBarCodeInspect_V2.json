@@ -1,0 +1,934 @@
+{
+    "ParamList": [
+      {
+        "Name": "ID_PARA_Savedefpic_1",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Save the defect picture to the specified path.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Barcoderecog_2",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform barcode recognition.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Barcodedetect_3",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform barcode detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Barcodetype_4",
+        "Type": "8",
+        "DefaultValue": "Code 128",
+        "Value": "Code 128",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "Code 128%%Code 93%%Code 39%%2/5 Industrial%%2/5 Interleaved%%EAN-13%%EAN-13 Add-On 2%%EAN-13 Add-On 5%%UPC-A%%UPC-A Add-On 2%%UPC-A Add-On 5%%UPC-E%%UPC-E Add-On 2%%UPC-E Add-On 5",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Maxwidth_5",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "4%%60",
+        "Tips": "Maximal size of bar code elements.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lightthresh_6",
+        "Type": "5",
+        "DefaultValue": "40",
+        "Value": "40",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "20%%60",
+        "Tips": "Threshold value to extract light area.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Darkthresh_7",
+        "Type": "5",
+        "DefaultValue": "40",
+        "Value": "40",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "20%%60",
+        "Tips": "Threshold value to extract dark area.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Deviationdetect_58",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform deviation detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Sidesdetect_59",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform sides detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Symmetrydetect_8",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform symmetry detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Symmetrythresh_9",
+        "Type": "5",
+        "DefaultValue": "40",
+        "Value": "40",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%80",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Clouddetect_10",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform cloud detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Cloudenergy_11",
+        "Type": "5",
+        "DefaultValue": "20",
+        "Value": "20",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "5%%40",
+        "Tips": "The degree of cloud shades.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Cloudarea_12",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%100",
+        "Tips": "The area of cloud shades.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Stardetect_13",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform star detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Starenergy_14",
+        "Type": "5",
+        "DefaultValue": "30",
+        "Value": "30",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%60",
+        "Tips": "The degree of star shades.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Stararea_15",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "5%%200",
+        "Tips": "The area of star shades.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Darklinedetect_16",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform darkline detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Darklinesum_17",
+        "Type": "5",
+        "DefaultValue": "200",
+        "Value": "200",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "50%%400",
+        "Tips": "The total length of all darklines.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Darklinemaxlen_18",
+        "Type": "5",
+        "DefaultValue": "25",
+        "Value": "25",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%40",
+        "Tips": "The maximum length of single darkline.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Darklineobvious_19",
+        "Type": "5",
+        "DefaultValue": "15",
+        "Value": "15",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "5%%30",
+        "Tips": "The degree of darkline shades.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lightlinedetect_20",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform lightline detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lightlinesum_21",
+        "Type": "5",
+        "DefaultValue": "200",
+        "Value": "200",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "50%%400",
+        "Tips": "The total length of all lightlines.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lightlinemaxlen_22",
+        "Type": "5",
+        "DefaultValue": "25",
+        "Value": "25",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%40",
+        "Tips": "The maximum length of single lightline.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lightlineobvious_23",
+        "Type": "5",
+        "DefaultValue": "15",
+        "Value": "15",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "5%%30",
+        "Tips": "The degree of lightline shades.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ghostdetect_24",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform ghost detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Dilationval_25",
+        "Type": "6",
+        "DefaultValue": "2",
+        "Value": "2",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%2%%3",
+        "Tips": "The dilation value of barcode edge.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ghostcolnum_26",
+        "Type": "5",
+        "DefaultValue": "10",
+        "Value": "10",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "5%%100",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ghostenergy_27",
+        "Type": "5",
+        "DefaultValue": "20",
+        "Value": "20",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%30",
+        "Tips": "The degree of ghost shades.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Backgrounddetect_28",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform background detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Backgroundlen_29",
+        "Type": "5",
+        "DefaultValue": "22",
+        "Value": "22",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%40",
+        "Tips": "Length of background area.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Backgroundarea_30",
+        "Type": "5",
+        "DefaultValue": "10",
+        "Value": "10",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "5%%40",
+        "Tips": "Area threshold of background defect.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Backgroundenergy_31",
+        "Type": "5",
+        "DefaultValue": "40",
+        "Value": "40",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%60",
+        "Tips": "The degree of background energy shades.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ghostgrayval_32",
+        "Type": "5",
+        "DefaultValue": "15",
+        "Value": "15",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%40",
+        "Tips": "The gray threshold value of background ghost.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Bglongdetect_33",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform LongSide detection of background.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Longsidelen_34",
+        "Type": "5",
+        "DefaultValue": "5",
+        "Value": "5",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "3%%20",
+        "Tips": "The expand length of longside background.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Longsideenergy_35",
+        "Type": "5",
+        "DefaultValue": "40",
+        "Value": "40",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "20%%60",
+        "Tips": "The degree of longside background shades.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Longsidearea_36",
+        "Type": "5",
+        "DefaultValue": "30",
+        "Value": "30",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%60",
+        "Tips": "Area threshold of longside background defect.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Angledetect_37",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform angle detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Anglethresh_38",
+        "Type": "5",
+        "DefaultValue": "2",
+        "Value": "2",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%10",
+        "Tips": "The rotate threshold angle of barcode.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Shortdifthresh_39",
+        "Type": "5",
+        "DefaultValue": "5",
+        "Value": "5",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%20",
+        "Tips": "The difference of shortside between current barcode and model baicode.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Longdifthresh_40",
+        "Type": "5",
+        "DefaultValue": "10",
+        "Value": "10",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%50",
+        "Tips": "The difference of longside between current barcode and model baicode.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Cornerthresh_41",
+        "Type": "5",
+        "DefaultValue": "20",
+        "Value": "20",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "5%%30",
+        "Tips": "The threshold value to extract the corner of barcode.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Preciseposition_42",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform precise positioning.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Preinspectareaimage_43",
+        "Type": "2",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Prebarcoderegion_44",
+        "Type": "1",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Prebarcodeorient_45",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Prebarcoderesult_46",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Inspectareaimage_47",
+        "Type": "2",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Barcoderegion_48",
+        "Type": "1",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Barcodeorient_49",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Angleval_51",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Cloudarea_52",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Stararea_53",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Maxdarkline_54",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Maxlightline_55",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Quiteflawarea_56",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Barcoderesult_57",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_1",
+        "Type": "1",
+        "DefaultValue": "条码解码失败",
+        "Value": "条码解码失败",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_1",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_1",
+        "Type": "5",
+        "DefaultValue": "2",
+        "Value": "2",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_2",
+        "Type": "1",
+        "DefaultValue": "条码整体缺陷",
+        "Value": "条码整体缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_2",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_2",
+        "Type": "5",
+        "DefaultValue": "3",
+        "Value": "3",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_3",
+        "Type": "1",
+        "DefaultValue": "条码蹭脏缺陷",
+        "Value": "条码蹭脏缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_3",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_3",
+        "Type": "5",
+        "DefaultValue": "4",
+        "Value": "4",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_4",
+        "Type": "1",
+        "DefaultValue": "条码斑点缺陷",
+        "Value": "条码斑点缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_4",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_4",
+        "Type": "5",
+        "DefaultValue": "5",
+        "Value": "5",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_5",
+        "Type": "1",
+        "DefaultValue": "条码黑拉丝缺陷",
+        "Value": "条码黑拉丝缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_5",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_5",
+        "Type": "5",
+        "DefaultValue": "6",
+        "Value": "6",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_6",
+        "Type": "1",
+        "DefaultValue": "条码白拉丝缺陷",
+        "Value": "条码白拉丝缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_6",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_6",
+        "Type": "5",
+        "DefaultValue": "7",
+        "Value": "7",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_7",
+        "Type": "1",
+        "DefaultValue": "条码重影缺陷",
+        "Value": "条码重影缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_7",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_7",
+        "Type": "5",
+        "DefaultValue": "8",
+        "Value": "8",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_8",
+        "Type": "1",
+        "DefaultValue": "条码背景缺陷",
+        "Value": "条码背景缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_8",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_8",
+        "Type": "5",
+        "DefaultValue": "9",
+        "Value": "9",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_9",
+        "Type": "1",
+        "DefaultValue": "条码长边背景缺陷",
+        "Value": "条码长边背景缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_9",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_9",
+        "Type": "5",
+        "DefaultValue": "10",
+        "Value": "10",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_10",
+        "Type": "1",
+        "DefaultValue": "条码歪版缺陷",
+        "Value": "条码歪版缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_10",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_10",
+        "Type": "5",
+        "DefaultValue": "11",
+        "Value": "11",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_11",
+        "Type": "1",
+        "DefaultValue": "条码偏位缺陷",
+        "Value": "条码偏位缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_11",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_11",
+        "Type": "5",
+        "DefaultValue": "12",
+        "Value": "12",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_12",
+        "Type": "1",
+        "DefaultValue": "条码长短边缺陷",
+        "Value": "条码长短边缺陷",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_12",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_12",
+        "Type": "5",
+        "DefaultValue": "13",
+        "Value": "13",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      }
+    ]
+}

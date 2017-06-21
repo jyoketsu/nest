@@ -1,0 +1,591 @@
+{
+    "Product": {
+        "Attribute": {
+            "ID": "36",
+            "Name": "2",
+            "CreateTime": "2017/06/15 17:09:09",
+            "Page": "2",
+            "NoteCount": "1",
+            "GrabLength": "284.400000",
+            "RefreshTime": "2017/06/15 17:10:46"
+        },
+        "AssocList": [
+            {
+                "Attribute": {
+                    "ID": "1",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "1",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "3",
+                            "Type": "6"
+                        }
+                    },
+                    {
+                        "Attribute": {
+                            "ID": "3",
+                            "Type": "6"
+                        }
+                    }
+                ]
+            },
+            {
+                "Attribute": {
+                    "ID": "2",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "4",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": {
+                    "Attribute": {
+                        "ID": "2",
+                        "Type": "6"
+                    }
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "3",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "5",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": {
+                    "Attribute": {
+                        "ID": "2",
+                        "Type": "6"
+                    }
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "4",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "6",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": {
+                    "Attribute": {
+                        "ID": "2",
+                        "Type": "6"
+                    }
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "5",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "7",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": {
+                    "Attribute": {
+                        "ID": "2",
+                        "Type": "6"
+                    }
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "6",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "8",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": {
+                    "Attribute": {
+                        "ID": "2",
+                        "Type": "6"
+                    }
+                }
+            }
+        ],
+        "InspMethodList": [
+            {
+                "Attribute": {
+                    "ID": "1",
+                    "Name": "FSRotateProcessing_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "2",
+                    "Name": "FSAeraSearchProcess_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "3",
+                    "Name": "FSRotateSearchProcess_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "4",
+                    "Name": "FSComparisonInspect_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "5",
+                    "Name": "FSBarCodeInspect_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "6",
+                    "Name": "FSCharacterInspect_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "7",
+                    "Name": "FS2DCodeRecognition_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "8",
+                    "Name": "FSLowContrastInspect_V2"
+                }
+            }
+        ],
+        "WorkStationList": [
+            {
+                "Attribute": {
+                    "ID": "1",
+                    "Name": "Station1"
+                },
+                "AssocList": [
+                    {
+                        "Attribute": {
+                            "ID": "1",
+                            "Enable": "1",
+                            "Type": "1"
+                        },
+                        "SubNode": [
+                            {
+                                "Attribute": {
+                                    "ID": "1",
+                                    "Type": "3"
+                                }
+                            },
+                            {
+                                "Attribute": {
+                                    "ID": "2",
+                                    "Type": "3"
+                                }
+                            },
+                            {
+                                "Attribute": {
+                                    "ID": "3",
+                                    "Type": "3"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "RefImageList": [
+                    {
+                        "Attribute": {
+                            "ID": "1",
+                            "Name": "RefImage#1",
+                            "WorkStationID": "1",
+                            "DefaultInspID": "4",
+                            "DefaultLevel": "0"
+                        },
+                        "NoteList": [
+                            {
+                                "Attribute": {
+                                    "ID": "1",
+                                    "CenterY": "0",
+                                    "CenterX": "0",
+                                    "Angle": "0.0"
+                                }
+                            }
+                        ],
+                        "RegionList": [
+                            {
+                                "Attribute": {
+                                    "ID": "1"
+                                },
+                                "Outer": "2923,54,5088,54,5088,2649,2923,2649"
+                            }
+                        ],
+                        "CamImageList": [
+                            {
+                                "Attribute": {
+                                    "ID": "1",
+                                    "Name": "C1",
+                                    "IsMainImage": "1",
+                                    "WorkStationID": "1",
+                                    "GrabImageIndex": "0",
+                                    "Enable": "1",
+                                    "YPos": "0",
+                                    "XPos": "0",
+                                    "RefImageID": "1"
+                                }
+                            }
+                        ],
+                        "GroupList": [
+                            {
+                                "Attribute": {
+                                    "ID": "1",
+                                    "Name": "Group#1",
+                                    "Level": "0",
+                                    "WorkStationID": "1",
+                                    "RefImageID": "1"
+                                },
+                                "AssocList": [
+                                    {
+                                        "Attribute": {
+                                            "ID": "1",
+                                            "Enable": "1",
+                                            "Type": "1"
+                                        },
+                                        "MainNode": {
+                                            "Attribute": {
+                                                "ID": "1",
+                                                "Type": "1"
+                                            }
+                                        },
+                                        "SubNode": {
+                                            "Attribute": {
+                                                "ID": "-1",
+                                                "Type": "1"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "RegionList": [
+                                    {
+                                        "Attribute": {
+                                            "ID": "2",
+                                            "NoteID": "1"
+                                        },
+                                        "Outer": "3993,75,4733,75,4733,609,3993,609"
+                                    }
+                                ],
+                                "InspObjList": [
+                                    {
+                                        "Attribute": {
+                                            "ID": "1",
+                                            "Name": "Obj#1",
+                                            "GroupID": "1",
+                                            "WorkStationID": "1",
+                                            "InspMethodID": "7",
+                                            "CamImageID": "1",
+                                            "RefImageID": "1"
+                                        },
+                                        "RegionIDList": [
+                                            {
+                                                "ID": "2"
+                                            }
+                                        ],
+                                        "ParamList": [
+                                            {
+                                                "Name": "ID_PARA_Savedefpic_1",
+                                                "Label": "IDS_LABEL_BASICFUNC",
+                                                "Authority": "1",
+                                                "Value": "0",
+                                                "Tips": "Save the defect picture to the specified path.",
+                                                "DefaultValue": "0",
+                                                "Type": "3",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Decodability_2",
+                                                "Label": "IDS_LABEL_BASICFUNC",
+                                                "Authority": "1",
+                                                "Value": "3",
+                                                "Tips": "Whether to use image preprocessing.",
+                                                "DefaultValue": "3",
+                                                "Type": "6",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%3%%1"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Width_3",
+                                                "Label": "IDS_LABEL_BASICFUNC",
+                                                "Authority": "1",
+                                                "Unit": "mm",
+                                                "Value": "10",
+                                                "Tips": "Actual Width of 2D Code.",
+                                                "DefaultValue": "10",
+                                                "Type": "5",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "1%%1000%%1"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Codetype_4",
+                                                "Label": "IDS_LABEL_BASICFUNC",
+                                                "Authority": "1",
+                                                "Value": "QR Code",
+                                                "DefaultValue": "QR Code",
+                                                "Type": "8",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "QR Code%%Data Matrix ECC 200%%PDF417"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Qrversion_5",
+                                                "Label": "IDS_LABEL_BASICFUNC",
+                                                "Authority": "1",
+                                                "Value": "4",
+                                                "DefaultValue": "4",
+                                                "Type": "5",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "1%%40%%1"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Timeout_6",
+                                                "Label": "IDS_LABEL_ADVFUNC",
+                                                "Authority": "2",
+                                                "Unit": "ms",
+                                                "Tips": "The longest decoding deadline.",
+                                                "Value": "10",
+                                                "DefaultValue": "10",
+                                                "Type": "5",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "10%%10000%%10"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Mirrored_7",
+                                                "Label": "IDS_LABEL_ADVFUNC",
+                                                "Authority": "2",
+                                                "Tips": "Whether the symbol is or may be mirrored.",
+                                                "Value": "no",
+                                                "DefaultValue": "no",
+                                                "Type": "8",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "yes%%no%%auto"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Mincontrast_8",
+                                                "Label": "IDS_LABEL_ADVFUNC",
+                                                "Authority": "2",
+                                                "Tips": "Minimum contrast between the foreground and the background of the symbol.",
+                                                "Value": "30",
+                                                "DefaultValue": "30",
+                                                "Type": "5",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "1%%100%%1"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Minmodsize_9",
+                                                "Label": "IDS_LABEL_ADVFUNC",
+                                                "Authority": "2",
+                                                "Tips": "Minimum size of the modules in the image in pixels.",
+                                                "Value": "0",
+                                                "DefaultValue": "0",
+                                                "Type": "5",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%100%%1"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Maxmodsize_10",
+                                                "Label": "IDS_LABEL_ADVFUNC",
+                                                "Authority": "2",
+                                                "Tips": "Maximum size of the modules in the image in pixels.",
+                                                "Value": "0",
+                                                "DefaultValue": "0",
+                                                "Type": "5",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%100%%1"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Decodepattern_11",
+                                                "Label": "IDS_LABEL_BASICFUNC",
+                                                "Authority": "1",
+                                                "Value": "standard",
+                                                "Tips": "Basic default settings of model parameters.",
+                                                "DefaultValue": "standard",
+                                                "Type": "8",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "standard%%enhanced%%maximum"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Preqrcodeversion_12",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "3",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Preqrmoduleqty_13",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "3",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Preinspectareaimage_14",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "2",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Predatacoderegion_15",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "1",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "vertexcolor=#FFFF00FF;vertexwidth=4;linecolor=#FF00FFFF;linewidth=2;brushcolor=#FF00FF00;drawvertex=1"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Predatacodresult_16",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "3",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Qrcodeversion_17",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "3",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Qrmoduleqty_18",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "3",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Inspectareaimage_19",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "2",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Datacoderegion_20",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "1",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Datacodresult_21",
+                                                "ClassifyValue": "-1",
+                                                "Authority": "1",
+                                                "Value": "test",
+                                                "DefaultValue": "test",
+                                                "Type": "3",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_Name_1",
+                                                "Label": "IDS_LABEL_ADVFUNC",
+                                                "Authority": "2",
+                                                "Value": "DataCode Decode Failed",
+                                                "DefaultValue": "DataCode Decode Failed",
+                                                "Type": "1",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_Score_1",
+                                                "Label": "IDS_LABEL_ADVFUNC",
+                                                "Authority": "2",
+                                                "Value": "-1",
+                                                "DefaultValue": "100",
+                                                "Type": "5",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1"
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_GlobalID_1",
+                                                "Label": "IDS_LABEL_BASICFUNC",
+                                                "Authority": "2",
+                                                "Value": "1",
+                                                "DefaultValue": "1",
+                                                "Type": "5",
+                                                "DispEnable": "0",
+                                                "ModifyEnable": "0"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

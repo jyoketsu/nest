@@ -1,0 +1,105 @@
+﻿{
+  "Translation": {
+    "Module": {
+      "Name": "FSLowContrastInspect_V2",
+      "LangItem": [
+        {
+          "Src": "FSLowContrastInspect_V2",
+          "Dst": "低对比度检测"
+        },
+        {
+          "Src": "ID_PARA_Gaussmethod_1",
+          "Dst": "是否采用高斯方法检测"
+        },
+        {
+          "Src": "ID_PARA_Threshval_2",
+          "Dst": "分割阈值"
+        },
+        {
+          "Src": "ID_PARA_Connectionval_3",
+          "Dst": "缺陷连接范围"
+        },
+        {
+          "Src": "ID_PARA_Lightdetect_4",
+          "Dst": "是否检测亮缺陷"
+        },
+        {
+          "Src": "ID_PARA_Lightareaval_5",
+          "Dst": "亮缺陷面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Darkdetect_6",
+          "Dst": "是否检测暗缺陷"
+        },
+        {
+          "Src": "ID_PARA_Darkareaval_7",
+          "Dst": "暗缺陷面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Multipleval_8",
+          "Dst": "图像增亮乘数"
+        },
+        {
+          "Src": "ID_PARA_Incrementval_9",
+          "Dst": "图像增亮减数"
+        },
+        {
+          "Src": "ID_PARAD_Premaxlightdefpos_10",
+          "Dst": "模板图最大亮缺陷轮廓区域"
+        },
+        {
+          "Src": "ID_PARAD_Premaxdarkdefpos_11",
+          "Dst": "模板图最大暗缺陷轮廓区域"
+        },
+        {
+          "Src": "ID_PARAD_Maxlightdefpos_12",
+          "Dst": "检测图最大亮缺陷轮廓区域"
+        },
+        {
+          "Src": "ID_PARAD_Maxdarkdefpos_13",
+          "Dst": "检测图最大暗缺陷轮廓区域"
+        },
+        {
+          "Src": "ID_DefectType_Name_1",
+          "Dst": "缺陷名称_漏色缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_1",
+          "Dst": "缺陷分数_漏色缺陷"
+        },
+        {
+          "Src": "Whether to use Gauss method or enhanced method, 0:enhanced method; 1:Gauss method.",
+          "Dst": "采用高斯方法或增强方法，0：增强方法；1：高斯方法"
+        },
+        {
+          "Src": "The value to connect adjacent defect.",
+          "Dst": "临近缺陷的连接值"
+        },
+        {
+          "Src": "Whether to perform light defect detection.",
+          "Dst": "是否执行亮缺陷检测功能"
+        },
+        {
+          "Src": "The area threshold value of light defect.",
+          "Dst": "亮缺陷的面积阈值"
+        },
+        {
+          "Src": "Whether to perform dark defect detection.",
+          "Dst": "是否执行暗缺陷检测功能"
+        },
+        {
+          "Src": "The area threshold value of dark defect.",
+          "Dst": "暗缺陷的面积阈值"
+        },
+        {
+          "Src": "The multiplier of image brightening.",
+          "Dst": "图像增亮乘数"
+        },
+        {
+          "Src": "The subtrahend of image brightening.",
+          "Dst": "图像增亮减数"
+        }
+      ]
+    }
+  }
+}

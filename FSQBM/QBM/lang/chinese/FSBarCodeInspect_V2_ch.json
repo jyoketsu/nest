@@ -1,0 +1,497 @@
+﻿{
+  "Translation": {
+    "Module": {
+      "Name": "FSBarCodeInspect_V2",
+      "LangItem": [
+        {
+          "Src": "FSBarCodeInspect_V2",
+          "Dst": "条码检测"
+        },
+        {
+          "Src": "ID_PARA_Savedefpic_1",
+          "Dst": "是否保存缺陷小图"
+        },
+        {
+          "Src": "ID_PARA_Barcoderecog_2",
+          "Dst": "是否进行条码识读"
+        },
+        {
+          "Src": "ID_PARA_Barcodedetect_3",
+          "Dst": "是否进行条码缺陷检测"
+        },
+        {
+          "Src": "ID_PARA_Barcodetype_4",
+          "Dst": "条码类型"
+        },
+        {
+          "Src": "ID_PARA_Maxwidth_5",
+          "Dst": "条码元素最大尺寸"
+        },
+        {
+          "Src": "ID_PARA_Lightthresh_6",
+          "Dst": "白空区域提取阈值"
+        },
+        {
+          "Src": "ID_PARA_Darkthresh_7",
+          "Dst": "黑条区域提取阈值"
+        },
+        {
+          "Src": "ID_PARA_Symmetrydetect_8",
+          "Dst": "是否进行整体检测"
+        },
+        {
+          "Src": "ID_PARA_Symmetrythresh_9",
+          "Dst": "整体检测阈值"
+        },
+        {
+          "Src": "ID_PARA_Clouddetect_10",
+          "Dst": "是否进行蹭脏检测"
+        },
+        {
+          "Src": "ID_PARA_Cloudenergy_11",
+          "Dst": "蹭脏能量阈值"
+        },
+        {
+          "Src": "ID_PARA_Cloudarea_12",
+          "Dst": "蹭脏面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Stardetect_13",
+          "Dst": "是否进行斑点检测"
+        },
+        {
+          "Src": "ID_PARA_Starenergy_14",
+          "Dst": "斑点能量阈值"
+        },
+        {
+          "Src": "ID_PARA_Stararea_15",
+          "Dst": "斑点面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Darklinedetect_16",
+          "Dst": "是否进行黑拉线检测"
+        },
+        {
+          "Src": "ID_PARA_Darklinesum_17",
+          "Dst": "黑拉线总长阈值"
+        },
+        {
+          "Src": "ID_PARA_Darklinemaxlen_18",
+          "Dst": "黑拉线最长阈值"
+        },
+        {
+          "Src": "ID_PARA_Darklineobvious_19",
+          "Dst": "黑拉线明显程度"
+        },
+        {
+          "Src": "ID_PARA_Lightlinedetect_20",
+          "Dst": "是否进行白拉线检测"
+        },
+        {
+          "Src": "ID_PARA_Lightlinesum_21",
+          "Dst": "白拉线总长阈值"
+        },
+        {
+          "Src": "ID_PARA_Lightlinemaxlen_22",
+          "Dst": "白拉线最长阈值"
+        },
+        {
+          "Src": "ID_PARA_Lightlineobvious_23",
+          "Dst": "白拉线明显程度"
+        },
+        {
+          "Src": "ID_PARA_Ghostdetect_24",
+          "Dst": "是否进行重影检测"
+        },
+        {
+          "Src": "ID_PARA_Dilationval_25",
+          "Dst": "条码边缘放宽值"
+        },
+        {
+          "Src": "ID_PARA_Ghostcolnum_26",
+          "Dst": "重影列数阈值"
+        },
+        {
+          "Src": "ID_PARA_Ghostenergy_27",
+          "Dst": "重影能量阈值"
+        },
+        {
+          "Src": "ID_PARA_Backgrounddetect_28",
+          "Dst": "是否进行背景检测"
+        },
+        {
+          "Src": "ID_PARA_Backgroundlen_29",
+          "Dst": "背景范围"
+        },
+        {
+          "Src": "ID_PARA_Backgroundarea_30",
+          "Dst": "背景缺陷面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Backgroundenergy_31",
+          "Dst": "背景缺陷能量阈值"
+        },
+        {
+          "Src": "ID_PARA_Ghostgrayval_32",
+          "Dst": "背景重影灰度阈值"
+        },
+        {
+          "Src": "ID_PARA_Bglongdetect_33",
+          "Dst": "是否进行长边背景检测"
+        },
+        {
+          "Src": "ID_PARA_Longsidelen_34",
+          "Dst": "长边背景长度阈值"
+        },
+        {
+          "Src": "ID_PARA_Longsideenergy_35",
+          "Dst": "长边背景能量阈值"
+        },
+        {
+          "Src": "ID_PARA_Longsidearea_36",
+          "Dst": "长边背景面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Angledetect_37",
+          "Dst": "是否进行歪版检测"
+        },
+        {
+          "Src": "ID_PARA_Anglethresh_38",
+          "Dst": "歪版角度阈值"
+        },
+        {
+          "Src": "ID_PARA_Shortdifthresh_39",
+          "Dst": "条码短边差值阈值"
+        },
+        {
+          "Src": "ID_PARA_Longdifthresh_40",
+          "Dst": "条码长边差值阈值"
+        },
+        {
+          "Src": "ID_PARA_Cornerthresh_41",
+          "Dst": "条码角点的灰度阈值"
+        },
+        {
+          "Src": "ID_PARA_Preciseposition_42",
+          "Dst": "是否进行条码角度精调"
+        },
+        {
+          "Src": "ID_PARAD_Preinspectareaimage_43",
+          "Dst": "模板图检测区域图像"
+        },
+        {
+          "Src": "ID_PARAD_Prebarcoderegion_44",
+          "Dst": "模板图条码轮廓区域"
+        },
+        {
+          "Src": "ID_PARAD_Prebarcodeorient_45",
+          "Dst": "模板图条码印刷方位"
+        },
+        {
+          "Src": "ID_PARAD_Prebarcoderesult_46",
+          "Dst": "模板图条码识读结果"
+        },
+        {
+          "Src": "ID_PARAD_Inspectareaimage_47",
+          "Dst": "检测图检测区域图像"
+        },
+        {
+          "Src": "ID_PARAD_Barcoderegion_48",
+          "Dst": "检测图条码轮廓区域"
+        },
+        {
+          "Src": "ID_PARAD_Barcodeorient_49",
+          "Dst": "检测图条码印刷方位"
+        },
+        {
+          "Src": "ID_PARAD_Angleval_51",
+          "Dst": "检测图条码偏转角度"
+        },
+        {
+          "Src": "ID_PARAD_Cloudarea_52",
+          "Dst": "检测图条码蹭脏面积"
+        },
+        {
+          "Src": "ID_PARAD_Stararea_53",
+          "Dst": "检测图条码斑点面积"
+        },
+        {
+          "Src": "ID_PARAD_Maxdarkline_54",
+          "Dst": "检测图最长黑拉丝长度"
+        },
+        {
+          "Src": "ID_PARAD_Maxlightline_55",
+          "Dst": "检测图最长白拉丝长度"
+        },
+        {
+          "Src": "ID_PARAD_Quiteflawarea_56",
+          "Dst": "检测图背景缺陷面积"
+        },
+        {
+          "Src": "ID_PARAD_Barcoderesult_57",
+          "Dst": "检测图条码识读结果"
+        },
+        {
+          "Src": "ID_PARA_Deviationdetect_58",
+          "Dst": "是否进行偏位检测"
+        },
+        {
+          "Src": "ID_PARA_Sidesdetect_59",
+          "Dst": "是否进行长短边检测"
+        },
+        {
+          "Src": "Save the defect picture to the specified path.",
+          "Dst": "保存缺陷小图到指定路径"
+        },
+        {
+          "Src": "Whether to perform barcode recognition.",
+          "Dst": "是否执行条码识读功能"
+        },
+        {
+          "Src": "Whether to perform barcode detection.",
+          "Dst": "是否执行条码检测功能"
+        },
+        {
+          "Src": "Maximal size of bar code elements.",
+          "Dst": "条码元素的最大像素尺寸"
+        },
+        {
+          "Src": "Threshold value to extract light area.",
+          "Dst": "提取亮区域的灰度阈值"
+        },
+        {
+          "Src": "Threshold value to extract dark area.",
+          "Dst": "提取暗区域的灰度阈值"
+        },
+        {
+          "Src": "Whether to perform symmetry detection.",
+          "Dst": "是否执行整体检测功能"
+        },
+        {
+          "Src": "Whether to perform cloud detection.",
+          "Dst": "是否执行蹭脏检测功能"
+        },
+        {
+          "Src": "The degree of cloud shades.",
+          "Dst": "蹭脏缺陷的深浅程度"
+        },
+        {
+          "Src": "The area of cloud shades.",
+          "Dst": "蹭脏面积阈值"
+        },
+        {
+          "Src": "Whether to perform star detection.",
+          "Dst": "是否执行斑点检测功能"
+        },
+        {
+          "Src": "The degree of star shades.",
+          "Dst": "斑点缺陷的深浅程度"
+        },
+        {
+          "Src": "The area of star shades.",
+          "Dst": "斑点缺陷的面积阈值"
+        },
+        {
+          "Src": "Whether to perform darkline detection.",
+          "Dst": "是否执行黑拉线检测功能"
+        },
+        {
+          "Src": "The total length of all darklines.",
+          "Dst": "所有黑拉丝的长度总和"
+        },
+        {
+          "Src": "The maximum length of single darkline.",
+          "Dst": "条码上单条黑拉线长度阈值"
+        },
+        {
+          "Src": "The degree of darkline shades.",
+          "Dst": "黑拉线的深浅程度"
+        },
+        {
+          "Src": "Whether to perform lightline detection.",
+          "Dst": "是否执行白拉线检测功能"
+        },
+        {
+          "Src": "The total length of all lightlines.",
+          "Dst": "所有白拉丝的长度总和"
+        },
+        {
+          "Src": "The maximum length of single lightline.",
+          "Dst": "条码上单条白拉线长度阈值"
+        },
+        {
+          "Src": "The degree of lightline shades.",
+          "Dst": "白拉线的深浅程度"
+        },
+        {
+          "Src": "Whether to perform ghost detection.",
+          "Dst": "是否执行重影检测功能"
+        },
+        {
+          "Src": "The dilation value of barcode edge.",
+          "Dst": "条码边缘的膨胀值"
+        },
+        {
+          "Src": "The degree of ghost shades.",
+          "Dst": "重影缺陷的深浅程度"
+        },
+        {
+          "Src": "Whether to perform background detection.",
+          "Dst": "是否执行背景缺陷检测功能"
+        },
+        {
+          "Src": "Length of background area.",
+          "Dst": "检测的背景区域的大小"
+        },
+        {
+          "Src": "Area threshold of background defect.",
+          "Dst": "背景缺陷面积阈值"
+        },
+        {
+          "Src": "The degree of background energy shades.",
+          "Dst": "背景缺陷的明显程度"
+        },
+        {
+          "Src": "The gray threshold value of background ghost.",
+          "Dst": "背景重影检测的灰度阈值"
+        },
+        {
+          "Src": "Whether to perform LongSide detection of background.",
+          "Dst": "是否执行长边背景缺陷检测功能"
+        },
+        {
+          "Src": "The expand length of longside background.",
+          "Dst": "长边背景的长度外扩阈值"
+        },
+        {
+          "Src": "The degree of longside background shades.",
+          "Dst": "长边背景缺陷的深浅程度"
+        },
+        {
+          "Src": "Area threshold of longside background defect.",
+          "Dst": "长边背景缺陷的面积阈值"
+        },
+        {
+          "Src": "Whether to perform angle detection.",
+          "Dst": "是否执行角度缺陷检测功能"
+        },
+        {
+          "Src": "The rotate threshold angle of barcode.",
+          "Dst": "条码允许歪斜角度阈值"
+        },
+        {
+          "Src": "The difference of shortside between current barcode and model baicode.",
+          "Dst": "待检测条码的宽度和模板条码的宽度的差值阈值"
+        },
+        {
+          "Src": "The difference of longside between current barcode and model baicode.",
+          "Dst": "待检测条码的长度和模板条码的长度的差值阈值"
+        },
+        {
+          "Src": "The threshold value to extract the corner of barcode.",
+          "Dst": "提取条码角点的灰度阈值"
+        },
+        {
+          "Src": "Whether to perform precise positioning.",
+          "Dst": "是否进行条码角度精调功能"
+        },
+        {
+          "Src": "ID_DefectType_Name_1",
+          "Dst": "缺陷名称_条码解码失败"
+        },
+        {
+          "Src": "ID_DefectType_Score_1",
+          "Dst": "缺陷分数_条码解码失败"
+        },
+        {
+          "Src": "ID_DefectType_Name_2",
+          "Dst": "缺陷名称_条码整体缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_2",
+          "Dst": "缺陷分数_条码解码缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_3",
+          "Dst": "缺陷名称_条码蹭脏缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_3",
+          "Dst": "缺陷分数_条码蹭脏缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_4",
+          "Dst": "缺陷名称_条码斑点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_4",
+          "Dst": "缺陷分数_条码斑点缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_5",
+          "Dst": "缺陷名称_条码黑拉丝缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_5",
+          "Dst": "缺陷分数_条码黑拉丝缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_6",
+          "Dst": "缺陷名称_条码白拉丝缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_6",
+          "Dst": "缺陷分数_条码白拉丝缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_7",
+          "Dst": "缺陷名称_条码重影缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_7",
+          "Dst": "缺陷分数_条码重影缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_8",
+          "Dst": "缺陷名称_条码背景缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_8",
+          "Dst": "缺陷分数_条码背景缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_9",
+          "Dst": "缺陷名称_条码长边背景缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_9",
+          "Dst": "缺陷分数_条码长边背景缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_10",
+          "Dst": "缺陷名称_条码歪版缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_10",
+          "Dst": "缺陷分数_条码歪版缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_11",
+          "Dst": "缺陷名称_条码偏位缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_11",
+          "Dst": "缺陷分数_条码偏位缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Name_12",
+          "Dst": "缺陷名称_条码长短边缺陷"
+        },
+        {
+          "Src": "ID_DefectType_Score_12",
+          "Dst": "缺陷分数_条码长短边缺陷"
+        }
+      ]
+    }
+  }
+}

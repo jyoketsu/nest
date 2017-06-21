@@ -1,0 +1,424 @@
+{
+    "ParamList": [
+      {
+        "Name": "ID_PARA_Savedefpic_1",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Save the defect picture to the specified path.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Lightondark_2",
+        "Type": "6",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%1",
+        "Tips": "Whether the characters are light on dark or dark on light.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Mainorientation_3",
+        "Type": "6",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%90%%180%%270",
+        "Tips": "The main direction of characters after imaging.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Dotted_4",
+        "Type": "6",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%1",
+        "Tips": "Whether the characters are dot printed or normal printed.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Orientated_5",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform orientation correction.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Slanted_6",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform slant correction.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Jointed_7",
+        "Type": "3",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether the characters are jointed or not.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Linenum_8",
+        "Type": "5",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%10",
+        "Tips": "The number of character lines.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Autothresh_9",
+        "Type": "6",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%1",
+        "Tips": "Whether to use auto threshold or manual threshold, 0:auto threshold; 1:manual threshold.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Autothreshincrement_10",
+        "Type": "6",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "-60%%-50%%-40%%-30%%-20%%-10%%0%%10%%20%%30%%40%%50",
+        "Tips": "The increase gray value of auto threshold.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Manualthreshminval_11",
+        "Type": "5",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%255",
+        "Tips": "The minmum gray value of manual threshold.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Manualthreshmaxval_12",
+        "Type": "5",
+        "DefaultValue": "150",
+        "Value": "150",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%255",
+        "Tips": "The maximum gray value of manual threshold.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Charsnum_13",
+        "Type": "2",
+        "DefaultValue": "20",
+        "Value": "20",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "The number of characters, note the characters of multi-line.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Ignoreboundary_14",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to eliminate the boundary.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Removenoise_15",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to remove the noise.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_NoiseArea_16",
+        "Type": "5",
+        "DefaultValue": "50",
+        "Value": "50",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%200",
+        "Tips": "The area of noise need to be removed if select remove noise.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Charwidth_17",
+        "Type": "5",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "15%%200",
+        "Tips": "The pixel value of single character's width.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Charheight_18",
+        "Type": "5",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "15%%200",
+        "Tips": "The pixel value of single character's height.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Charlibrary_19",
+        "Type": "8",
+        "DefaultValue": "Document_0-9_NoRej",
+        "Value": "Document_0-9_NoRej",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "Document_NoRej%%Document_0-9_NoRej%%Document_0-9A-Z_NoRej%%Document_A-Z_NoRej%%Industrial_NoRej%%Industrial_0-9_NoRej%%Industrial_0-9+%%Industrial_0-9A-Z_NoRej%%Industrial_A-Z+_NoRej%%Pharma%%Pharma_0-9%%Pharma_0-9+%%Pharma_0-9A-Z%%DotPrint%%DotPrint_0-9%%DotPrint_0-9+%%DotPrint_0-9A-Z%%DotPrint_A-Z+%%OCRA%%OCRA_0-9%%OCRA_0-9A-Z%%OCRA_A-Z+%%OCRB%%OCRB_0-9%%OCRB_0-9A-Z%%OCRB_A-Z+%%SEMI",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Charref_20",
+        "Type": "2",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "The reference of fixed print content.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Whitelinedetect_21",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether to perform whiteline detection.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Whitelineheight_22",
+        "Type": "5",
+        "DefaultValue": "3",
+        "Value": "3",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "1%%4",
+        "Tips": "The height of whiteline to be detected.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Whitelinelen_23",
+        "Type": "5",
+        "DefaultValue": "20",
+        "Value": "20",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%50",
+        "Tips": "The length of whiteline to be detected.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Whitelinecontrast_24",
+        "Type": "5",
+        "DefaultValue": "30",
+        "Value": "30",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "10%%50",
+        "Tips": "Minimum contrast between the foreground and the background of whiteline.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Whitelineproj_25",
+        "Type": "6",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range": "0%%1",
+        "Tips": "Whether to use projection method or closing method to detect whiteline.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARA_Specialfont_26",
+        "Type": "3",
+        "DefaultValue": "0",
+        "Value": "0",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Tips": "Whether the characters are special font or not.",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Preinspectareaimage_27",
+        "Type": "2",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Preforegroundimage_28",
+        "Type": "2",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Prelinenum_29",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Precharnum_30",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Presegimage_31",
+        "Type": "2",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Precharresult_32",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Inspectareaimage_33",
+        "Type": "2",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Foregroundimage_34",
+        "Type": "2",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Linenum_35",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Charnum_36",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Segimage_37",
+        "Type": "2",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_PARAD_Charresult_38",
+        "Type": "3",
+        "DefaultValue": "test",
+        "Value": "test",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "ClassifyValue": "-1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Name_1",
+        "Type": "1",
+        "DefaultValue": "字符识读失败",
+        "Value": "字符识读失败",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_Score_1",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "100",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Authority": "1"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_1",
+        "Type": "5",
+        "DefaultValue": "14",
+        "Value": "14",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Authority": "1"
+      }
+    ]
+}

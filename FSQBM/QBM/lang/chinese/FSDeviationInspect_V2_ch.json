@@ -1,0 +1,29 @@
+﻿{
+  "Translation": {
+    "Module": {
+      "Name": "FSDeviationInspect_V2",
+      "LangItem": [
+        {
+          "Src": "FSDeviationInspect_V2",
+          "Dst": "偏位检测"
+        },
+        {
+          "Src": "ID_PARA_Xinspect_1",
+          "Dst": "是否开启水平方向偏位检测"
+        },
+        {
+          "Src": "ID_PARA_Yinspect_2",
+          "Dst": "是否开启竖直方向偏位检测"
+        },
+        {
+          "Src": "ID_PARA_Disinspect_3",
+          "Dst": "是否开启距离偏位检测"
+        },
+        {
+          "Src": "ID_PARA_Deviationerror_4",
+          "Dst": "与模板图像的偏位误差"
+        }
+      ]
+    }
+  }
+}

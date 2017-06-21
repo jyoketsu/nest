@@ -1,0 +1,273 @@
+﻿{
+  "Translation": {
+    "Module": {
+      "Name": "FSCharacterInspect_V2",
+      "LangItem": [
+        {
+          "Src": "FSCharacterInspect_V2",
+          "Dst": "字符检测"
+        },
+        {
+          "Src": "ID_PARA_Savedefpic_1",
+          "Dst": "是否保存缺陷小图"
+        },
+        {
+          "Src": "ID_PARA_Lightondark_2",
+          "Dst": "字符极性"
+        },
+        {
+          "Src": "ID_PARA_Mainorientation_3",
+          "Dst": "字符主方向"
+        },
+        {
+          "Src": "ID_PARA_Dotted_4",
+          "Dst": "是否点阵字符"
+        },
+        {
+          "Src": "ID_PARA_Orientated_5",
+          "Dst": "是否进行小方向校正"
+        },
+        {
+          "Src": "ID_PARA_Slanted_6",
+          "Dst": "是否进行倾斜校正"
+        },
+        {
+          "Src": "ID_PARA_Jointed_7",
+          "Dst": "是否粘连字体"
+        },
+        {
+          "Src": "ID_PARA_Linenum_8",
+          "Dst": "字符行数"
+        },
+        {
+          "Src": "ID_PARA_Autothresh_9",
+          "Dst": "是否采用自动二值化"
+        },
+        {
+          "Src": "ID_PARA_Autothreshincrement_10",
+          "Dst": "自动二值化增量值"
+        },
+        {
+          "Src": "ID_PARA_Manualthreshminval_11",
+          "Dst": "手动二值化下限值"
+        },
+        {
+          "Src": "ID_PARA_Manualthreshmaxval_12",
+          "Dst": "手动二值化上限值"
+        },
+        {
+          "Src": "ID_PARA_Charsnum_13",
+          "Dst": "字符个数"
+        },
+        {
+          "Src": "ID_PARA_Ignoreboundary_14",
+          "Dst": "是否去除边界噪声"
+        },
+        {
+          "Src": "ID_PARA_Removenoise_15",
+          "Dst": "是否去除小面积噪声"
+        },
+        {
+          "Src": "ID_PARA_NoiseArea_16",
+          "Dst": "噪声面积阈值"
+        },
+        {
+          "Src": "ID_PARA_Charwidth_17",
+          "Dst": "单个字符宽度"
+        },
+        {
+          "Src": "ID_PARA_Charheight_18",
+          "Dst": "单个字符高度"
+        },
+        {
+          "Src": "ID_PARA_Charlibrary_19",
+          "Dst": "字符库"
+        },
+        {
+          "Src": "ID_PARA_Charref_20",
+          "Dst": "字符格式"
+        },
+        {
+          "Src": "ID_PARA_Whitelinedetect_21",
+          "Dst": "是否进行白拉丝检测"
+        },
+        {
+          "Src": "ID_PARA_Whitelineheight_22",
+          "Dst": "白拉丝高度"
+        },
+        {
+          "Src": "ID_PARA_Whitelinelen_23",
+          "Dst": "白拉丝长度"
+        },
+        {
+          "Src": "ID_PARA_Whitelinecontrast_24",
+          "Dst": "白拉丝对比度"
+        },
+        {
+          "Src": "ID_PARA_Whitelineproj_25",
+          "Dst": "是否用投影方法检测白拉丝"
+        },
+        {
+          "Src": "ID_PARA_Specialfont_26",
+          "Dst": "是否特殊字体"
+        },
+        {
+          "Src": "ID_PARAD_Preinspectareaimage_27",
+          "Dst": "模板图检测区域图像"
+        },
+        {
+          "Src": "ID_PARAD_Preforegroundimage_28",
+          "Dst": "模板图前景图像"
+        },
+        {
+          "Src": "ID_PARAD_Prelinenum_29",
+          "Dst": "模板图字符行数"
+        },
+        {
+          "Src": "ID_PARAD_Precharnum_30",
+          "Dst": "模板图字符位数"
+        },
+        {
+          "Src": "ID_PARAD_Presegimage_31",
+          "Dst": "模板图字符分割结果彩图"
+        },
+        {
+          "Src": "ID_PARAD_Precharresult_32",
+          "Dst": "模板图字符识读结果"
+        },
+        {
+          "Src": "ID_PARAD_Inspectareaimage_33",
+          "Dst": "检测图检测区域图像"
+        },
+        {
+          "Src": "ID_PARAD_Foregroundimage_34",
+          "Dst": "检测图前景图像"
+        },
+        {
+          "Src": "ID_PARAD_Linenum_35",
+          "Dst": "检测图字符行数"
+        },
+        {
+          "Src": "ID_PARAD_Charnum_36",
+          "Dst": "检测图字符位数"
+        },
+        {
+          "Src": "ID_PARAD_Segimage_37",
+          "Dst": "检测图字符分割结果彩图"
+        },
+        {
+          "Src": "ID_PARAD_Charresult_38",
+          "Dst": "检测图字符识读结果"
+        },
+        {
+          "Src": "ID_DefectType_Name_1",
+          "Dst": "缺陷名称_字符识读失败"
+        },
+        {
+          "Src": "ID_DefectType_Score_1",
+          "Dst": "缺陷分数_字符识读失败"
+        },
+        {
+          "Src": "Save the defect picture to the specified path.",
+          "Dst": "保存缺陷小图到指定路径"
+        },
+        {
+          "Src": "Whether the characters are light on dark or dark on light.",
+          "Dst": "是黑底白字还是黑底白字"
+        },
+        {
+          "Src": "The main direction of characters after imaging.",
+          "Dst": "字符成像后的主体方向"
+        },
+        {
+          "Src": "Whether the characters are dot printed or normal printed.",
+          "Dst": "字符是点阵印刷或正常印刷"
+        },
+        {
+          "Src": "Whether to perform orientation correction.",
+          "Dst": "是否执行小方向校正功能"
+        },
+        {
+          "Src": "Whether to perform slant correction.",
+          "Dst": "是否执行倾斜校正功能"
+        },
+        {
+          "Src": "Whether the characters are jointed or not.",
+          "Dst": "保存缺陷小图到指定路径"
+        },
+        {
+          "Src": "The number of character lines.",
+          "Dst": "字符行数"
+        },
+        {
+          "Src": "Whether to use auto threshold or manual threshold, 0:auto threshold; 1:manual threshold.",
+          "Dst": "使用自动二值化还是手动二值化，0：自动；1：手动"
+        },
+        {
+          "Src": "The increase gray value of auto threshold.",
+          "Dst": "自动二值化的灰度增量值"
+        },
+        {
+          "Src": "The minmum gray value of manual threshold.",
+          "Dst": "自动二值化的最小灰度阈值"
+        },
+        {
+          "Src": "The maximum gray value of manual threshold.",
+          "Dst": "自动二值化的最大灰度阈值"
+        },
+        {
+          "Src": "The number of characters, note the characters of multi-line.",
+          "Dst": "字符个数，请注意多行字符情况"
+        },
+        {
+          "Src": "Whether to eliminate the boundary.",
+          "Dst": "是否去除边界噪声"
+        },
+        {
+          "Src": "Whether to remove the noise.",
+          "Dst": "是否去除小面积噪声"
+        },
+        {
+          "Src": "The area of noise need to be removed if select remove noise.",
+          "Dst": "若选择去除小面积噪声，需去除的小面积噪声面积阈值"
+        },
+        {
+          "Src": "The pixel value of single character's width.",
+          "Dst": "单个字符的宽度像素值"
+        },
+        {
+          "Src": "The pixel value of single character's height.",
+          "Dst": "单个字符的高度像素值"
+        },
+        {
+          "Src": "The reference of fixed print content.",
+          "Dst": "固定印刷内容的格式"
+        },
+        {
+          "Src": "Whether to perform whiteline detection.",
+          "Dst": "是否执行白拉丝检测功能"
+        },
+        {
+          "Src": "The height of whiteline to be detected.",
+          "Dst": "待检白拉丝的高度"
+        },
+        {
+          "Src": "The length of whiteline to be detected.",
+          "Dst": "待检白拉丝长度"
+        },
+        {
+          "Src": "Minimum contrast between the foreground and the background of whiteline.",
+          "Dst": "白拉丝与背景的最小对比度"
+        },
+        {
+          "Src": "Whether to use projection method or closing method to detect whiteline.",
+          "Dst": "采用投影方法或连接方法检测白拉丝"
+        },
+        {
+          "Src": "Whether the characters are special font or not.",
+          "Dst": "是否是特殊字体"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "Translation": {
+    "Module": {
+      "Name": "FS2DCodeRecognition_V2",
+      "LangItem": [
+        {
+          "Src": "FS2DCodeRecognition_V2",
+          "Dst": "二维码识读"
+        },
+        {
+          "Src": "ID_PARA_Savedefpic_1",
+          "Dst": "是否保存缺陷小图"
+        },
+        {
+          "Src": "ID_PARA_Decodability_2",
+          "Dst": "二维码解码力度"
+        },
+        {
+          "Src": "ID_PARA_Width_3",
+          "Dst": "二维码横向宽度"
+        },
+        {
+          "Src": "ID_PARA_Codetype_4",
+          "Dst": "二维码类型"
+        },
+        {
+          "Src": "ID_PARA_Qrversion_5",
+          "Dst": "QR码版本"
+        },
+        {
+          "Src": "ID_PARA_Timeout_6",
+          "Dst": "超解码时间"
+        },
+        {
+          "Src": "ID_PARA_Mirrored_7",
+          "Dst": "是否镜像处理"
+        },
+        {
+          "Src": "ID_PARA_Mincontrast_8",
+          "Dst": "最小对比度"
+        },
+        {
+          "Src": "ID_PARA_Minmodsize_9",
+          "Dst": "最小模块尺寸"
+        },
+        {
+          "Src": "ID_PARA_Maxmodsize_10",
+          "Dst": "最大模块尺寸"
+        },
+        {
+          "Src": "ID_PARA_Decodepattern_11",
+          "Dst": "解码模式"
+        },
+        {
+          "Src": "ID_PARAD_Preqrcodeversion_12",
+          "Dst": "模板图QR码版本"
+        },
+        {
+          "Src": "ID_PARAD_Preqrmoduleqty_13",
+          "Dst": "模板图QR码模块数"
+        },
+        {
+          "Src": "ID_PARAD_Preinspectareaimage_14",
+          "Dst": "模板图检测区域图像"
+        },
+        {
+          "Src": "ID_PARAD_Predatacoderegion_15",
+          "Dst": "模板图二维码轮廓区域"
+        },
+        {
+          "Src": "ID_PARAD_Predatacodresult_16",
+          "Dst": "模板图二维码识读结果"
+        },
+        {
+          "Src": "ID_PARAD_Qrcodeversion_17",
+          "Dst": "检测图QR码版本"
+        },
+        {
+          "Src": "ID_PARAD_Qrmoduleqty_18",
+          "Dst": "检测图QR码模块数"
+        },
+        {
+          "Src": "ID_PARAD_Inspectareaimage_19",
+          "Dst": "检测图检测区域图像"
+        },
+        {
+          "Src": "ID_PARAD_Datacoderegion_20",
+          "Dst": "检测图二维码轮廓区域"
+        },
+        {
+          "Src": "ID_PARAD_Datacodresult_21",
+          "Dst": "检测图二维码识读结果"
+        },
+        {
+          "Src": "Save the defect picture to the specified path.",
+          "Dst": "保存缺陷"
+        },
+        {
+          "Src": "Whether to use image preprocessing.",
+          "Dst": "是否进行图像预处理"
+        },
+        {
+          "Src": "Actual Width of 2D Code.",
+          "Dst": "二维码的实际宽度值"
+        },
+        {
+          "Src": "The longest decoding deadline.",
+          "Dst": "最长解码截止时间"
+        },
+        {
+          "Src": "Whether the symbol is or may be mirrored.",
+          "Dst": "符号是否可能为镜像"
+        },
+        {
+          "Src": "Minimum contrast between the foreground and the background of the symbol.",
+          "Dst": "符号前背景的最小对比度"
+        },
+        {
+          "Src": "Minimum size of the modules in the image in pixels.",
+          "Dst": "图像模块的最小像素尺寸"
+        },
+        {
+          "Src": "Maximum size of the modules in the image in pixels.",
+          "Dst": "图像模块的最大像素尺寸"
+        },
+        {
+          "Src": "Basic default settings of model parameters.",
+          "Dst": "模板参数的基本默认设置"
+        },
+        {
+          "Src": "ID_DefectType_Name_1",
+          "Dst": "缺陷名称_二维码解码失败"
+        },
+        {
+          "Src": "ID_DefectType_Score_1",
+          "Dst": "缺陷分数_二维码解码失败"
+        }
+      ]
+    }
+  }
+}

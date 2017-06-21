@@ -1,0 +1,284 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>图像采集</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <!-- awesome图标 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+
+    <!-- treeview插件 -->
+    <script src="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
+
+    <!-- nest样式 -->
+    <link rel="stylesheet" href="../../standard/css/nest.css">
+    <script src="../../standard/js/nest.js"></script>
+
+    <script src="../../js/build-model/bulidModel.js"></script>
+    <script src="../../js/common/common.js"></script>
+    <script src="../../js/common/flow.js"></script>
+
+    <script>
+        var ws = null;
+
+        $(document).ready(function(){
+            // WebSocket连接
+            if ("WebSocket" in window) {
+                ws = new WebSocket("ws://localhost:8181");
+                ws.onopen = function(){
+                    console.log("websocket已连接");
+
+                }
+                ws.onmessage = function (e) {
+                    var data = JSON.parse(e.data);
+                    var clientType = data.header.clientType;
+                    var command = data.body.command;
+                    if(clientType=="IPUServer"){
+                        if(command=="captureImage"){
+                            url=data.body.param.url;
+                            $("#refImg").attr("src",url);
+                        }
+                    }
+                }
+            } else {
+                // 浏览器不支持 WebSocket
+                alert("您的浏览器不支持 WebSocket!");
+            }
+
+            // 获取session中的建模数据
+            var buildModel = JSON.parse(sessionStorage.getItem("buildModel"));
+            console.log("buildModel : ",buildModel);
+
+            $('#tree').treeview(getStationTree(buildModel,true));
+
+            // 单击退出按钮
+            $("#quit").on("click",function(){
+                var prePage = sessionStorage.getItem("prePage");
+                if(prePage == "product-info"){
+                    window.location.href = "../product-info/product-info.html";
+                } else if (prePage == "product-detect"){
+                    window.location.href = "../product-detect/product-detect.html";
+                }
+            });
+            // 单击上一步按钮
+            $("#prevStep").on("click",function(){
+                preFlow();
+            });
+            // 单击下一步按钮
+            $("#nextStep").on("click",function(){
+                // 将数据保存到session中
+                sessionStorage.setItem("buildModel",JSON.stringify(buildModel));
+                // 进入下一步
+                nextFlow();
+            });
+
+            // 单击采图按钮
+            $("#captureImg").on("click",function(){
+                if(ws.readyState==WebSocket.OPEN){
+                    var message = {
+                        "header":{
+                            "visionSysId":"",
+                            "clientType":"ICW",
+                            "version": "1.0.0"
+                        },
+                        "body":{
+                            "command":"captureImage",
+                            "ipm":"",
+                            "param":{
+                            }
+                        }
+                    }
+                    ws.send(JSON.stringify(message));
+                }
+            });
+
+            $('#tree').on('nodeSelected', function(event, data) {
+                console.log("node",data);
+                $("#captureImg").attr("disabled",true);
+                if(data.nodeType=="refImage"){
+                    $("#captureImg").attr("disabled",false);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="nest-head">
+        <!-- tab菜单 -->
+        <div class="nest-tab-navbar">
+            <ul class="nav nav-tabs" role="tablist">
+                <li>
+                    <a href="#" class="nest-logo">
+                        <img alt="Brand" src="../../standard/image/focusight.png">
+                    </a>
+                </li>
+                <li role="presentation" class="active"><a href="#system" aria-controls="system" role="tab" data-toggle="tab"><i class="fa fa-gears" aria-hidden="true"></i> 系统</a></li>
+                <li role="presentation"><a href="#image" aria-controls="image" role="tab" data-toggle="tab"><i class="fa fa-camera" aria-hidden="true"></i> 图像</a></li>
+                <li role="presentation"><a href="#area" aria-controls="area" role="tab" data-toggle="tab"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 区域</a></li>
+                <li role="presentation"><a href="#view" aria-controls="view" role="tab" data-toggle="tab"><i class="fa fa-image" aria-hidden="true"></i> 视图</a></li>
+            </ul>
+            <!-- 标签面板 -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="system">
+                    <!-- tab菜单导航条 -->
+                    <nav class="navbar navbar-default nestTabNavbar">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="#"></a>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">操作</a></li>
+                                    <li><a href="#"><i class="fa fa-save" aria-hidden="true"></i> 保存</a></li>
+                                    <li><a href="#"><i class="fa fa-clone" aria-hidden="true"></i> 另存为</a></li>
+                                    <li><a href="#"><i class="fa fa-trash" aria-hidden="true"></i> 删除模板</a></li>
+                                    <li><a href="#" id="quit"><i class="fa fa-sign-out" aria-hidden="true"></i> 退出</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="image">
+                    <!-- tab菜单导航条 -->
+                    <nav class="navbar navbar-default nestTabNavbar">
+                        <div class="container-fluid">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="#"></a>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbar-collapse-2">
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">图像</a></li>
+                                    <li><a href="#"><i class="fa fa-rotate-right" aria-hidden="true"></i> 手动转正</a></li>
+                                    <li><a href="#"><i class="fa fa-camera" aria-hidden="true"></i> 重新采集</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="area">
+                    <!-- tab菜单导航条 -->
+                    <nav class="navbar navbar-default nestTabNavbar">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="#"></a>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbar-collapse-3">
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">操作</a></li>
+                                    <li><a href="#"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 选择</a></li>
+                                    <li><a href="#"><i class="fa fa-trash" aria-hidden="true"></i> 删除</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">检测范围:</a></li>
+                                    <li><a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 检测范围</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">层次</a></li>
+                                    <li><a href="#"><i class="fa fa-long-arrow-down" aria-hidden="true"></i> 至于底层</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="view">
+                    <!-- tab菜单导航条 -->
+                    <nav class="navbar navbar-default nestTabNavbar">
+                        <div class="container-fluid">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand" href="#"></a>
+                            </div>
+
+                            <div class="collapse navbar-collapse" id="navbar-collapse-4">
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">适应</a></li>
+                                    <li><a href="#"><i class="fa fa-image" aria-hidden="true"></i> 原始图像</a></li>
+                                    <li><a href="#"><i class="fa fa-arrows-h" aria-hidden="true"></i> 适应宽度</a></li>
+                                    <li><a href="#"><i class="fa fa-arrows-v" aria-hidden="true"></i> 适应高度</a></li>
+                                    <li><a href="#"><i class="fa fa-arrows-alt" aria-hidden="true"></i> 适应窗口</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">缩放</a></li>
+                                    <li><a href="#"><i class="fa fa-search-plus" aria-hidden="true"></i> 放大</a></li>
+                                    <li><a href="#"><i class="fa fa-search-minus" aria-hidden="true"></i> 缩小</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">元素</a></li>
+                                    <li><a href="#"><i class="fa fa-square" aria-hidden="true"></i> 显示掩膜</a></li>
+                                    <li><a href="#"><i class="fa fa-square-o" aria-hidden="true"></i> 动态边框</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--主体内容-->
+    <div class="nest-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 nestCol">
+                    <div class="nest-section">
+                        <div class="btn-group btn-group-sm nest-btn-group" role="group" style="margin-bottom: 5px">
+                            <button type="button" class="btn btn-default" id="captureImg" disabled><i class="fa fa-camera"></i></button>
+                        </div>
+                        <div id="tree"></div>
+                    </div>
+
+                </div>
+                <div class="col-md-9 nestCol">
+                    <div class="nest-section">
+                        <div id="canvas" style="height: 100%;background-color: #0f0f0f;">
+                            <img id="refImg" src="" height="100%" width="100%" alt="模板图像" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nest-footer">
+        <nav class="navbar navbar-default nestStepChangeBar">
+            <div class="container-fluid">
+                <div class="navbar-form">
+                    <button class="btn btn-default nestStepChangeBarLeftButton" id="prevStep"><i class="fa fa-chevron-left"></i> 上一步</button>
+                    <button class="btn btn-default nestStepChangeBarRightButton" id="nextStep">下一步 <i class="fa fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </nav>
+    </div>
+</body>
+</html>

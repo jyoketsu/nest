@@ -1,0 +1,93 @@
+﻿{
+  "Translation": {
+    "Module": {
+      "Name": "FSRotateProcessing_V2",
+      "LangItem": [
+        {
+          "Src": "FSRotateProcessing_V2",
+          "Dst": "图像转正"
+        },
+        {
+          "Src": "ID_PARA_RSearchScore_1",
+          "Dst": "搜索分数"
+        },
+        {
+          "Src": "ID_DISP_RSearchScore_1",
+          "Dst": "转正搜索分数"
+        },
+        {
+          "Src": "ID_PARA_RSearchHeight_2",
+          "Dst": "搜索高度"
+        },
+        {
+          "Src": "ID_DISP_RSearchHeight_2",
+          "Dst": "转正搜索高度"
+        },
+        {
+          "Src": "ID_PARA_RSearchWidth_3",
+          "Dst": "搜索宽度"
+        },
+        {
+          "Src": "ID_DISP_RSearchWidth_3",
+          "Dst": "转正搜索宽度"
+        },
+        {
+          "Src": "ID_PARA_RSearchDistanceRatio_4",
+          "Dst": "搜索距离系数"
+        },
+        {
+          "Src": "ID_DISP_RSearchDistanceRatio_4",
+          "Dst": "转正搜索距离系数，用于旋转定位的区域不能太近"
+        },
+        {
+          "Src": "ID_PARA_EnableProcessRange_5",
+          "Dst": "强制使用检测范围转正"
+        },
+        {
+          "Src": "ID_DISP_EnableProcessRange_5",
+          "Dst": "开启后，将忽略该对象自身的检测区，而强制转正检测范围内的图像"
+        },
+        {
+          "Src": "ID_PARAD_ModelLine_6",
+          "Dst": "模板图像定位线"
+        },
+        {
+          "Src": "ID_DISP_ModelLine_6",
+          "Dst": "仿真参数：模板图像上设定的用于图像转正的定位线"
+        },
+        {
+          "Src": "ID_PARAD_InspLine_7",
+          "Dst": "检测图像定位线"
+        },
+        {
+          "Src": "ID_DISP_InspLine_7",
+          "Dst": "仿真参数：检测图像上定位得到的用于图像转正的定位线"
+        },
+        {
+          "Src": "ID_PARAD_LineCenterShiftX_8",
+          "Dst": "定位线中心X偏移"
+        },
+        {
+          "Src": "ID_DISP_LineCenterShiftX_8",
+          "Dst": "仿真参数：检测图像与模板图像的定位线中心坐标X方向偏移"
+        },
+        {
+          "Src": "ID_PARAD_LineCenterShiftY_9",
+          "Dst": "定位线中心Y偏移"
+        },
+        {
+          "Src": "ID_DISP_LineCenterShiftY_9",
+          "Dst": "仿真参数：检测图像与模板图像的定位线中心坐标Y方向偏移"
+        },
+        {
+          "Src": "ID_PARAD_LineShiftAngle_10",
+          "Dst": "定位线转角"
+        },
+        {
+          "Src": "ID_DISP_LineShiftAngle_10",
+          "Dst": "仿真参数：检测图像与模板图像的定位线转角"
+        }
+      ]
+    }
+  }
+}

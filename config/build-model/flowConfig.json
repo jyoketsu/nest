@@ -1,0 +1,16 @@
+{
+  "flows":[
+    {
+      "id":"productInfo"
+    },
+    {
+      "id":"captureImages"
+    },
+    {
+      "id":"inspArea"
+    }
+  ],
+  "currentFlow":{
+    "id":""
+  }
+}
