@@ -19,10 +19,13 @@
     <!-- nest样式 -->
     <link rel="stylesheet" href="../../standard/css/nest.css">
     <script src="../../standard/js/nest.js"></script>
-
+    <!--建模数据相关js-->
     <script src="../../js/build-model/bulidModel.js"></script>
+    <!--通用类js-->
     <script src="../../js/common/common.js"></script>
+    <!--流程-->
     <script src="../../js/common/flow.js"></script>
+    <!--region-->
     <script src="../../js/build-model/roi.js"></script>
 
     <style>
@@ -125,6 +128,8 @@
             });
             // 单击上一步按钮
             $("#prevStep").on("click",function(){
+                // todo delete 将数据保存到session中
+                sessionStorage.setItem("buildModel",JSON.stringify(buildModel));
                 preFlow();
             });
             // 单击下一步按钮
@@ -393,6 +398,73 @@
                     showRightContent();
                 }
             });
+
+            /*对象、region相关---start----------------------------------------*/
+
+            // 初始化绘制模板图像
+            initPic("./../../product/test/Station1-C1-0.bmp");
+
+            var interval = setInterval(function(){
+                if(options){
+                    // 获取所有的region(一定要在初始化图像之后)
+                    graphList = getGraphList();
+                    // 绘制图形
+                    drawRegions(graphList);
+                    clearInterval(interval);
+                }
+            },50);
+
+            // 绘制矩形
+            $("#newSquare").on("click",function () {
+                if(checkAddRoi()){
+                    var graphObject = mouseDraft("newROI","square");
+                    // 新增roi数据至buildModel数据
+                    //addRegionToBuildModel(graphObject);
+                }
+            });
+            // 绘制多边形
+            $("#newPolygon").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("newROI","polygon");
+                }
+            });
+            // 选择ROI
+            $("#selectRoi").on("click",function () {
+                // 图形：选中
+                selectGraph();
+
+            });
+            // 删除
+            $("#deleteRoi").on("click",function () {
+                deleteGraph();
+            });
+
+            // 缩放：原图大小
+            $("#fitOrigin").on("click",function () {
+                zoomPic("origin");
+            });
+            // 缩放：适应高度
+            $("#fitHeight").on("click",function () {
+                zoomPic("height");
+            });
+            // 缩放：适应宽度
+            $("#fitWidth").on("click",function () {
+                zoomPic("width");
+            });
+            // 缩放：适应窗口
+            $("#fitWindow").on("click",function () {
+                zoomPic("window");
+            });
+            // 缩放：放大
+            $("#zoomIn").on("click",function () {
+                zoomPic("zoom-in");
+            });
+            // 缩放：缩小
+            $("#zoomOut").on("click",function () {
+                zoomPic("zoom-out");
+            });
+
+            /*对象、region相关---end------------------------------------------*/
         });
 
         $(window).resize(function () {
@@ -918,83 +990,115 @@
             inspObjList.splice(targetIndex,1);
         }
 
-        // 从根array中寻找指定对象，参数为包含此对象的所有父节点的id
-        function findObjectInArray(array,parentsIds){
+        /*对象、region相关---start----------------------------------------*/
+        // 新增roi数据至buildModel数据
+        function addRegionToBuildModel(graphObject){
+            var outer=pointToOuter(graphObject.pointList);
+            var region = {
+                Attribute:{
+                    ID:graphObject.id,
+                    NoteID:""
+                },
+                Outer:outer
+            }
+
             var ids = [];
-            var tempIds = getBuildModelStructure();
-
-            for(var i=0;i<parentsIds.length;i++){
-                ids.push({
-                    id:parentsIds[i],
-                    childNodeName:tempIds[i].childNodeName
-                });
+            var currentGroup;
+            $.extend(true,ids,selectedNode.parents);
+            // 当前选中的节点是分组
+            if(selectedNode.nodeType=="group"){
+                ids.push(selectedNode.id);
+                // 分组数据
+                currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                currentGroup.RegionList.push(region);
+                // 新增对象
+                addObject(graphObject.id);
+                // 选中ROI
+                selectGraphById(graphObject.id);
+            } else if(selectedNode.nodeType=="object"){ // 当前选中的节点是对象
+                currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                currentGroup.RegionList.push(region);
+                ids.push(selectedNode.id);
+                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                currentObject.RegionIDList.push({ID:graphObject.id});
+            } else if(selectedNode.nodeType=="inspMethod" || selectedNode.nodeType=="region"){ // 当前选中的节点是对象子节点
+                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                currentObject.RegionIDList.push({ID:graphObject.id});
+                // 分组数据 RegionList
+                ids.splice(ids.length-1,1);
+                currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                currentGroup.RegionList.push(region);
             }
+        }
 
-            var index = 0;
+        // 更新建模数据的region
+        function updateRegionInBuildModel(graphObject){
+            var outer = pointToOuter(graphObject.pointList);
 
-            var array = listLoop(array);
+            var workStationList = buildModel.Product.WorkStationList;
+            // 寻找使用当前检测区的对象节点
+            outerloop:
+                    for(var i=0;i<workStationList.length;i++){
+                        var workStation = workStationList[i];
+                        var refImageList = workStation.RefImageList;
+                        for (var j=0;j<refImageList.length;j++){
+                            var refImage = refImageList[j];
+                            var groupList = refImage.GroupList;
+                            for(var k=0;k<groupList.length;k++){
+                                var group = groupList[k];
+                                var regionList = group.RegionList;
+                                for(var l=0;l<regionList.length;l++){
+                                    if(regionList[l].Attribute.ID == graphObject.id){
+                                        regionList[l].Outer = outer;
+                                        break outerloop;
+                                    }
+                                }
+                            }
+                        }
+                    }
+        }
 
-            function listLoop(array){
-                for(var i=0;i<array.length;i++){
-                    var info = ids[index];
-                    if(array[i].Attribute.ID == info.id){
-                        if(index+1==ids.length){
-                            return array[i];
-                        } else {
-                            array = eval("array[i]."+info.childNodeName);
-                            index++;
-                            return listLoop(array);
+        // 根据当前选中的region选中对象树节点
+        function selectNode(currentGraph){
+            var idsList = new Array();
+            var workStationList = buildModel.Product.WorkStationList;
+            // 寻找使用当前检测区的对象节点
+            for(var i=0;i<workStationList.length;i++){
+                var workStation = workStationList[i];
+                var refImageList = workStation.RefImageList;
+                for (var j=0;j<refImageList.length;j++){
+                    var refImage = refImageList[j];
+                    var groupList = refImage.GroupList;
+                    for(var k=0;k<groupList.length;k++){
+                        var group = groupList[k];
+                        var inspObjList = group.InspObjList;
+                        for(var l=0;l<inspObjList.length;l++){
+                            var inspObj = inspObjList[l];
+                            var regionIDList = inspObj.RegionIDList;
+                            for(var m=0;m<regionIDList.length;m++){
+                                if(regionIDList[m].ID == currentGraph.id){
+                                    var ids = [workStation.Attribute.ID,refImage.Attribute.ID,group.Attribute.ID,inspObj.Attribute.ID];
+                                    idsList.push(ids);
+                                }
+                            }
                         }
                     }
                 }
             }
 
-            return array;
-        }
+            for(var i=0;i<idsList.length;i++){
+                var node = findNodeInTreeNode(idsList[i]);
+                /*selectedNode.state.selected=false;
+                node.state.selected=true;*/
 
-        // 从根treenode中寻找指定节点，参数为包含此对象的所有父节点的id
-        function findNodeInTreeNode(ids){
-            var index = 0;
-
-            var array = listLoop(treeNode.data);
-
-            function listLoop(array){
-                for(var i=0;i<array.length;i++){
-                    if(array[i].id == ids[index]){
-                        if(index+1==ids.length){
-                            return array[i];
-                        } else {
-                            array = array[i].nodes;
-                            index++;
-                            return listLoop(array);
-                        }
-                    }
-                }
+                /*$('#tree').treeview(treeNode);
+                treeEvent();*/
+                $('#tree').treeview('selectNode', [ node, { silent: true } ]);
+                selectedNode = node;
+                afterSelecttreeNode();
             }
-
-            return array;
         }
-
-        function getBuildModelStructure(){
-            return [
-                {
-                    arrayName:"stationList",
-                    childNodeName:"RefImageList"
-                },
-                {
-                    arrayName:"refImageList",
-                    childNodeName:"GroupList"
-                },
-                {
-                    arrayName:"groupList",
-                    childNodeName:"InspObjList"
-                },
-                {
-                    arrayName:"inspObjList",
-                    childNodeName:""
-                }
-            ]
-        }
+        /*对象、region相关---end------------------------------------------*/
 
 
         // 显示右侧区域
@@ -1266,15 +1370,17 @@
         </nav>
     </div>
 </body>
+
 <!--加载中-->
 <div class="modal fade" id="canvasLoadingModal" tabindex="-1" role="dialog"
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body" style="height: 50px;">
-                <i class="fa fa-spinner fa-spin fa-2x" style="margin-left: 200px;"></i>加载中......
+     aria-labelledby="myModalLabel" aria-hidden="true" style="top: 30%;">
+    <div class="modal-dialog" style="height: 50px;width: 300px">
+        <div class="modal-content" style="border-radius: 3px;">
+            <div class="modal-body">
+                <i class="fa fa-spinner fa-spin fa-2x" style="margin-left: 90px;"></i>加载中......
             </div>
         </div>
     </div>
 </div>
+
 </html>

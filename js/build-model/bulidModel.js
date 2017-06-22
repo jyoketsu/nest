@@ -1,6 +1,87 @@
 /**
  * Created by jiexu on 2017/6/12.
  */
+
+// 从根array中寻找指定对象，参数为包含此对象在内id及其所有父节点的id
+function findObjectInArray(array,parentsIds){
+    var ids = [];
+    var tempIds = getBuildModelStructure();
+
+    for(var i=0;i<parentsIds.length;i++){
+        ids.push({
+            id:parentsIds[i],
+            childNodeName:tempIds[i].childNodeName
+        });
+    }
+
+    var index = 0;
+
+    var array = listLoop(array);
+
+    function listLoop(array){
+        for(var i=0;i<array.length;i++){
+            var info = ids[index];
+            if(array[i].Attribute.ID == info.id){
+                if(index+1==ids.length){
+                    return array[i];
+                } else {
+                    array = eval("array[i]."+info.childNodeName);
+                    index++;
+                    return listLoop(array);
+                }
+            }
+        }
+    }
+
+    return array;
+}
+
+// 从根treenode中寻找指定节点，参数为包含此对象在内id及其所有父节点的id
+function findNodeInTreeNode(ids){
+    var index = 0;
+
+    var array = listLoop(treeNode.data);
+
+    function listLoop(array){
+        for(var i=0;i<array.length;i++){
+            if(array[i].id == ids[index]){
+                if(index+1==ids.length){
+                    return array[i];
+                } else {
+                    array = array[i].nodes;
+                    index++;
+                    return listLoop(array);
+                }
+            }
+        }
+    }
+
+    return array;
+}
+
+// 获取建模结构
+function getBuildModelStructure(){
+    return [
+        {
+            arrayName:"stationList",
+            childNodeName:"RefImageList"
+        },
+        {
+            arrayName:"refImageList",
+            childNodeName:"GroupList"
+        },
+        {
+            arrayName:"groupList",
+            childNodeName:"InspObjList"
+        },
+        {
+            arrayName:"inspObjList",
+            childNodeName:""
+        }
+    ]
+}
+
+// 根据建模数据结构获取工位树数据结构；refImageOnly：是否仅获取到参考图节点
 function getStationTree(buildModel,refImageOnly) {
     var stationTree = {};
     stationTree.data = [];
@@ -96,6 +177,7 @@ function getStationTree(buildModel,refImageOnly) {
     return stationTree;
 }
 
+// 获取建模数据中所有的region
 function getGraphList(){
     var graphList = new Array;
     var workStationList = buildModel.Product.WorkStationList;
@@ -146,4 +228,49 @@ function getGraphList(){
 
     }
     return graphList;
+}
+
+// 点的转换:OuterToPoint
+function outerToPoint(region){
+    var graphId = parseInt(region.Attribute.ID);
+    var outer = region.Outer.split(",");
+    var tempPointList = [];
+    for(var outerIndex=0;outerIndex<outer.length;){
+        var imageX=parseInt(outer[outerIndex]);
+        var imageY=parseInt(outer[outerIndex+1]);
+        var canvasPoint = getCanvasPoint(options.focalPoint,imageX,imageY);
+        tempPointList.push({
+            canvasX:canvasPoint.canvasX,
+            canvasY:canvasPoint.canvasY,
+            imageX:imageX,
+            imageY:imageY
+        });
+        outerIndex=outerIndex+2;
+    }
+    // 更新图形索引
+    if(graphId>=graphIndex){
+        graphIndex = graphId;
+        graphIndex++;
+    }
+    return {
+        id : graphId,
+        graphType : "polygon",
+        isSelected : false,
+        pointList : tempPointList,
+        // 当前画图形时背景位图的偏移量
+        currentDeg : deg,
+        // 当前压缩比
+        compressRatio: compressRatio
+    }
+}
+
+// 点的转换:pointToOuter
+function pointToOuter(pointList){
+    var outer="";
+    for(var i=0;i<pointList.length;i++){
+        var point = pointList[i];
+        outer+=Math.round(point.imageX)+","+Math.round(point.imageY)+","
+    }
+    outer = outer.substring(0,outer.length-1);
+    return outer;
 }

@@ -15,12 +15,23 @@
     <!-- nest样式 -->
     <link rel="stylesheet" href="../../standard/css/nest.css">
     <script src="../../standard/js/nest.js"></script>
-
+    <!--建模数据相关js-->
     <script src="../../js/build-model/bulidModel.js"></script>
+    <!--通用类js-->
     <script src="../../js/common/common.js"></script>
+    <!--流程-->
     <script src="../../js/common/flow.js"></script>
+    <!--region-->
+    <script src="../../js/build-model/roi.js"></script>
 
     <script>
+        // 工位树节点
+        var treeNode = "";
+        // 建模数据
+        var buildModel = "";
+        // 选中的树节点
+        var selectedNode = "";
+        // WebSocket连接
         var ws = null;
 
         $(document).ready(function(){
@@ -48,30 +59,71 @@
             }
 
             // 获取session中的建模数据
-            var buildModel = JSON.parse(sessionStorage.getItem("buildModel"));
+            buildModel = JSON.parse(sessionStorage.getItem("buildModel"));
             console.log("buildModel : ",buildModel);
 
-            $('#tree').treeview(getStationTree(buildModel,true));
+            // 初始化工位树
+            treeNode = getStationTree(buildModel,true);
+            console.log("treeNode",treeNode);
+            $('#tree').treeview(treeNode);
+
+            // 初始化绘制模板图像
+            initPic("./../../product/test/Station1-C1-0.bmp");
+
+            // 如果是单工位单模板图，初期显示检测范围
+            if(buildModel.Product.WorkStationList.length == 1){
+                if(buildModel.Product.WorkStationList[0].RefImageList.length == 1){
+                    var interval = setInterval(function(){
+                        if(options){
+                            // 获取检测范围(一定要在初始化图像之后)
+                            var graph = getOneDetectRange();
+                            if(graph){
+                                graphList = [graph];
+                                // 绘制检测范围
+                                drawRegions(graphList);
+                            }
+                            clearInterval(interval);
+                        }
+                    },50);
+                }
+            }
+
+            // 工位树点击事件
+            $('#tree').on('nodeSelected', function(event, data) {
+                /*selectedNode = data;*/
+                selectedNode = $('#tree').treeview('getSelected')[0];
+                // todo
+                /*afterSelecttreeNode();
+                selectROI();*/
+            });
 
             // 单击退出按钮
             $("#quit").on("click",function(){
                 var prePage = sessionStorage.getItem("prePage");
-                if(prePage == "product-info"){
-                    window.location.href = "../product-info/product-info.html";
-                } else if (prePage == "product-detect"){
-                    window.location.href = "../product-detect/product-detect.html";
-                }
+                window.location.href = "../build-model/build-model-index.html";
+                /*if(prePage == "product-info"){
+                 window.location.href = "../product-info/product-info.html";
+                 } else if (prePage == "product-detect"){
+                 window.location.href = "../product-detect/product-detect.html";
+                 }*/
             });
             // 单击上一步按钮
             $("#prevStep").on("click",function(){
+                // 将数据保存到session中
+                sessionStorage.setItem("buildModel",JSON.stringify(buildModel));
                 preFlow();
             });
             // 单击下一步按钮
             $("#nextStep").on("click",function(){
+                if(graphList.length==0){
+                    alert("请绘制检测范围！！");
+                } else {
+                    // 进入下一步
+                    nextFlow();
+                }
                 // 将数据保存到session中
                 sessionStorage.setItem("buildModel",JSON.stringify(buildModel));
-                // 进入下一步
-                nextFlow();
+
             });
 
             // 单击采图按钮
@@ -101,7 +153,163 @@
                     $("#captureImg").attr("disabled",false);
                 }
             });
+            
+            // 点击检测范围
+            $("#detectRange").on("click",function () {
+                if(selectedNode.nodeType!="refImage"){
+                    alert("请选择一参考图！");
+                } else if(graphList.length!=0){
+                    alert("请先删除当前检测范围!");
+                } else {
+                    mouseDraft("newROI","square",false);
+                }
+            });
+
+            // 选择ROI
+            $("#selectRoi").on("click",function () {
+                // 图形：选中
+                selectGraph();
+            });
+            
+            // 点击删除检测范围
+            $("#deleteRange").on("click",function () {
+                deleteGraph();
+            });
+
+            // 缩放：原图大小
+            $("#fitOrigin").on("click",function () {
+                zoomPic("origin");
+            });
+            // 缩放：适应高度
+            $("#fitHeight").on("click",function () {
+                zoomPic("height");
+            });
+            // 缩放：适应宽度
+            $("#fitWidth").on("click",function () {
+                zoomPic("width");
+            });
+            // 缩放：适应窗口
+            $("#fitWindow").on("click",function () {
+                zoomPic("window");
+            });
+            // 缩放：放大
+            $("#zoomIn").on("click",function () {
+                zoomPic("zoom-in");
+            });
+            // 缩放：缩小
+            $("#zoomOut").on("click",function () {
+                zoomPic("zoom-out");
+            });
         });
+
+        // 添加检测范围region数据至buildModel数据
+        function addRegionToBuildModel(graphObject){
+            var outer=pointToOuter(graphObject.pointList);
+            var region = {
+                Attribute:{
+                    ID:graphObject.id,
+                    NoteID:""
+                },
+                Outer:outer
+            }
+
+            var ids = [];
+            var currentRefImg;
+            $.extend(true,ids,selectedNode.parents);
+            // 当前选中的节点是参考图
+            if(selectedNode.nodeType=="refImage"){
+                ids.push(selectedNode.id);
+                // 当前参考图数据
+                currentRefImg = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                currentRefImg.RegionList.push(region);
+            }
+        }
+
+        // 获取检测范围(单工位单模板图)
+        function getOneDetectRange(){
+            var workStationList = buildModel.Product.WorkStationList;
+            for(var i=0;i<workStationList.length;i++){
+                var workStation = workStationList[i];
+                var refImageList = workStation.RefImageList;
+                for (var j=0;j<refImageList.length;j++){
+                    var refImage = refImageList[j];
+                    var regionList = refImage.RegionList;
+                    if(regionList[0]){
+                        return outerToPoint(regionList[0]);
+                    } else {
+                        return null
+                    }
+                }
+            }
+        }
+
+        // 根据当前选中的region选中参考图树节点
+        function selectNode(currentGraph){
+            var idsList = new Array();
+            var workStationList = buildModel.Product.WorkStationList;
+            // 寻找使用当前检测区的对象节点
+            for(var i=0;i<workStationList.length;i++){
+                var workStation = workStationList[i];
+                var refImageList = workStation.RefImageList;
+                for (var j=0;j<refImageList.length;j++){
+                    var refImage = refImageList[j];
+                    var regionList = refImage.RegionList;
+                    for(var m=0;m<regionList.length;m++){
+                        if(regionList[m].Attribute.ID == currentGraph.id){
+                            var ids = [workStation.Attribute.ID,refImage.Attribute.ID];
+                            idsList.push(ids);
+                        }
+                    }
+                }
+            }
+
+            for(var i=0;i<idsList.length;i++){
+                var node = findNodeInTreeNode(idsList[i]);
+                $('#tree').treeview('selectNode', [ node, { silent: true } ]);
+                selectedNode = node;
+                console.log("selectedNode",selectedNode);
+            }
+        }
+
+        // 更新建模数据的region
+        function updateRegionInBuildModel(graphObject){
+            // 获取region数据
+            var outer = pointToOuter(graphObject.pointList);
+            var workStationList = buildModel.Product.WorkStationList;
+            // 寻找当前检测范围的参考图节点
+            outerloop:
+                    for(var i=0;i<workStationList.length;i++){
+                        var workStation = workStationList[i];
+                        var refImageList = workStation.RefImageList;
+                        for (var j=0;j<refImageList.length;j++){
+                            var refImage = refImageList[j];
+                            var regionList = refImage.RegionList;
+                            for(var l=0;l<regionList.length;l++){
+                                if(regionList[l].Attribute.ID == graphObject.id){
+                                    regionList[l].Outer = outer;
+                                    break outerloop;
+                                }
+                            }
+                        }
+                    }
+        }
+
+        // 删除建模数据的region
+        function deleteRegionInBuildModel(graphObject){
+            // 获取region数据
+            var outer = pointToOuter(graphObject.pointList);
+            var workStationList = buildModel.Product.WorkStationList;
+            // 寻找当前检测范围的参考图节点
+            outerloop:
+                    for(var i=0;i<workStationList.length;i++){
+                        var workStation = workStationList[i];
+                        var refImageList = workStation.RefImageList;
+                        for (var j=0;j<refImageList.length;j++){
+                            var refImage = refImageList[j];
+                            refImage.RegionList = [];
+                        }
+                    }
+        }
     </script>
 </head>
 <body>
@@ -190,16 +398,12 @@
                             <div class="collapse navbar-collapse" id="navbar-collapse-3">
                                 <ul class="nav navbar-nav nestNavbarUl">
                                     <li><a href="#" class="nest-nav-label">操作</a></li>
-                                    <li><a href="#"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 选择</a></li>
-                                    <li><a href="#"><i class="fa fa-trash" aria-hidden="true"></i> 删除</a></li>
+                                    <li><a href="#" id="selectRoi"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> 选择</a></li>
+                                    <li><a href="#" id="deleteRange"><i class="fa fa-trash" aria-hidden="true"></i> 删除</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav nestNavbarUl">
                                     <li><a href="#" class="nest-nav-label">检测范围:</a></li>
-                                    <li><a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 检测范围</a></li>
-                                </ul>
-                                <ul class="nav navbar-nav nestNavbarUl">
-                                    <li><a href="#" class="nest-nav-label">层次</a></li>
-                                    <li><a href="#"><i class="fa fa-long-arrow-down" aria-hidden="true"></i> 至于底层</a></li>
+                                    <li><a href="#" id="detectRange"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 检测范围</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -223,15 +427,15 @@
                             <div class="collapse navbar-collapse" id="navbar-collapse-4">
                                 <ul class="nav navbar-nav nestNavbarUl">
                                     <li><a href="#" class="nest-nav-label">适应</a></li>
-                                    <li><a href="#"><i class="fa fa-image" aria-hidden="true"></i> 原始图像</a></li>
-                                    <li><a href="#"><i class="fa fa-arrows-h" aria-hidden="true"></i> 适应宽度</a></li>
-                                    <li><a href="#"><i class="fa fa-arrows-v" aria-hidden="true"></i> 适应高度</a></li>
-                                    <li><a href="#"><i class="fa fa-arrows-alt" aria-hidden="true"></i> 适应窗口</a></li>
+                                    <li><a href="#" id="fitOrigin"><i class="fa fa-image" aria-hidden="true"></i> 原始图像</a></li>
+                                    <li><a href="#" id="fitWidth"><i class="fa fa-arrows-h" aria-hidden="true"></i> 适应宽度</a></li>
+                                    <li><a href="#" id="fitHeight"><i class="fa fa-arrows-v" aria-hidden="true"></i> 适应高度</a></li>
+                                    <li><a href="#" id="fitWindow"><i class="fa fa-arrows-alt" aria-hidden="true"></i> 适应窗口</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav nestNavbarUl">
                                     <li><a href="#" class="nest-nav-label">缩放</a></li>
-                                    <li><a href="#"><i class="fa fa-search-plus" aria-hidden="true"></i> 放大</a></li>
-                                    <li><a href="#"><i class="fa fa-search-minus" aria-hidden="true"></i> 缩小</a></li>
+                                    <li><a href="#" id="zoomIn"><i class="fa fa-search-plus" aria-hidden="true"></i> 放大</a></li>
+                                    <li><a href="#" id="zoomOut"><i class="fa fa-search-minus" aria-hidden="true"></i> 缩小</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav nestNavbarUl">
                                     <li><a href="#" class="nest-nav-label">元素</a></li>
@@ -261,8 +465,10 @@
                 </div>
                 <div class="col-md-9 nestCol">
                     <div class="nest-section">
-                        <div id="canvas" style="height: 100%;background-color: #0f0f0f;">
-                            <img id="refImg" src="" height="100%" width="100%" alt="模板图像" />
+                        <div id="canvas_container" class="canvas_container" style="position: relative;width: 100%;height: 100%;">
+                            <canvas id="canvas_compress" class="absoluteCenter" style="position: absolute;z-index: 1;display: none"></canvas>
+                            <canvas id="canvas_bg" class="absoluteCenter" style="position: absolute;z-index: 1;background-color: #0a0a0a;"></canvas>
+                            <canvas id="canvas_bak" class="absoluteCenter" style="position: absolute;z-index: 1;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -281,4 +487,17 @@
         </nav>
     </div>
 </body>
+
+<!--加载中-->
+<div class="modal fade" id="canvasLoadingModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true" style="top: 30%;">
+    <div class="modal-dialog" style="height: 50px;width: 300px">
+        <div class="modal-content" style="border-radius: 3px;">
+            <div class="modal-body">
+                <i class="fa fa-spinner fa-spin fa-2x" style="margin-left: 90px;"></i>加载中......
+            </div>
+        </div>
+    </div>
+</div>
+
 </html>

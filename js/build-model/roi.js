@@ -74,185 +74,11 @@ function checkAddRoi(){
     }
 }
 
-// 新增roi数据至buildModel数据
-function addRegionToBuildModel(graphObject){
-    var outer="";
-    for(var i=0;i<graphObject.pointList.length;i++){
-        var point = graphObject.pointList[i];
-        outer+=Math.round(point.imageX)+","+Math.round(point.imageY)+","
-    }
-    outer = outer.substring(0,outer.length-1);
-    var region = {
-        Attribute:{
-            ID:graphObject.id,
-            NoteID:""
-        },
-        Outer:outer
-    }
-
-    var ids = [];
-    var currentGroup;
-    $.extend(true,ids,selectedNode.parents);
-    // 当前选中的节点是分组
-    if(selectedNode.nodeType=="group"){
-        ids.push(selectedNode.id);
-        // 分组数据
-        currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
-        currentGroup.RegionList.push(region);
-        // 新增对象
-        addObject(graphObject.id);
-        // 选中ROI
-        selectGraphById(graphObject.id);
-    } else if(selectedNode.nodeType=="object"){ // 当前选中的节点是对象
-        currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
-        currentGroup.RegionList.push(region);
-        ids.push(selectedNode.id);
-        var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
-        currentObject.RegionIDList.push({ID:graphObject.id});
-    } else if(selectedNode.nodeType=="inspMethod" || selectedNode.nodeType=="region"){ // 当前选中的节点是对象子节点
-        var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
-        currentObject.RegionIDList.push({ID:graphObject.id});
-        // 分组数据 RegionList
-        ids.splice(ids.length-1,1);
-        currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
-        currentGroup.RegionList.push(region);
-    }
-}
-
-// 更新建模数据的region
-function updateRegionInBuildModel(graphObject){
-    var outer = pointToOuter(graphObject.pointList);
-
-    var workStationList = buildModel.Product.WorkStationList;
-    // 寻找使用当前检测区的对象节点
-    outerloop:
-    for(var i=0;i<workStationList.length;i++){
-        var workStation = workStationList[i];
-        var refImageList = workStation.RefImageList;
-        for (var j=0;j<refImageList.length;j++){
-            var refImage = refImageList[j];
-            var groupList = refImage.GroupList;
-            for(var k=0;k<groupList.length;k++){
-                var group = groupList[k];
-                var regionList = group.RegionList;
-                for(var l=0;l<regionList.length;l++){
-                    if(regionList[l].Attribute.ID == graphObject.id){
-                        regionList[l].Outer = outer;
-                        break outerloop;
-                    }
-                }
-            }
-        }
-    }
-}
-
-// 点的转换
-function pointToOuter(pointList){
-    var outer="";
-    for(var i=0;i<pointList.length;i++){
-        var point = pointList[i];
-        outer+=Math.round(point.imageX)+","+Math.round(point.imageY)+","
-    }
-    outer = outer.substring(0,outer.length-1);
-    return outer;
-}
-
-// 选中树节点
-function selectNode(currentGraph){
-    var idsList = new Array();
-    var workStationList = buildModel.Product.WorkStationList;
-    // 寻找使用当前检测区的对象节点
-    for(var i=0;i<workStationList.length;i++){
-        var workStation = workStationList[i];
-        var refImageList = workStation.RefImageList;
-        for (var j=0;j<refImageList.length;j++){
-            var refImage = refImageList[j];
-            var groupList = refImage.GroupList;
-            for(var k=0;k<groupList.length;k++){
-               var group = groupList[k];
-                var inspObjList = group.InspObjList;
-                for(var l=0;l<inspObjList.length;l++){
-                    var inspObj = inspObjList[l];
-                    var regionIDList = inspObj.RegionIDList;
-                    for(var m=0;m<regionIDList.length;m++){
-                        if(regionIDList[m].ID == currentGraph.id){
-                            var ids = [workStation.Attribute.ID,refImage.Attribute.ID,group.Attribute.ID,inspObj.Attribute.ID];
-                            idsList.push(ids);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    for(var i=0;i<idsList.length;i++){
-        var node = findNodeInTreeNode(idsList[i]);
-        selectedNode.state.selected=false;
-        node.state.selected=true;
-        selectedNode = node;
-        $('#tree').treeview(treeNode);
-        treeEvent();
-        //$('#tree').treeview('selectNode', [ nodeId, { silent: true } ]);
-        afterSelecttreeNode();
-    }
-}
-
 $(document).ready(function(){
     // 初始化画布
     initCanvas();
     // 设置画布大小
     setCanvasSize();
-    // 初始化图像和图形
-    initPic("./../../product/test/Station1-C1-0.bmp",null);
-
-    // 绘制矩形
-    $("#newSquare").on("click",function () {
-        if(checkAddRoi()){
-            mouseDraft("newROI","square");
-        }
-    });
-    // 绘制多边形
-    $("#newPolygon").on("click",function () {
-        if(checkAddRoi()){
-            mouseDraft("newROI","polygon");
-        }
-    });
-    // 选择ROI
-    $("#selectRoi").on("click",function () {
-        // 图形：选中
-        selectGraph();
-
-    });
-    // 删除
-    $("#deleteRoi").on("click",function () {
-        deleteGraph();
-    });
-
-    // 缩放：原图大小
-    $("#fitOrigin").on("click",function () {
-        zoomPic("origin");
-    });
-    // 缩放：适应高度
-    $("#fitHeight").on("click",function () {
-        zoomPic("height");
-    });
-    // 缩放：适应宽度
-    $("#fitWidth").on("click",function () {
-        zoomPic("width");
-    });
-    // 缩放：适应窗口
-    $("#fitWindow").on("click",function () {
-        zoomPic("window");
-    });
-    // 缩放：放大
-    $("#zoomIn").on("click",function () {
-        zoomPic("zoom-in");
-    });
-    // 缩放：缩小
-    $("#zoomOut").on("click",function () {
-        zoomPic("zoom-out");
-    });
-
 });
 
 // 初始化画布
@@ -296,8 +122,8 @@ function setCanvasSize(){
     this.offscreenCanvas.height = this.canvasHeight;
 }
 
-// 初期显示
-function initPic (result,graphList) {
+// 初期显示图像
+function initPic (result) {
     let startTime = new Date().getTime();
 
     // todo 清空图形和ROI
@@ -363,26 +189,6 @@ function initPic (result,graphList) {
         console.log("-----draw image total time : ");
         console.log((drawEtime - startTime)/1000);
 
-        graphList = getGraphList();
-
-        // 绘制图形
-        if (graphList) {
-            // 获取最大图层id
-            that.maxCoverageId = 0;
-            graphList.forEach(function (graph) {
-                if(graph.coverageId > that.maxCoverageId){
-                    that.maxCoverageId = graph.coverageId;
-                }
-            });
-            that.graphList = graphList;
-            // 遍历所有图形
-            for (let i=0;i<that.graphList.length;i++) {
-                let currentGraph = that.graphList[i];
-                // 绘制图形
-                that.drawGraph(currentGraph,null);
-            }
-        }
-
         // 隐藏加载模态框
         $("#canvasLoadingModal").modal("hide");
     };
@@ -420,8 +226,8 @@ function paintPic (options) {
     }
 }
 
-// 鼠标绘制图形
-function mouseDraft(msg,graphType){
+// 鼠标绘制图形:continuous是否画完一个图形后可以继续绘制另一个图形
+function mouseDraft(msg,graphType,continuous){
     let that = this;
 
     let startX;
@@ -607,6 +413,12 @@ function mouseDraft(msg,graphType){
 
                     // 新增roi数据至buildModel数据
                     addRegionToBuildModel(graphObject);
+
+                    if(continuous!=undefined&&!continuous){
+                        $(that.canvas_bak).unbind();
+                        // 改变鼠标样式
+                        that.changeCursor("not-allowed");
+                    }
                 }
             }
             e.preventDefault();
@@ -806,7 +618,7 @@ function drawGraph(graphObject,context){
     }
 }
 
-// 绘制复数图形
+// 绘制图像和复数图形
 function drawGraphs(graphList){
     // 清除所有内容，准备绘制
     this.clearContext("redraw");
@@ -819,6 +631,26 @@ function drawGraphs(graphList){
         let currentGraph = graphList[i];
         // 绘制图形
         this.drawGraph(currentGraph);
+    }
+}
+
+// 绘制图形
+function drawRegions(regionList){
+    // 绘制图形
+    if (regionList) {
+        // 获取最大图层id
+        maxCoverageId = 0;
+        regionList.forEach(function (graph) {
+            if(graph.coverageId > maxCoverageId){
+                maxCoverageId = graph.coverageId;
+            }
+        });
+        // 遍历所有图形
+        for (let i=0;i<regionList.length;i++) {
+            let currentGraph = regionList[i];
+            // 绘制图形
+            drawGraph(currentGraph,null);
+        }
     }
 }
 
@@ -1116,10 +948,13 @@ function deleteGraph() {
         let index = that.graphList.indexOf(that.previousSelectedGraph);
         // 从图形集合中删除当前图形
         that.graphList.splice(index,1);
-        that.previousSelectedGraph = null;
 
         /*// 发送消息，将删除的图形数据发送给外部函数
         that.publishSubscribeService.publish("afterDeleteGraph",that.previousSelectedGraph);*/
+        // 删除建模数据的region
+        deleteRegionInBuildModel(previousSelectedGraph);
+
+        that.previousSelectedGraph = null;
     }
 }
 
