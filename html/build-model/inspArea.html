@@ -147,7 +147,7 @@
                 var methodInfo = findInspMethodById(methodId);
                 console.log("methodInfo",methodInfo);
                 // 生成模板
-                generateAlgorithmParam(methodInfo.paramList,methodInfo.languageData);
+                generateAlgorithmParam(methodInfo);
                 // 更新树节点--对象节点
                 updateObjectNode(methodId,translate(methodInfo.methodName,methodInfo.languageData));
                 // 更新对象建模数据
@@ -203,6 +203,8 @@
                         }
                     }
                     ws.send(JSON.stringify(message));
+                }else {
+                    alert("未与IPUServer建立连接，请确认是否正确连接！");
                 }
             });
 
@@ -466,7 +468,7 @@
                 $.extend(true,ids,selectedNode.parents);
                 ids.push(selectedNode.id);
                 var methodInfo = findInspMethod(ids);
-                generateAlgorithmParam(methodInfo.paramList,methodInfo.languageData);
+                generateAlgorithmParam(methodInfo);
                 $("#algorithm-select").val(selectedNode.nodes[0].methodId);
                 // 更新界面对象名
                 $("#objectName").html(selectedNode.text);
@@ -478,7 +480,7 @@
                 var objectNode = $('#tree').treeview('getParent', selectedNode);
                 // 更新算法参数界面
                 var methodInfo = findInspMethod(selectedNode.parents);
-                generateAlgorithmParam(methodInfo.paramList,methodInfo.languageData);
+                generateAlgorithmParam(methodInfo);
                 $("#algorithm-select").val(objectNode.nodes[0].methodId);
                 // 更新界面对象名
                 $("#objectName").html(objectNode.text);
@@ -597,7 +599,7 @@
 
             $("#algorithm-select").val(defaultInspID);
             // 生成算法参数界面
-            generateAlgorithmParam(methodInfo.paramList,methodInfo.languageData);
+            generateAlgorithmParam(methodInfo);
             // 显示算法参数界面
             showRightContent();
 
@@ -674,18 +676,28 @@
         }
 
         // 生成检测算法参数界面
-        function generateAlgorithmParam(paramList,languageData ){
+        function generateAlgorithmParam(methodInfo){
+            // 算法参数信息
+            var paramList = methodInfo.paramList;
+            // 算法语言信息
+            var languageData = methodInfo.languageData;
+            // 算法关系信息
+            var assocList = buildModel.Product.AssocList;
+
             // 基础参数
             var $baseParamContainer = $("#baseParam");
             // 高级参数
             var $hgParamContainer = $("#hgParam");
             // 仿真结果参数
             var $debugParamContainer = $("#debugParam");
+            // 算法关系
+            var $assocContainer = $("#assocContainer");
+
             // 清空
             $baseParamContainer.empty();
             $hgParamContainer.empty();
             $debugParamContainer.empty();
-            // 循环生成
+            // 循环生成  算法参数
             for(var i=0;i<paramList.length;i++){
                 var paramItem = paramList[i];
                 var id = paramItem.Name;
@@ -740,6 +752,20 @@
                     $debugParamContainer.append(model);
                 }
             }
+        }
+
+        function getAssocInfo(methodInfo,assocList) {
+            var assocInfoList = new Array;
+            assocList.forEach(function(assocItem){
+                if(assocItem.MainNode.Attribute.ID == methodInfo.methodId){
+                    assocItem.SubNode.forEach(function (subNode) {
+                        assocInfoList.push({
+                            methodId:subNode.Attribute.ID,
+                            methodName:""
+                        });
+                    });
+                }
+            });
         }
 
         // 获取翻译
@@ -1366,6 +1392,8 @@
                                             <select class="form-control" id="algorithm-select"></select>
                                         </div>
                                     </div>
+
+                                    <div class="well" id="assocContainer" hidden></div>
 
                                     <div class="nest-small-tab">
                                         <!-- Nav tabs -->

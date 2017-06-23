@@ -45,11 +45,11 @@
                 ws.onmessage = function (e) {
                     // 收到采图消息
                     var data = JSON.parse(e.data);
-                    console.log("收到采图返回消息：",data);
                     var clientType = data.header.clientType;
                     var command = data.body.command;
                     if(clientType=="IPUServer"){
                         if(command=="captureImage"){
+                            console.log("收到采图返回消息：",data);
                             url=data.body.param.url;
                             options = null;
                             initPic(url);
@@ -138,7 +138,9 @@
                         }
                     }
                     ws.send(JSON.stringify(message));
-                 }
+                 } else {
+                    alert("未与IPUServer建立连接，请确认是否正确连接！");
+                }
             });
 
             // 获取选择的图片
