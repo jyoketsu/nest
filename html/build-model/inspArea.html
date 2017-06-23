@@ -244,6 +244,7 @@
                                 state: {
                                     selected: true
                                 },
+                                nodes:[],
                                 parents:[groupInfo.WorkStationID,groupInfo.RefImageID]
                             }
                     );
@@ -256,6 +257,7 @@
                         state:{
                             selected: true
                         },
+                        nodes:[],
                         parents:[groupInfo.WorkStationID,groupInfo.RefImageID]
                     }];
                 }
@@ -293,8 +295,7 @@
             $("#deleteGroup").on("click",function () {
                 // 当前参考图节点
                 var currentImageNode = $('#tree').treeview('getParent', selectedNode);
-                // 当前工位节点
-                var currentWorkStationNode = $('#tree').treeview('getParent', currentImageNode);
+
                 var selectedGroupIndex = 0;
                 // 遍历分组
                 for(var i=0;i<currentImageNode.nodes.length;i++){
@@ -306,21 +307,6 @@
                 currentImageNode.nodes.splice(selectedGroupIndex,1);
                 currentImageNode.state.selected = true;
                 console.log("deletedImageNode",currentImageNode);
-
-                // 替换原始treeNode中的当前参考图节点
-                for(var i=0;i<treeNode.data.length;i++){
-                    var stationNode = treeNode.data[i];
-                    if(stationNode.id == currentWorkStationNode.id){
-                        // 遍历原始树参考图节点
-                        for(var j=0;j<stationNode.nodes.length;j++){
-                            var refImgNode = stationNode.nodes[j];
-                            if(refImgNode.id == currentImageNode.id){
-                                /*refImgNode = selectedNode;*/
-                                $.extend(true,refImgNode,currentImageNode);
-                            }
-                        }
-                    }
-                }
 
                 // 删除分组建模数据
                 deleteGroupBuildModel(selectedNode);
@@ -336,57 +322,16 @@
 
             // 点击新增对象按钮
             $("#addObject").on("click",function () {
+                // 新增对象
                 addObject(null);
             });
 
             // 点击删除对象按钮
             $("#deleteObject").on("click",function () {
-                // 当前分组节点
-                var currentGroupNode = $('#tree').treeview('getParent', selectedNode);
-                // 当前参考图节点
-                var currentImageNode = $('#tree').treeview('getParent', currentGroupNode);
-                // 当前工位节点
-                var currentWorkStationNode = $('#tree').treeview('getParent', currentImageNode);
-
-                var selectedObjectIndex = 0;
-                // 遍历对象
-                for(var i=0;i<currentGroupNode.nodes.length;i++){
-                    if(currentGroupNode.nodes[i].id == selectedNode.id){
-                        selectedObjectIndex = i;
-                    }
-                }
-                // 从对象list中删除该对象
-                currentGroupNode.nodes.splice(selectedObjectIndex,1);
-                currentGroupNode.state.selected = true;
-
-                // 替换原始treeNode中的当前分组节点
-                for(var i=0;i<treeNode.data.length;i++){
-                    var stationNode = treeNode.data[i];
-                    if(stationNode.id == currentWorkStationNode.id){
-                        // 遍历原始树参考图节点
-                        for(var j=0;j<stationNode.nodes.length;j++){
-                            var refImgNode = stationNode.nodes[j];
-                            if(refImgNode.id == currentImageNode.id){
-                                for(var k=0;k<refImgNode.nodes.length;k++){
-                                    if(refImgNode.nodes[k].id == currentGroupNode.id){
-                                        $.extend(true,refImgNode.nodes[k],currentGroupNode);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                // 删除对象建模数据
-                deleteObjectBuildModel(selectedNode);
-
-                $('#tree').treeview(treeNode);
-                treeEvent();
-                selectedNode = $('#tree').treeview('getSelected')[0];
-                // 显示对象工具栏
-                $("#imageToolbar").css("display","none");
-                $("#groupToolbar").css("display","block");
-                $("#objectToolbar").css("display","none");
+                // 删除对象
+                deleteObject();
+                // 删除图形
+                deleteGraph();
             });
 
             
@@ -417,9 +362,7 @@
             // 绘制矩形
             $("#newSquare").on("click",function () {
                 if(checkAddRoi()){
-                    var graphObject = mouseDraft("newROI","square");
-                    // 新增roi数据至buildModel数据
-                    //addRegionToBuildModel(graphObject);
+                    mouseDraft("newROI","square");
                 }
             });
             // 绘制多边形
@@ -436,7 +379,12 @@
             });
             // 删除
             $("#deleteRoi").on("click",function () {
-                deleteGraph();
+                if (previousSelectedGraph != null) {
+                    deleteGraph();
+                    deleteObject();
+                } else {
+                    alert("未选中任何图形！");
+                }
             });
 
             // 缩放：原图大小
@@ -552,20 +500,34 @@
                 if(currentObject.RegionIDList.length!=0){
                     selectGraphById(currentObject.RegionIDList[0].ID);
                 }
+            } else { // 取消选中
+                unSelectGraph();
             }
         }
 
-        // 新增对象事件
+        // 新增对象
         function addObject(regionID){
 
-            // 当前参考图节点
-            var currentImageNode = $('#tree').treeview('getParent', selectedNode);
-            // 当前工位节点
-            var currentWorkStationNode = $('#tree').treeview('getParent', currentImageNode);
+            // 当前分组id
+            var groupId = "";
+            var ids = [selectedNode.parents[0],selectedNode.parents[1]];
 
-            // buildModelImageData
-            var buildModelImageData = findImgInbuildModel(currentImageNode.id);
-            console.log("buildModelImageData",buildModelImageData);
+            // 当前选中的节点是分组
+            if(selectedNode.nodeType=="group"){
+                groupId = selectedNode.id;
+            } else if(selectedNode.nodeType=="object"){ // 当前选中的节点是对象
+                groupId = selectedNode.parents[2];
+            } else if(selectedNode.nodeType=="inspMethod"){ // 当前选中的节点是对象检测方法
+                groupId = selectedNode.parents[2];
+            }
+
+            ids.push(groupId);
+
+            // 当前分组节点
+            var currentGroupNode = findNodeInTreeNode(ids);
+
+            // 当前参考图建模数据
+            var buildModelImageData = findImgInbuildModel(selectedNode.parents[1]);
             // 获取默认检测算法
             var defaultInspID = buildModelImageData.Attribute.DefaultInspID;
             var methodInfo = findInspMethodById(defaultInspID);
@@ -585,90 +547,45 @@
                 Name:"对象#"+objectIndex,
                 WorkStationID:selectedNode.parents[0],
                 RefImageID:selectedNode.parents[1],
-                GroupID:selectedNode.id,
+                GroupID:groupId,
                 InspMethodID:defaultInspID,
                 RegionIDList:regionIDList,
                 ParamList:methodInfo.paramList
             }
 
-            selectedNode.state.expanded = true;
-            selectedNode.state.selected = false;
-            if(selectedNode.nodes){
-                selectedNode.nodes.push(
-                        {
-                            id: objectInfo.ID,
-                            text: objectInfo.Name,
-                            icon: "fa fa-cube",
-                            nodeType: "object",
-                            parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID],
-                            state: {
-                                expanded:true,
-                                selected: true
-                            },
-                            nodes:[
-                                {
-                                    text: methodName,
-                                    icon: "fa fa-gear",
-                                    nodeType: "inspMethod",
-                                    methodId: defaultInspID,
-                                    parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
-                                },
-                                {
-                                    text: "",
-                                    icon: "fa fa-pencil-square-o",
-                                    nodeType:"region",
-                                    parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
-                                }
-                            ]
-                        }
-                );
-            } else {
-                selectedNode.nodes = [{
-                    id: objectInfo.ID,
-                    text: objectInfo.Name,
-                    icon: "fa fa-cube",
-                    nodeType: "object",
-                    parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID],
-                    state:{
-                        expanded:true,
-                        selected: true
+            // 对象树节点
+            var objectNode = {
+                id: objectInfo.ID,
+                text: objectInfo.Name,
+                icon: "fa fa-cube",
+                nodeType: "object",
+                parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID],
+                state: {
+                    expanded:true,
+                    selected: true
+                },
+                nodes:[
+                    {
+                        text: methodName,
+                        icon: "fa fa-gear",
+                        nodeType: "inspMethod",
+                        methodId: defaultInspID,
+                        parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
                     },
-                    nodes:[
-                        {
-                            text: methodName,
-                            icon: "fa fa-gear",
-                            nodeType: "inspMethod",
-                            methodId: defaultInspID,
-                            parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
-                        },
-                        {
-                            text: "",
-                            icon: "fa fa-pencil-square-o",
-                            nodeType:"region",
-                            parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
-                        }
-                    ]
-                }];
-            }
-            objectIndex++;
-
-            // 替换原始treeNode中的当前分组节点
-            for(var i=0;i<treeNode.data.length;i++){
-                var stationNode = treeNode.data[i];
-                if(stationNode.id == currentWorkStationNode.id){
-                    // 遍历原始树参考图节点
-                    for(var j=0;j<stationNode.nodes.length;j++){
-                        var refImgNode = stationNode.nodes[j];
-                        if(refImgNode.id == currentImageNode.id){
-                            for(var k=0;k<refImgNode.nodes.length;k++){
-                                if(refImgNode.nodes[k].id == selectedNode.id){
-                                    $.extend(true,refImgNode.nodes[k],selectedNode);
-                                }
-                            }
-                        }
+                    {
+                        text: "",
+                        icon: "fa fa-pencil-square-o",
+                        nodeType:"region",
+                        parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
                     }
-                }
-            }
+                ]
+            };
+
+            selectedNode.state.selected = false;
+            currentGroupNode.state.expanded = true;
+            currentGroupNode.state.selected = false;
+            currentGroupNode.nodes.push(objectNode);
+            objectIndex++;
 
             $('#tree').treeview(treeNode);
             treeEvent();
@@ -686,6 +603,48 @@
 
             // 新增对象建模数据
             addObjectBuildModel(objectInfo);
+        }
+
+        // 删除对象
+        function deleteObject(){
+            // 删除对象建模数据
+            deleteObjectBuildModel(selectedNode);
+
+            if(selectedNode.nodeType!="region"){
+                // 更新树节点与显示
+                var objectId;
+                var groupIds;
+                if(selectedNode.nodeType=="object"){
+                    objectId = selectedNode.id;
+                    groupIds = selectedNode.parents;
+                } else{
+                    objectId = selectedNode.parents[3];
+                    groupIds = [selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
+                }
+                // 当前分组节点
+                var currentGroupNode = findNodeInTreeNode(groupIds);
+
+                var selectedObjectIndex = 0;
+                // 遍历对象
+                for(var i=0;i<currentGroupNode.nodes.length;i++){
+                    if(currentGroupNode.nodes[i].id == objectId){
+                        selectedObjectIndex = i;
+                    }
+                }
+                // 从对象list中删除该对象
+                currentGroupNode.nodes.splice(selectedObjectIndex,1);
+                currentGroupNode.state.selected = true;
+
+                // 更新工位树显示
+                $('#tree').treeview(treeNode);
+                treeEvent();
+                selectedNode = $('#tree').treeview('getSelected')[0];
+
+                // 显示对象工具栏
+                $("#imageToolbar").css("display","none");
+                $("#groupToolbar").css("display","block");
+                $("#objectToolbar").css("display","none");
+            }
         }
 
         // 初始化算法选择下拉框
@@ -913,12 +872,21 @@
         function deleteGroupBuildModel(selectedNode){
             var groupList = findObjectInArray(buildModel.Product.WorkStationList,selectedNode.parents).GroupList;
             var targetIndex = 0;
+            var targetGroup;
             for(var i=0;i<groupList.length;i++){
                 if(groupList[i].Attribute.ID == selectedNode.id){
+                    targetGroup = groupList[i];
                     targetIndex = i;
                 }
             }
+            // 删除分组数据
             groupList.splice(targetIndex,1);
+
+            // 删除分组下的region
+            var regionList = targetGroup.RegionList;
+            regionList.forEach(function(region){
+                deleteGraphById(region.Attribute.ID);
+            });
         }
 
         // 新增对象建模数据
@@ -980,18 +948,67 @@
 
         // 删除对象建模数据
         function deleteObjectBuildModel(selectedNode){
-            var inspObjList = findObjectInArray(buildModel.Product.WorkStationList,selectedNode.parents).InspObjList;
-            var targetIndex = 0;
-            for(var i=0;i<inspObjList.length;i++){
-                if(inspObjList[i].Attribute.ID == selectedNode.id){
-                    targetIndex = i;
+            // 该对象是否有region
+            var regionFlag = false;
+
+            var objectId;
+            var groupIds;
+            if(selectedNode.nodeType=="object"){
+                objectId = selectedNode.id;
+                groupIds = selectedNode.parents;
+            } else{
+                objectId = selectedNode.parents[3];
+                groupIds = [selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
+            }
+            // 当前分组
+            var currentGroup = findObjectInArray(buildModel.Product.WorkStationList,groupIds);
+
+            if(selectedNode.nodeType !="region"){
+                // 删除对象数据
+                var inspObjList = currentGroup.InspObjList;
+                var targetIndex = 0;
+                var regionId;
+                for(var i=0;i<inspObjList.length;i++){
+                    if(inspObjList[i].Attribute.ID == objectId){
+                        if(inspObjList[i].RegionIDList.length!=0){
+                            regionFlag = true;
+                            regionId = inspObjList[i].RegionIDList[0].ID;
+                        }
+                        targetIndex = i;
+                        break;
+                    }
+                }
+                inspObjList.splice(targetIndex,1);
+            } else {
+                // 删除对象关联的regionID
+                var inspObjList = currentGroup.InspObjList;
+                for(var i=0;i<inspObjList.length;i++){
+                    if(inspObjList[i].Attribute.ID == objectId){
+                        if(inspObjList[i].RegionIDList.length!=0){
+                            regionFlag = true;
+                            inspObjList[i].RegionIDList=[];
+                        }
+                        break;
+                    }
                 }
             }
-            inspObjList.splice(targetIndex,1);
+
+            // 删除region数据
+            if(regionFlag){
+                var regionList = currentGroup.RegionList;
+                var index;
+                for(var i=0;i<regionList.length;i++){
+                    if(regionList[i].Attribute.ID == regionId){
+                        index = i;
+                        break;
+                    }
+                }
+                regionList.splice(index,1);
+            }
         }
 
         /*对象、region相关---start----------------------------------------*/
-        // 新增roi数据至buildModel数据
+        // 新增对象 新增roi数据至buildModel数据
         function addRegionToBuildModel(graphObject){
             var outer=pointToOuter(graphObject.pointList);
             var region = {
@@ -1005,25 +1022,25 @@
             var ids = [];
             var currentGroup;
             $.extend(true,ids,selectedNode.parents);
-            // 当前选中的节点是分组
-            if(selectedNode.nodeType=="group"){
-                ids.push(selectedNode.id);
+
+            // 新增对象
+            if(selectedNode.nodeType!="region"){
+                // 当前选中的节点是分组
+                if(selectedNode.nodeType=="group"){
+                    ids.push(selectedNode.id);
+                }else if(selectedNode.nodeType=="inspMethod"){ // 当前选中的节点是对象检测方法
+                    ids.splice(ids.length-1,1);
+                }
                 // 分组数据
                 currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
                 currentGroup.RegionList.push(region);
                 // 新增对象
                 addObject(graphObject.id);
-                // 选中ROI
-                selectGraphById(graphObject.id);
-            } else if(selectedNode.nodeType=="object"){ // 当前选中的节点是对象
-                currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
-                currentGroup.RegionList.push(region);
-                ids.push(selectedNode.id);
+            }
+            // 更新对象region
+            if(selectedNode.nodeType=="region"){
                 var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
-                currentObject.RegionIDList.push({ID:graphObject.id});
-            } else if(selectedNode.nodeType=="inspMethod" || selectedNode.nodeType=="region"){ // 当前选中的节点是对象子节点
-                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
-                currentObject.RegionIDList.push({ID:graphObject.id});
+                currentObject.RegionIDList = [{ID:graphObject.id}];
                 // 分组数据 RegionList
                 ids.splice(ids.length-1,1);
                 currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
@@ -1056,6 +1073,30 @@
                             }
                         }
                     }
+        }
+
+        // 判断是否可以新增roi
+        function checkAddRoi(){
+            if(selectedNode.nodeType){
+                if(selectedNode.nodeType=="workStation"||selectedNode.nodeType=="refImage"){
+                    alert("请选择一分组");
+                    return false;
+                }else if(selectedNode.nodeType=="region"){ // 当前选中节点为对象的region节点
+                    var inspObj = findObjectInArray(buildModel.Product.WorkStationList,selectedNode.parents);
+                    // 当前对象有region，则不能新增region
+                    if(inspObj.RegionIDList.length == 0){
+                        return true;
+                    }else{
+                        alert("请先删除该对象的region！");
+                        return false;
+                    }
+                }else{
+                    return true;
+                }
+            }else{
+                alert("请选择一分组");
+                return false;
+            }
         }
 
         // 根据当前选中的region选中对象树节点
@@ -1186,10 +1227,6 @@
                                     <li><a href="#" class="nest-nav-label">ROI</a></li>
                                     <li><a href="#" id="newSquare">矩形</a></li>
                                     <li><a href="#" id="newPolygon">多边形</a></li>
-                                </ul>
-                                <ul class="nav navbar-nav nestNavbarUl">
-                                    <li><a href="#" class="nest-nav-label">层次</a></li>
-                                    <li><a href="#"><i class="fa fa-long-arrow-down" aria-hidden="true"></i> 至于底层</a></li>
                                 </ul>
                             </div>
                         </div>

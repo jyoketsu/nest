@@ -43,13 +43,17 @@
 
                 }
                 ws.onmessage = function (e) {
+                    // 收到采图消息
                     var data = JSON.parse(e.data);
+                    console.log("收到采图返回消息：",data);
                     var clientType = data.header.clientType;
                     var command = data.body.command;
                     if(clientType=="IPUServer"){
                         if(command=="captureImage"){
                             url=data.body.param.url;
-                            $("#refImg").attr("src",url);
+                            options = null;
+                            initPic(url);
+                            drawDetectRange();
                         }
                     }
                 }
@@ -71,22 +75,7 @@
             initPic("./../../product/test/Station1-C1-0.bmp");
 
             // 如果是单工位单模板图，初期显示检测范围
-            if(buildModel.Product.WorkStationList.length == 1){
-                if(buildModel.Product.WorkStationList[0].RefImageList.length == 1){
-                    var interval = setInterval(function(){
-                        if(options){
-                            // 获取检测范围(一定要在初始化图像之后)
-                            var graph = getOneDetectRange();
-                            if(graph){
-                                graphList = [graph];
-                                // 绘制检测范围
-                                drawRegions(graphList);
-                            }
-                            clearInterval(interval);
-                        }
-                    },50);
-                }
-            }
+            drawDetectRange();
 
             // 工位树点击事件
             $('#tree').on('nodeSelected', function(event, data) {
@@ -126,8 +115,15 @@
 
             });
 
-            // 单击采图按钮
+            // 单击采图按钮(离线本地模板图)
             $("#captureImg").on("click",function(){
+                // 触发文件的click事件
+                $("#selectImg").trigger("click");
+            });
+
+            // 单击采图按钮(在线)
+            $("#captureImage").on("click",function () {
+                // 发送采图消息
                 if(ws.readyState==WebSocket.OPEN){
                     var message = {
                         "header":{
@@ -138,19 +134,45 @@
                         "body":{
                             "command":"captureImage",
                             "ipm":"",
-                            "param":{
-                            }
+                            "param":{}
                         }
                     }
                     ws.send(JSON.stringify(message));
+                 }
+            });
+
+            // 获取选择的图片
+            $("#selectImg").on("change",function (event) {
+                var image = event.target.files[0];
+                if(image){
+                    if (!image.type.match('image.*')) {
+                        alert("请选择图片！");
+                    } else{
+                        var reader = new FileReader();
+                        reader.onload = function () {
+                            options = null;
+                            initPic(reader.result);
+                            drawDetectRange();
+                        }
+                        reader.readAsDataURL(image);
+                    }
                 }
             });
 
             $('#tree').on('nodeSelected', function(event, data) {
-                console.log("node",data);
+                selectedNode = $('#tree').treeview('getSelected')[0];
                 $("#captureImg").attr("disabled",true);
-                if(data.nodeType=="refImage"){
+                if(selectedNode.nodeType=="refImage"){
                     $("#captureImg").attr("disabled",false);
+                    // 选中检测范围
+                    var ids = [selectedNode.parents[0],selectedNode.id];
+                    var currentImg = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                    if(currentImg.RegionList.length!=0){
+                        selectGraphById(currentImg.RegionList[0].Attribute.ID);
+                    }
+                } else{
+                    // 取消选中
+                    unSelectGraph();
                 }
             });
             
@@ -173,7 +195,14 @@
             
             // 点击删除检测范围
             $("#deleteRange").on("click",function () {
-                deleteGraph();
+                if (previousSelectedGraph != null) {
+                    // 删除检测范围图形
+                    deleteGraph();
+                    // 删除检测范围数据
+                    deleteRegionInBuildModel();
+                } else {
+                    alert("未选中任何图形！");
+                }
             });
 
             // 缩放：原图大小
@@ -200,6 +229,31 @@
             $("#zoomOut").on("click",function () {
                 zoomPic("zoom-out");
             });
+            // 顺时针旋转
+            $("#clockwise").on("click",function () {
+                if(graphList.length!=0){
+                    alert("请先删除当前检测范围!");
+                }else{
+                    rotate("clockwise");
+                }
+
+            });
+            // 逆时针旋转
+            $("#antiClockwise").on("click",function () {
+                if(graphList.length!=0){
+                    alert("请先删除当前检测范围!");
+                }else{
+                    rotate("antiClockwise");
+                }
+            });
+            // 重置旋转
+            $("#resetRotate").on("click",function () {
+                if(graphList.length!=0){
+                    alert("请先删除当前检测范围!");
+                }else{
+                    rotate("resetRotate");
+                }
+            });
         });
 
         // 添加检测范围region数据至buildModel数据
@@ -222,6 +276,26 @@
                 // 当前参考图数据
                 currentRefImg = findObjectInArray(buildModel.Product.WorkStationList,ids);
                 currentRefImg.RegionList.push(region);
+            }
+        }
+
+        // 如果是单工位单模板图，初期显示检测范围
+        function drawDetectRange(){
+            if(buildModel.Product.WorkStationList.length == 1){
+                if(buildModel.Product.WorkStationList[0].RefImageList.length == 1){
+                    var interval = setInterval(function(){
+                        if(options){
+                            // 获取检测范围(一定要在初始化图像之后)
+                            var graph = getOneDetectRange();
+                            if(graph){
+                                graphList = [graph];
+                                // 绘制检测范围
+                                drawRegions(graphList);
+                            }
+                            clearInterval(interval);
+                        }
+                    },50);
+                }
             }
         }
 
@@ -295,20 +369,12 @@
         }
 
         // 删除建模数据的region
-        function deleteRegionInBuildModel(graphObject){
-            // 获取region数据
-            var outer = pointToOuter(graphObject.pointList);
-            var workStationList = buildModel.Product.WorkStationList;
-            // 寻找当前检测范围的参考图节点
-            outerloop:
-                    for(var i=0;i<workStationList.length;i++){
-                        var workStation = workStationList[i];
-                        var refImageList = workStation.RefImageList;
-                        for (var j=0;j<refImageList.length;j++){
-                            var refImage = refImageList[j];
-                            refImage.RegionList = [];
-                        }
-                    }
+        function deleteRegionInBuildModel(){
+            var ids = [];
+            ids.push(selectedNode.parents);
+            ids.push(selectedNode.id);
+            var currentRefImg = findObjectInArray(buildModel.Product.WorkStationList,ids);
+            currentRefImg.RegionList = [];
         }
     </script>
 </head>
@@ -372,9 +438,15 @@
 
                             <div class="collapse navbar-collapse" id="navbar-collapse-2">
                                 <ul class="nav navbar-nav nestNavbarUl">
-                                    <li><a href="#" class="nest-nav-label">图像</a></li>
-                                    <li><a href="#"><i class="fa fa-rotate-right" aria-hidden="true"></i> 手动转正</a></li>
-                                    <li><a href="#"><i class="fa fa-camera" aria-hidden="true"></i> 重新采集</a></li>
+                                    <li><a href="#" class="nest-nav-label">采集</a></li>
+                                    <li><a href="#" id="captureImage"><i class="fa fa-camera" aria-hidden="true"></i> 图像采集</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">旋转</a></li>
+                                    <li><a href="#" id="clockwise"><i class="fa fa-repeat" aria-hidden="true"></i> 顺时针旋转</a></li>
+                                    <li><a href="#" id="antiClockwise"><i class="fa fa-undo" aria-hidden="true"></i> 逆时针旋转</a></li>
+                                    <li><a href="#" id="lineRotate"><i class="fa fa-arrows-h" aria-hidden="true"></i> 线旋转</a></li>
+                                    <li><a href="#" id="resetRotate"><i class="fa fa-times" aria-hidden="true"></i> 重置</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -457,6 +529,7 @@
                 <div class="col-md-3 nestCol">
                     <div class="nest-section">
                         <div class="btn-group btn-group-sm nest-btn-group" role="group" style="margin-bottom: 5px">
+                            <input type="file" id="selectImg" style="filter:alpha(opacity=0);opacity:0;width: 0;height: 0;"/>
                             <button type="button" class="btn btn-default" id="captureImg" disabled><i class="fa fa-camera"></i></button>
                         </div>
                         <div id="tree"></div>

@@ -59,21 +59,6 @@ var offscreenContext;
 // 图形索引，用作图形id
 var graphIndex = 0;
 
-// 判断是否可以新增roi
-function checkAddRoi(){
-    if(selectedNode.nodeType){
-        if(selectedNode.nodeType=="workStation"||selectedNode.nodeType=="refImage"){
-            alert("请选择一分组");
-            return false;
-        }else{
-            return true;
-        }
-    }else{
-        alert("请选择一分组");
-        return false;
-    }
-}
-
 $(document).ready(function(){
     // 初始化画布
     initCanvas();
@@ -131,7 +116,7 @@ function initPic (result) {
     // 显示加载模态框
     $("#canvasLoadingModal").modal("show");
     this.img = new Image();
-    this.img.crossOrigin = "anonymous";
+    //this.img.crossOrigin = "anonymous";
 
     let that = this;
     this.img.onload = function() {
@@ -492,6 +477,9 @@ function drawProcessedGraph(msg,graphObject){
         that.drawGraph(graphObject,null);
         // 保存图形对象
         that.graphList.push(graphObject);
+
+        // 选中当前roi
+        selected(graphObject,false);
     } else if (msg = "eraseFinish") {
         // 删除选中的图形
         that.context.clearRect(0,0,that.canvasWidth,that.canvasHeight);
@@ -934,13 +922,22 @@ function selectGraphById(id){
     selected(selectedGraph,false);
 }
 
+// 取消图形选中
+function unSelectGraph() {
+    if (previousSelectedGraph != null) {
+        previousSelectedGraph.isSelected = false;
+        // 更新显示
+        clearContext("content",this.previousSelectedGraph.coverageId);
+        drawGraph(previousSelectedGraph);
+        previousSelectedGraph = null;
+    }
+}
+
 // 删除选中图形
 function deleteGraph() {
     let that = this;
     // 是否选中图形
-    if (that.previousSelectedGraph == null) {
-        alert("未选中任何图形");
-    } else {
+    if (that.previousSelectedGraph != null) {
         // 删除对应的canvas
         $("#canvas_"+that.previousSelectedGraph.coverageId).remove();
 
@@ -950,12 +947,29 @@ function deleteGraph() {
         that.graphList.splice(index,1);
 
         /*// 发送消息，将删除的图形数据发送给外部函数
-        that.publishSubscribeService.publish("afterDeleteGraph",that.previousSelectedGraph);*/
-        // 删除建模数据的region
-        deleteRegionInBuildModel(previousSelectedGraph);
+         that.publishSubscribeService.publish("afterDeleteGraph",that.previousSelectedGraph);*/
 
         that.previousSelectedGraph = null;
     }
+}
+
+// 根据graphID删除图形
+function deleteGraphById(id){
+    var targetGraph = "";
+    graphList.forEach(function(graph){
+        if(graph.id == id){
+            targetGraph = graph;
+            return;
+        }
+    });
+
+    // 删除对应的canvas
+    $("#canvas_"+ targetGraph.coverageId).remove();
+
+    // 选中图形的索引
+    var index = graphList.indexOf(targetGraph);
+    // 从图形集合中删除当前图形
+    graphList.splice(index,1);
 }
 
 // 缩放
@@ -1034,6 +1048,22 @@ function zoomPic(zoom) {
         // 更新显示
         that.drawGraphs(that.graphList);
     }
+}
+
+// 旋转
+function rotate(direction) {
+    $(canvas_bak).unbind();
+    // 改变鼠标样式
+    changeCursor("not-allowed");
+    if (direction == "clockwise") {
+        deg += 5;
+    } else if (direction == "antiClockwise") {
+        deg -= 5;
+    } else if (direction == "resetRotate") {
+        deg = 0;
+    }
+    // 更新显示
+    drawGraphs(graphList);
 }
 
 // 改变鼠标样式
