@@ -49,12 +49,14 @@
                         "Type": "6"
                     }
                 },
-                "SubNode": {
-                    "Attribute": {
-                        "ID": "2",
-                        "Type": "6"
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "2",
+                            "Type": "6"
+                        }
                     }
-                }
+                ]
             },
             {
                 "Attribute": {
@@ -68,12 +70,14 @@
                         "Type": "6"
                     }
                 },
-                "SubNode": {
-                    "Attribute": {
-                        "ID": "2",
-                        "Type": "6"
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "2",
+                            "Type": "6"
+                        }
                     }
-                }
+                ]
             },
             {
                 "Attribute": {
@@ -87,12 +91,14 @@
                         "Type": "6"
                     }
                 },
-                "SubNode": {
-                    "Attribute": {
-                        "ID": "2",
-                        "Type": "6"
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "2",
+                            "Type": "6"
+                        }
                     }
-                }
+                ]
             },
             {
                 "Attribute": {
@@ -106,12 +112,14 @@
                         "Type": "6"
                     }
                 },
-                "SubNode": {
-                    "Attribute": {
-                        "ID": "2",
-                        "Type": "6"
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "2",
+                            "Type": "6"
+                        }
                     }
-                }
+                ]
             },
             {
                 "Attribute": {
@@ -125,12 +133,14 @@
                         "Type": "6"
                     }
                 },
-                "SubNode": {
-                    "Attribute": {
-                        "ID": "2",
-                        "Type": "6"
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "2",
+                            "Type": "6"
+                        }
                     }
-                }
+                ]
             }
         ],
         "InspMethodList": [
@@ -282,12 +292,14 @@
                                                 "Type": "1"
                                             }
                                         },
-                                        "SubNode": {
-                                            "Attribute": {
-                                                "ID": "-1",
-                                                "Type": "1"
+                                        "SubNode": [
+                                            {
+                                                "Attribute": {
+                                                    "ID": "-1",
+                                                    "Type": "1"
+                                                }
                                             }
-                                        }
+                                        ]
                                     }
                                 ],
                                 "RegionList": [

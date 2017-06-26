@@ -48,6 +48,10 @@
             bottom:0;
             margin: auto;
         }
+
+        .well{
+            padding: 10px;
+        }
     </style>
 
     <script>
@@ -143,15 +147,41 @@
 
             // 切换算法选择
             $("#algorithm-select").on("change",function () {
+                // 更新对象参数显示界面
                 var methodId = $(this).val();
                 var methodInfo = findInspMethodById(methodId);
-                console.log("methodInfo",methodInfo);
+                // 更新对象建模数据
+                updateObjectBuildModel(methodInfo);
+                // 更新对象关系数据
+                var objectInfo = getObjectInfo();
+                console.log("objectInfo-----------",objectInfo);
+                initObjectAssoc(objectInfo);
                 // 生成模板
                 generateAlgorithmParam(methodInfo);
                 // 更新树节点--对象节点
                 updateObjectNode(methodId,translate(methodInfo.methodName,methodInfo.languageData));
-                // 更新对象建模数据
-                updateObjectBuildModel(methodInfo);
+
+                // 获取当前选中对象的信息
+                function getObjectInfo(){
+                    // 获取当前对象信息
+                    var objectIds = [selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
+                    // 当前选中的节点是对象
+                    if(selectedNode.nodeType=="object"){
+                        objectIds.push(selectedNode.id);
+                    } else {
+                        objectIds.push(selectedNode.parents[3]);
+                    }
+                    var currentObject = findObjectInArray(buildModel.Product.WorkStationList,objectIds);
+                    // 对象信息
+                    var objectInfo = {
+                        ID:currentObject.Attribute.ID,
+                        WorkStationID:selectedNode.parents[0],
+                        RefImageID:selectedNode.parents[1],
+                        GroupID:selectedNode.parents[2],
+                        InspMethodID:currentObject.Attribute.InspMethodID
+                    }
+                    return objectInfo;
+                }
             });
 
             // 更新对象节点检测方法名
@@ -266,20 +296,6 @@
 
                 // 分组索引+1
                 groupIndex++;
-
-                // 替换原始treeNode中的当前参考图节点
-                for(var i=0;i<treeNode.data.length;i++){
-                    var stationNode = treeNode.data[i];
-                    if(stationNode.id == currentWorkStationNode.id){
-                        // 遍历原始树参考图节点
-                        for(var j=0;j<stationNode.nodes.length;j++){
-                            var refImgNode = stationNode.nodes[j];
-                            if(refImgNode.id == selectedNode.id){
-                                $.extend(true,refImgNode,selectedNode);
-                            }
-                        }
-                    }
-                }
 
                 $('#tree').treeview(treeNode);
                 treeEvent();
@@ -605,6 +621,8 @@
 
             // 新增对象建模数据
             addObjectBuildModel(objectInfo);
+            // 新增对象关系数据
+            initObjectAssoc(objectInfo);
         }
 
         // 删除对象
@@ -697,7 +715,51 @@
             $baseParamContainer.empty();
             $hgParamContainer.empty();
             $debugParamContainer.empty();
-            // 循环生成  算法参数
+            $assocContainer.empty();
+
+            // 获取关联的算法信息
+            var assocInfoList = getAssocInfo(methodInfo,assocList);
+            if(assocInfoList.length == 0){
+                $assocContainer.prop('hidden',true);
+            } else {
+                $assocContainer.prop('hidden',false);
+            }
+
+            // 当前参考图下所有对象信息
+            var objectList = getAllObject(selectedNode);
+
+            // 循环生成算法关系内容
+            for(var i=0;i<assocInfoList.length;i++){
+                var assocInfo = assocInfoList[i];
+                var id = assocInfo.id;
+                var methodId = assocInfo.methodId;
+                var methodName = assocInfo.methodName;
+                var option='<option value="-1"></option>';
+                var assocValue = "-1";
+                if(methodInfo.assocValues){
+                    assocValue = methodInfo.assocValues[i];
+                }
+
+                objectList.forEach(function (object) {
+                    if(id == object.Attribute.InspMethodID){
+                        if(assocValue == object.Attribute.ID){
+                            option+='<option value="'+object.Attribute.ID+'" selected>'+object.Attribute.Name+'</option>';
+                        }else{
+                            option+='<option value="'+object.Attribute.ID+'">'+object.Attribute.Name+'</option>';
+                        }
+                    }
+                });
+
+                var model = '<div class="form-group">' +
+                        '<label class="col-sm-5 control-label">'+methodName+'</label>' +
+                        '<div class="col-sm-7">' +
+                        '<select class="form-control" id="'+i+'" value="'+assocValue+'" onchange="updateObjectAssoc(this)">'+option+'</select>' +
+                        '</div></div>';
+
+                $assocContainer.append(model);
+            }
+
+            // 循环生成算法参数内容
             for(var i=0;i<paramList.length;i++){
                 var paramItem = paramList[i];
                 var id = paramItem.Name;
@@ -754,18 +816,55 @@
             }
         }
 
+        // 获取关联的算法信息
         function getAssocInfo(methodInfo,assocList) {
+            var inspMethodList = buildModel.Product.InspMethodList;
             var assocInfoList = new Array;
             assocList.forEach(function(assocItem){
                 if(assocItem.MainNode.Attribute.ID == methodInfo.methodId){
                     assocItem.SubNode.forEach(function (subNode) {
+                        var id = subNode.Attribute.ID;
+                        var methodId = getMethodId(inspMethodList,id);
+                        var methodName = getMethodName(methodId);
                         assocInfoList.push({
-                            methodId:subNode.Attribute.ID,
-                            methodName:""
+                            id:id,
+                            methodId:methodId,
+                            methodName:methodName
                         });
                     });
                 }
             });
+
+            return assocInfoList;
+
+            // 获取算法名称
+            function getMethodId(inspMethodList,id) {
+                for(var i= 0;i<inspMethodList.length;i++){
+                    if(inspMethodList[i].Attribute.ID == id){
+                        return inspMethodList[i].Attribute.Name;
+                    }
+                }
+            }
+
+            // 获取算法名称翻译名（显示名称）
+            function getMethodName(methodId){
+                // 获取翻译语言信息
+                var languageData = getLanguageData(paramLanguagePath+methodId+".json",language)
+                        .Translation.Module.LangItem;
+                return translate(methodId,languageData);
+            }
+        }
+
+        // 当前参考图下所有对象信息
+        function getAllObject(selectedNode) {
+            var currentImg = findObjectInArray(buildModel.Product.WorkStationList,[selectedNode.parents[0],selectedNode.parents[1]]);
+            var objectList = new Array();
+            currentImg.GroupList.forEach(function(group){
+                group.InspObjList.forEach(function (inspObj) {
+                    objectList.push(inspObj);
+                });
+            });
+            return objectList;
         }
 
         // 获取翻译
@@ -817,11 +916,27 @@
             var languageData = getLanguageData(paramLanguagePath+inspMethodFileName,language)
                     .Translation.Module.LangItem;
             var paramList = inspObj.ParamList;
+
+            // 获取算法关系值
+            var assocValues = new Array();
+            // 当前分组下的对象关系
+            var objectAssocList = findObjectInArray(buildModel.Product.WorkStationList,[ids[0],ids[1],ids[2]]).AssocList;
+            // 遍历获取算法关系值
+            for(var i=0;i<objectAssocList.length;i++){
+                if(inspObj.Attribute.ID == objectAssocList[i].MainNode.Attribute.ID){
+                    for(var j=0;j<objectAssocList[i].SubNode.length;j++){
+                        assocValues.push(objectAssocList[i].SubNode[j].Attribute.ID);
+                    }
+                    break;
+                }
+            }
+
             return {
                 methodId:methodId,
                 methodName:methodName,
                 paramList:paramList,
-                languageData:languageData
+                languageData:languageData,
+                assocValues:assocValues
             }
         }
 
@@ -851,6 +966,7 @@
             }
         }
 
+
         // 新增分组建模数据
         function addGroupBuildModel(groupInfo){
             var group = {
@@ -861,27 +977,7 @@
                     WorkStationID:"",
                     RefImageID:""
                 },
-                AssocList:[
-                    {
-                        Attribute:{
-                            ID: "1",
-                            Enable: "1",
-                            Type: "1"
-                        },
-                        MainNode:{
-                            Attribute:{
-                                ID:"1",
-                                Type:"1"
-                            }
-                        },
-                        SubNode:{
-                            Attribute:{
-                                ID:"-1",
-                                Type:"1"
-                            }
-                        }
-                    }
-                ],
+                AssocList:[],
                 RegionList:[],
                 InspObjList:[]
             }
@@ -954,7 +1050,104 @@
             inspObject.ParamList = methodInfo.paramList;
         }
 
-        // 根据界面用户输入，更新object中相应的值
+        // 初始化对象关系数据
+        function initObjectAssoc(objectInfo){
+            // 产品算法关系
+            var methodAssocList = buildModel.Product.AssocList;
+            // 当前分组下的对象关系
+            var objectAssocList = findObjectInArray(buildModel.Product.WorkStationList,[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID]).AssocList;
+            // 关系id
+            var assocId;
+            if(objectAssocList.length == 0){
+                assocId = 1
+            } else {
+                assocId = parseInt(objectAssocList[objectAssocList.length-1].Attribute.ID)+1;
+            }
+
+            // 获取当前对象算法的assocItem
+            var currentObjectMethodAssoc;
+            for(var i=0;i<methodAssocList.length;i++){
+                if(objectInfo.InspMethodID == methodAssocList[i].MainNode.Attribute.ID){
+                    currentObjectMethodAssoc = methodAssocList[i];
+                    break;
+                }
+            }
+
+            // 根据算法关系定义对象关系的subNode
+            var subNode = new Array();
+            if(currentObjectMethodAssoc){
+                for(var i=0;i<currentObjectMethodAssoc.SubNode.length;i++){
+                    subNode.push({
+                        Attribute:{
+                            ID:"-1",
+                            Type:"1"
+                        }
+                    });
+                }
+            }else{
+                subNode.push({
+                    Attribute:{
+                        ID:"-1",
+                        Type:"1"
+                    }
+                });
+            }
+            
+            // 新增对象的assocItem
+            var objectAssoc = {
+                Attribute:{
+                    ID:assocId,
+                    Enable: "1",
+                    Type: "1"
+                },
+                MainNode:{
+                    Attribute:{
+                        ID:objectInfo.ID,
+                        Type:"1"
+                    }
+                },
+                SubNode:subNode
+            }
+
+            var isNewObject = true;
+            // 添加到当前分组的对象关系列表中
+            for(var i=0;i<objectAssocList.length;i++){
+                if(objectInfo.ID == objectAssocList[i].MainNode.Attribute.ID){
+                    objectAssocList[i] = objectAssoc;
+                    isNewObject = false;
+                    break;
+                }
+            }
+            if(isNewObject){
+                objectAssocList.push(objectAssoc);
+            }
+        }
+
+        // 更新对象关系数据
+        function updateObjectAssoc(item) {
+            var groupIds = [selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
+            var objectIds = [selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
+            if(selectedNode.nodeType!="object"){
+                objectIds.push(selectedNode.parents[3]);
+            }else{
+                objectIds.push(selectedNode.id);
+            }
+
+            // 当前分组下的对象关系
+            var objectAssocList = findObjectInArray(buildModel.Product.WorkStationList,groupIds).AssocList;
+            // 当前对象
+            var currentObject = findObjectInArray(buildModel.Product.WorkStationList,objectIds);
+
+            // 更新对象关系数据
+            for(var i=0;i<objectAssocList.length;i++){
+                if(currentObject.Attribute.ID == objectAssocList[i].MainNode.Attribute.ID){
+                    objectAssocList[i].SubNode[item.id].Attribute.ID = item.value;
+                    break;
+                }
+            }
+        }
+
+        // 根据界面用户输入，更新对象参数值
         function updateParam(paramItem){
             var ids=[];
             if(selectedNode.nodeType=="object"){
@@ -1393,7 +1586,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="well" id="assocContainer" hidden></div>
+                                    <div class="well" id="assocContainer"></div>
 
                                     <div class="nest-small-tab">
                                         <!-- Nav tabs -->
