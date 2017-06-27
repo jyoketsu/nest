@@ -18,8 +18,8 @@ var canvasTop;
 var canvasLeft;
 
 //画笔大小
-var size = 1;
-var color = '#000000';
+var strokeSize = 3;
+var strokeColor = '#32CD32';
 
 // 绘制的图形的集合
 var graphList;
@@ -249,9 +249,9 @@ function mouseDraft(msg,graphType,continuous){
             that.canvasTop = $(that.canvas_bg).offset().top - scroolTop;
             that.canvasLeft = $(that.canvas_bg).offset().left - scroolLeft;
 
-            that.context_bak.strokeStyle= that.color;
-            that.context_bak.strokeStyle= that.color;
-            that.context_bak.lineWidth = that.size;
+            that.context_bak.strokeStyle= that.strokeColor;
+            //that.context_bak.strokeStyle= that.color;
+            that.context_bak.lineWidth = that.strokeSize;
 
             startX = e.clientX - that.canvasLeft;
             startY = e.clientY - that.canvasTop;
@@ -498,7 +498,7 @@ function drawProcessedGraph(msg,graphObject){
 }
 
 // 获取参数，在画布上绘制图形
-function drawGraph(graphObject,context){
+function drawGraph(graphObject,context,fillColor){
     let ctx = null;
     let newPath = true;
 
@@ -531,7 +531,6 @@ function drawGraph(graphObject,context){
             }
             this.context = this.canvas.getContext('2d');
             ctx = this.context;
-
         }
     }
 
@@ -540,22 +539,24 @@ function drawGraph(graphObject,context){
 
     // 填充颜色
     let color;
-    if (graphObject.color) {
-        color = graphObject.color;
+    if (fillColor) {
+        color = fillColor;
     } else {
-        color = "127,255,170";
+        color = "144,238,144";
     }
     // 如果选中，改变线条和填充颜色
     if (!context) {
         if (graphObject.isSelected) {
-            ctx.lineWidth = 2;
             ctx.fillStyle = 'rgba('+color+',0.7)';
-        }
-        else {
-            ctx.lineWidth = 1;
+        }else if(fillColor){
             ctx.fillStyle = 'rgba('+color+',0.3)';
+        }else {
+            ctx.fillStyle = 'rgba('+color+',0)';
         }
     }
+
+    ctx.strokeStyle= strokeColor;
+    ctx.lineWidth = strokeSize;
 
     // 以中点为旋转点
     let rotatePoint = {
@@ -883,8 +884,6 @@ function selectGraph() {
 
 // 选中图形
 function selected(currentGraph,isDragging) {
-    // 改变鼠标样式
-    //this.changeCursor("move");
     // 清除之前选择的图形
     if (this.previousSelectedGraph != null) {
         this.previousSelectedGraph.isSelected = false;
@@ -920,6 +919,15 @@ function selectGraphById(id){
     }
     // 选中图形
     selected(selectedGraph,false);
+}
+
+// 根据图形id获取图形
+function findGraphById(id){
+    for(var i=0;i<graphList.length;i++){
+        if(graphList[i].id == id){
+            return graphList[i];
+        }
+    }
 }
 
 // 取消图形选中

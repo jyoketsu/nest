@@ -177,6 +177,28 @@ function getStationTree(buildModel,refImageOnly) {
     return stationTree;
 }
 
+// 根据选中节点获取当前选中对象的信息
+function getObjectInfoBySelectedNode(selectedNode){
+    // 获取当前对象信息
+    var objectIds = [selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
+    // 当前选中的节点是对象
+    if(selectedNode.nodeType=="object"){
+        objectIds.push(selectedNode.id);
+    } else {
+        objectIds.push(selectedNode.parents[3]);
+    }
+    var currentObject = findObjectInArray(buildModel.Product.WorkStationList,objectIds);
+    // 对象信息
+    var objectInfo = {
+        ID:currentObject.Attribute.ID,
+        WorkStationID:selectedNode.parents[0],
+        RefImageID:selectedNode.parents[1],
+        GroupID:selectedNode.parents[2],
+        InspMethodID:currentObject.Attribute.InspMethodID
+    }
+    return objectInfo;
+}
+
 // 获取建模数据中所有的region
 function getGraphList(){
     var graphList = new Array;
@@ -273,4 +295,18 @@ function pointToOuter(pointList){
     }
     outer = outer.substring(0,outer.length-1);
     return outer;
+}
+
+// 根据对象id在指定参考图下搜索对象
+function findObjectInRefImg(stationList,imgIds,objectId){
+    var targetRefImg = findObjectInArray(stationList,imgIds);
+    var groupList = targetRefImg.GroupList;
+    for(var i=0;i<groupList.length;i++){
+        var inspObjList = groupList[i].InspObjList;
+        for(var j=0;j<inspObjList.length;j++){
+            if(objectId == inspObjList[j].Attribute.ID){
+                return inspObjList[j];
+            }
+        }
+    }
 }

@@ -75,6 +75,8 @@
         var ws = null;
         // 建模数据
         var buildModel = "";
+        // 关联的对象图形
+        var assocGraphs = [];
 
         $(document).ready(function(){
             // WebSocket连接
@@ -153,35 +155,14 @@
                 // 更新对象建模数据
                 updateObjectBuildModel(methodInfo);
                 // 更新对象关系数据
-                var objectInfo = getObjectInfo();
+                var objectInfo = getObjectInfoBySelectedNode(selectedNode);
                 console.log("objectInfo-----------",objectInfo);
+                // 初期化对象关系数据
                 initObjectAssoc(objectInfo);
                 // 生成模板
                 generateAlgorithmParam(methodInfo);
                 // 更新树节点--对象节点
                 updateObjectNode(methodId,translate(methodInfo.methodName,methodInfo.languageData));
-
-                // 获取当前选中对象的信息
-                function getObjectInfo(){
-                    // 获取当前对象信息
-                    var objectIds = [selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
-                    // 当前选中的节点是对象
-                    if(selectedNode.nodeType=="object"){
-                        objectIds.push(selectedNode.id);
-                    } else {
-                        objectIds.push(selectedNode.parents[3]);
-                    }
-                    var currentObject = findObjectInArray(buildModel.Product.WorkStationList,objectIds);
-                    // 对象信息
-                    var objectInfo = {
-                        ID:currentObject.Attribute.ID,
-                        WorkStationID:selectedNode.parents[0],
-                        RefImageID:selectedNode.parents[1],
-                        GroupID:selectedNode.parents[2],
-                        InspMethodID:currentObject.Attribute.InspMethodID
-                    }
-                    return objectInfo;
-                }
             });
 
             // 更新对象节点检测方法名
@@ -395,7 +376,7 @@
                 selectGraph();
 
             });
-            // 删除
+            // 删除region
             $("#deleteRoi").on("click",function () {
                 if (previousSelectedGraph != null) {
                     deleteGraph();
@@ -503,18 +484,20 @@
             }
         }
 
+        // 选中ROI
         function selectROI(){
-            // 选中ROI
-            var ids = [];
-            $.extend(true,ids,selectedNode.parents);
+            // 对象及其所有父节点id
+            var objIds = [];
+            $.extend(true,objIds,selectedNode.parents);
             if(selectedNode.nodeType == "object"){
-                ids.push(selectedNode.id);
-                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                objIds.push(selectedNode.id);
+
+                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,objIds);
                 if(currentObject.RegionIDList.length!=0){
                     selectGraphById(currentObject.RegionIDList[0].ID);
                 }
             } else if(selectedNode.nodeType == "inspMethod"||selectedNode.nodeType == "region"){
-                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,ids);
+                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,objIds);
                 if(currentObject.RegionIDList.length!=0){
                     selectGraphById(currentObject.RegionIDList[0].ID);
                 }
@@ -627,6 +610,10 @@
 
         // 删除对象
         function deleteObject(){
+            // 当前对象信息
+            var objectInfo = getObjectInfoBySelectedNode(selectedNode);
+            // 删除对象关系数据
+            deleteObjectAssoc(objectInfo);
             // 删除对象建模数据
             deleteObjectBuildModel(selectedNode);
 
@@ -899,8 +886,8 @@
         }
 
         // 获取指定的检测方法
-        function findInspMethod(ids) {
-            var inspObj = findObjectInArray(buildModel.Product.WorkStationList,ids);
+        function findInspMethod(objIds) {
+            var inspObj = findObjectInArray(buildModel.Product.WorkStationList,objIds);
             var methodId = inspObj.Attribute.InspMethodID;
             var methodName = "";
             for(var i=0;i<buildModel.Product.InspMethodList.length;i++){
@@ -918,18 +905,7 @@
             var paramList = inspObj.ParamList;
 
             // 获取算法关系值
-            var assocValues = new Array();
-            // 当前分组下的对象关系
-            var objectAssocList = findObjectInArray(buildModel.Product.WorkStationList,[ids[0],ids[1],ids[2]]).AssocList;
-            // 遍历获取算法关系值
-            for(var i=0;i<objectAssocList.length;i++){
-                if(inspObj.Attribute.ID == objectAssocList[i].MainNode.Attribute.ID){
-                    for(var j=0;j<objectAssocList[i].SubNode.length;j++){
-                        assocValues.push(objectAssocList[i].SubNode[j].Attribute.ID);
-                    }
-                    break;
-                }
-            }
+            var assocValues = getObjectAssocValue(objIds);
 
             return {
                 methodId:methodId,
@@ -940,7 +916,26 @@
             }
         }
 
-        // 根据id获取指定的检测方法
+        // 获取对象的关联对象id
+        function getObjectAssocValue(objIds){
+            var objectId = objIds[objIds.length-1];
+            // 获取算法关系值
+            var assocValues = new Array();
+            // 当前分组下的对象关系
+            var objectAssocList = findObjectInArray(buildModel.Product.WorkStationList,[objIds[0],objIds[1],objIds[2]]).AssocList;
+            // 遍历获取算法关系值
+            for(var i=0;i<objectAssocList.length;i++){
+                if(objectId == objectAssocList[i].MainNode.Attribute.ID){
+                    for(var j=0;j<objectAssocList[i].SubNode.length;j++){
+                        assocValues.push(objectAssocList[i].SubNode[j].Attribute.ID);
+                    }
+                    break;
+                }
+            }
+            return assocValues;
+        }
+
+        // 根据检测方法id获取指定的检测方法
         function findInspMethodById(id) {
             var methodName = "";
             for(var i=0;i<buildModel.Product.InspMethodList.length;i++){
@@ -951,7 +946,6 @@
                 }
             }
 
-            // 初始化算法参数界面
             var inspMethodFileName = inspMethod.Attribute.Name+".json";
             // 获取算法参数信息
             algorithmParam = getJson(algorithmPath+inspMethodFileName,false);
@@ -1092,7 +1086,7 @@
                     }
                 });
             }
-            
+
             // 新增对象的assocItem
             var objectAssoc = {
                 Attribute:{
@@ -1110,7 +1104,7 @@
             }
 
             var isNewObject = true;
-            // 添加到当前分组的对象关系列表中
+            // 更新分组对象关系列表
             for(var i=0;i<objectAssocList.length;i++){
                 if(objectInfo.ID == objectAssocList[i].MainNode.Attribute.ID){
                     objectAssocList[i] = objectAssoc;
@@ -1118,9 +1112,40 @@
                     break;
                 }
             }
-            if(isNewObject){
+            if(isNewObject){ // 添加到当前分组的对象关系列表中
                 objectAssocList.push(objectAssoc);
+            } else {
+                // 检查当前对象有没有作为其他对象的输入，若有，则让其他对象输入更新为无效
+                checkObjectAssocList();
             }
+
+            // 检查当前对象有没有作为其他对象的输入，若有，则让其他对象输入更新为无效
+            function checkObjectAssocList(){
+                for(var i=0;i<objectAssocList.length;i++){
+                    for(var j=0;j<objectAssocList[i].SubNode.length;j++){
+                        if(objectInfo.ID == objectAssocList[i].SubNode[j].Attribute.ID){
+                            objectAssocList[i].SubNode[j].Attribute.ID = -1;
+                        }
+                    }
+                }
+            }
+        }
+
+        // 删除对象关系数据
+        function deleteObjectAssoc(objectInfo){
+            // 当前分组下的对象关系
+            var objectAssocList = findObjectInArray(buildModel.Product.WorkStationList,
+                    [objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID])
+                    .AssocList;
+            // 删除当前对象关系
+            var targetIndex;
+            for(var i=0;i<objectAssocList.length;i++){
+                if(objectInfo.ID == objectAssocList[i].MainNode.Attribute.ID){
+                    targetIndex = i;
+                    break;
+                }
+            }
+            objectAssocList.splice(targetIndex,1);
         }
 
         // 更新对象关系数据
@@ -1144,6 +1169,39 @@
                     objectAssocList[i].SubNode[item.id].Attribute.ID = item.value;
                     break;
                 }
+            }
+
+            // 关联region以黄色填充绘制
+            drawAssocRegion(buildModel.Product.WorkStationList,[selectedNode.parents[0],selectedNode.parents[1]],item);
+        }
+
+        // 黄色填充绘制关联对象区域
+        function drawAssocRegion(stationList,imgIds,item){
+            // 清除黄色区域
+            if(assocGraphs.length != 0){
+                clearContext("content",assocGraphs[item.id].coverageId);
+                drawGraph(assocGraphs[item.id]);
+            }
+
+            var assocObject = findObjectInRefImg(stationList,imgIds,item.value);
+            if(assocObject){
+                var regionId = assocObject.RegionIDList[0].ID;
+                // 根据region id获取相应图形
+                var graph = findGraphById(regionId);
+                // 以黄色填充重绘
+                drawGraph(graph,null,"255,215,0");
+                assocGraphs[item.id] = graph;
+            }
+        }
+        // 取消黄色填充绘制关联对象区域
+        function restoreAssocRegion(stationList,imgIds,objectId){
+            var assocObject = findObjectInRefImg(stationList,imgIds,objectId);
+            if(assocObject){
+                var regionId = assocObject.RegionIDList[0].ID;
+                // 根据region id获取相应图形
+                var graph = findGraphById(regionId);
+                // 以黄色填充重绘
+                drawGraph(graph);
             }
         }
 
