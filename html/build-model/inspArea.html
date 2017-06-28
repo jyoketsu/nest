@@ -433,10 +433,12 @@
         function treeEvent() {
             // 点击工位树节点
             $('#tree').on('nodeSelected', function(event, data) {
-                /*selectedNode = data;*/
                 selectedNode = $('#tree').treeview('getSelected')[0];
                 afterSelecttreeNode();
+                // 选中节点对应的region
                 selectROI();
+                // 标识关联对象区域
+                markAssocRegion(selectedNode);
             });
         }
 
@@ -489,20 +491,72 @@
             // 对象及其所有父节点id
             var objIds = [];
             $.extend(true,objIds,selectedNode.parents);
+            var currentObject;
             if(selectedNode.nodeType == "object"){
                 objIds.push(selectedNode.id);
 
-                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,objIds);
+                currentObject = findObjectInArray(buildModel.Product.WorkStationList,objIds);
+                // 选中当前对象region
                 if(currentObject.RegionIDList.length!=0){
                     selectGraphById(currentObject.RegionIDList[0].ID);
                 }
             } else if(selectedNode.nodeType == "inspMethod"||selectedNode.nodeType == "region"){
-                var currentObject = findObjectInArray(buildModel.Product.WorkStationList,objIds);
+                currentObject = findObjectInArray(buildModel.Product.WorkStationList,objIds);
+                // 选中当前对象region
                 if(currentObject.RegionIDList.length!=0){
                     selectGraphById(currentObject.RegionIDList[0].ID);
                 }
             } else { // 取消选中
                 unSelectGraph();
+            }
+        }
+
+        // 标识关联对象区域
+        function markAssocRegion(selectedNode) {
+            // 清除关联对象标识区域
+            if(assocGraphs.length != 0){
+                assocGraphs.forEach(function(graph){
+                    clearContext("content",graph.coverageId);
+                    drawGraph(graph);
+                });
+            }
+            assocGraphs = [];
+
+            // 对象及其父节点id
+            var objIds = [];
+            $.extend(true,objIds,selectedNode.parents);
+            if(selectedNode.nodeType == "object"){
+                objIds.push(selectedNode.id);
+            }else if(selectedNode.nodeType == "inspMethod"||selectedNode.nodeType == "region"){
+
+            }else {
+                return;
+            }
+
+            // 当前参考图下所有对象信息
+            var objectList = getAllObject(selectedNode);
+            var regionIds = [];
+            // 获取算法关系值
+            var assocValues = getObjectAssocValue(objIds);
+            for(var i=0;i<assocValues.length;i++){
+                for(var j=0;j<objectList.length;j++){
+                    if(assocValues[i] == objectList[j].Attribute.ID){
+                        regionIds.push(objectList[j].RegionIDList[0].ID);
+                        break;
+                    }
+                }
+            }
+
+            // 标识关联对象区域
+            for(var i=0;i<regionIds.length;i++){
+                for(j=0;j<graphList.length;j++){
+                    if(regionIds[i] == graphList[j].id){
+                        // 以标识色填充重绘
+                        drawGraph(graphList[j],null,"255,215,0");
+                        assocGraphs.push(graphList[j]);
+                        break;
+                    }
+                }
             }
         }
 
@@ -651,6 +705,9 @@
                 $("#imageToolbar").css("display","none");
                 $("#groupToolbar").css("display","block");
                 $("#objectToolbar").css("display","none");
+
+                // 标识关联对象区域
+                markAssocRegion(selectedNode);
             }
         }
 
@@ -737,11 +794,13 @@
                     }
                 });
 
-                var model = '<div class="form-group">' +
-                        '<label class="col-sm-5 control-label">'+methodName+'</label>' +
-                        '<div class="col-sm-7">' +
+                var model = '<div class="form-group" style="margin: 0">' +
+                        '<label class="col-sm-4 control-label nest-sm-col">'+methodName+'</label>' +
+                        '<div class="col-sm-6 nest-sm-col">' +
                         '<select class="form-control" id="'+i+'" value="'+assocValue+'" onchange="updateObjectAssoc(this)">'+option+'</select>' +
-                        '</div></div>';
+                        '</div>' +
+                        '<div class="col-sm-2 nest-sm-col"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button></div>' +
+                        '</div>';
 
                 $assocContainer.append(model);
             }
@@ -1179,8 +1238,10 @@
         function drawAssocRegion(stationList,imgIds,item){
             // 清除黄色区域
             if(assocGraphs.length != 0){
-                clearContext("content",assocGraphs[item.id].coverageId);
-                drawGraph(assocGraphs[item.id]);
+                if(assocGraphs[item.id]){
+                    clearContext("content",assocGraphs[item.id].coverageId);
+                    drawGraph(assocGraphs[item.id]);
+                }
             }
 
             var assocObject = findObjectInRefImg(stationList,imgIds,item.value);
@@ -1200,7 +1261,7 @@
                 var regionId = assocObject.RegionIDList[0].ID;
                 // 根据region id获取相应图形
                 var graph = findGraphById(regionId);
-                // 以黄色填充重绘
+                // 重绘
                 drawGraph(graph);
             }
         }
@@ -1414,6 +1475,8 @@
                 $('#tree').treeview('selectNode', [ node, { silent: true } ]);
                 selectedNode = node;
                 afterSelecttreeNode();
+                // 标识关联对象区域
+                markAssocRegion(selectedNode);
             }
         }
         /*对象、region相关---end------------------------------------------*/
@@ -1644,7 +1707,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="well" id="assocContainer"></div>
+                                    <div class="well" id="assocContainer" style="padding: 5px"></div>
 
                                     <div class="nest-small-tab">
                                         <!-- Nav tabs -->

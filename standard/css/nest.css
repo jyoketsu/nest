@@ -61,6 +61,12 @@ h4.nest-large-font,.nest-large-font{
     font-weight: normal;
 }
 
+/*小号栅格*/
+.nest-sm-col {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
 /*字体--end------------------------------------------- */
 
 /*布局相关--start--------------------------------------- */
