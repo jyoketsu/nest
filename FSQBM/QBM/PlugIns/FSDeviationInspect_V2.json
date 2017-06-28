@@ -1,45 +1,60 @@
 {
-    "ParamList": [
+  "ParamList":[
       {
         "Name": "ID_PARA_Xinspect_1",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "1",
         "Value": "1",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range": "",
+        "ClassifyValue":"",
         "Tips": "Whether to inspect horizontal deviation.",
         "Authority": "1"
       },
       {
         "Name": "ID_PARA_Yinspect_2",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "1",
         "Value": "1",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range": "",
+        "ClassifyValue":"",
         "Tips": "Whether to inspect vertical deviation.",
         "Authority": "1"
       },
       {
         "Name": "ID_PARA_Disinspect_3",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "1",
         "Value": "1",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range": "",
+        "ClassifyValue":"",
         "Tips": "Whether to inspect distance deviation.",
         "Authority": "1"
       },
       {
         "Name": "ID_PARA_Deviationerror_4",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "4",
         "DefaultValue": "50",
         "Value": "50",
         "DispEnable": "1",
         "ModifyEnable": "1",
         "Range": "0%%100000",
+        "ClassifyValue":"",
         "Tips": "Deviation Error.",
         "Authority": "1"
       }
     ]
-}
+  }

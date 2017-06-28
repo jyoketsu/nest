@@ -1,15 +1,19 @@
 {
-    "ParamList": [
+  "ParamList":[
       {
         "Name": "ID_PARA_RSearchScore_1",
-        "Type": "5",
+        "Unit":"",
+        "DispUnit":"",
+        "Type": "10",
         "DefaultValue": "70",
         "Value": "70",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "20%%100",
+        "Range": "20%%100%%1",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_RSearchScore_1",
-        "Authority": "1"
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARA_RSearchHeight_2",
@@ -20,9 +24,11 @@
         "Value": "160",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "0%%300",
+        "Range": "0%%300%%1",
+        "ClassifyValue":"",
         "Tips": "ID_DSIP_RSearchHeight_2",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_RSearchWidth_3",
@@ -33,121 +39,171 @@
         "Value": "120",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "0%%300",
+        "Range": "0%%300%%1",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_RSearchWidth_3",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_RSearchDistanceRatio_4",
-        "Type": "5",
+        "Unit":"",
+        "DispUnit":"",
+        "Type": "4",
         "DefaultValue": "3",
         "Value": "3",
         "DispEnable": "1",
         "ModifyEnable": "1",
         "Range": "1%%10",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_RSearchDistanceRatio_4",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_EnableProcessRange_5",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "1",
         "Value": "1",
         "DispEnable": "1",
         "ModifyEnable": "0",
+        "Range": "",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_EnableProcessRange_5",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARAD_ModelLine_6",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "1",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range": "",
         "ClassifyValue": "-1",
         "Tips": "ID_DISP_ModelLine_6",
         "Authority": "1"
       },
       {
         "Name": "ID_PARAD_InspLine_7",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "1",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range": "",
         "ClassifyValue": "-1",
         "Tips": "ID_DISP_InspLine_7",
         "Authority": "1"
       },
       {
         "Name": "ID_PARAD_LineCenterShiftX_8",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range": "",
         "ClassifyValue": "-1",
         "Tips": "ID_DISP_LineCenterShiftX_8",
         "Authority": "1"
       },
       {
         "Name": "ID_PARAD_LineCenterShiftY_9",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range": "",
         "ClassifyValue": "-1",
         "Tips": "ID_DISP_LineCenterShiftY_9",
         "Authority": "1"
       },
       {
         "Name": "ID_PARAD_LineShiftAngle_10",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range": "",
         "ClassifyValue": "-1",
         "Tips": "ID_DISP_LineShiftAngle_10",
         "Authority": "1"
       },
       {
         "Name": "ID_DefectType_Count_0",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "1",
         "Value": "1",
         "DispEnable": "0",
         "ModifyEnable": "0",
-        "Authority": "1"
+        "Range": "",
+        "ClassifyValue":"",
+        "Tips": "",
+        "Authority": "2",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_DefectType_Name_1",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "1",
-        "DefaultValue": "图像转正失败",
-        "Value": "图像转正失败",
+        "DefaultValue": "Image Rotate Failed",
+        "Value": "Image Rotate Failed",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Authority": "1"
+        "Range": "",
+        "ClassifyValue":"",
+        "Tips": "",
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_DefectType_Score_1",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "100",
         "Value": "-1",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Authority": "1"
+        "Range": "",
+        "ClassifyValue":"",
+        "Tips": "",
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_DefectType_GlobalID_1",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "1",
         "Value": "1",
         "DispEnable": "0",
         "ModifyEnable": "0",
-        "Authority": "1"
+        "Range": "",
+        "ClassifyValue":"",
+        "Tips": "",
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       }
     ]
-}
+  }

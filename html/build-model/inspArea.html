@@ -16,6 +16,10 @@
     <!-- treeview插件 -->
     <script src="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
 
+    <!-- bootstrap-switch -->
+    <link href="https://cdn.bootcss.com/bootstrap-switch/4.0.0-alpha.1/css/bootstrap-switch.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap-switch/4.0.0-alpha.1/js/bootstrap-switch.min.js"></script>
+
     <!-- nest样式 -->
     <link rel="stylesheet" href="../../standard/css/nest.css">
     <script src="../../standard/js/nest.js"></script>
@@ -149,6 +153,15 @@
 
             // 切换算法选择
             $("#algorithm-select").on("change",function () {
+                // 清除关联对象标识区域
+                if(assocGraphs.length != 0){
+                    assocGraphs.forEach(function(graph){
+                        clearContext("content",graph.coverageId);
+                        drawGraph(graph);
+                    });
+                }
+                assocGraphs = [];
+
                 // 更新对象参数显示界面
                 var methodId = $(this).val();
                 var methodInfo = findInspMethodById(methodId);
@@ -762,7 +775,7 @@
             $assocContainer.empty();
 
             // 获取关联的算法信息
-            var assocInfoList = getAssocInfo(methodInfo,assocList);
+            var assocInfoList = getAssocInfo(methodInfo.methodId,assocList);
             if(assocInfoList.length == 0){
                 $assocContainer.prop('hidden',true);
             } else {
@@ -799,7 +812,7 @@
                         '<div class="col-sm-6 nest-sm-col">' +
                         '<select class="form-control" id="'+i+'" value="'+assocValue+'" onchange="updateObjectAssoc(this)">'+option+'</select>' +
                         '</div>' +
-                        '<div class="col-sm-2 nest-sm-col"><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button></div>' +
+                        '<div class="col-sm-2 nest-sm-col"><button type="button" class="btn btn-primary btn-sm" id="selectAssoc-'+i+'" onclick="selectAssoc(this)"><i class="fa fa-search"></i></button></div>' +
                         '</div>';
 
                 $assocContainer.append(model);
@@ -829,7 +842,13 @@
                             '</div>' +
                             '</div>';
                 } else if(type=="3"){// checkbox
-                    model='<div class="form-group"><label class="col-sm-12"><input type="checkbox" id="'+id+'" value="" title="'+tip+'" onchange="updateParam(this)">'+paramName+'</label></div>';
+                    if(defaultValue == 1){
+                        model='<div class="form-group"><label class="col-sm-12">' +
+                                '<input type="checkbox" checked id="'+id+'" value="'+defaultValue+'" title="'+tip+'" onchange="updateParam(this)" onclick="this.value=(this.value==0)?1:0">' + paramName+'</label></div>';
+                    }else{
+                        model='<div class="form-group"><label class="col-sm-12">' +
+                                '<input type="checkbox" id="'+id+'" value="'+defaultValue+'" title="'+tip+'" onchange="updateParam(this)" onclick="this.value=(this.value==0)?1:0">' + paramName+'</label></div>';
+                    }
 
                 } else if(type=="6"||type=="7"||type=="8"){// 下拉框
                     var options = paramItem.Range.split("%%");
@@ -846,28 +865,37 @@
                             '<div class="col-sm-6">' +
                             '<select class="form-control" id="'+id+'" value="'+defaultValue+'" title="'+tip+'" onchange="updateParam(this)">'+option+'</select>' +
                             '</div></div>';
+                } else if(type=="10"){ // range
+                    var ranges = paramItem.Range.split("%%");
+                    var minValue = ranges[0];
+                    var maxValue = ranges[1];
+                    model='<div class="form-group">' +
+                            '<label class="col-sm-6 control-label">'+paramName+'</label>' +
+                            '<div class="col-sm-6">' +
+                            '<input type="range" class="form-control" id="'+id+'" value="'+defaultValue+'"  min="'+minValue+'" max="'+maxValue+'" title="'+tip+'" onchange="updateParam(this)">' +
+                            '</div></div>';
+
                 }
                 // 算法参数
-                if(classifyValue==undefined||classifyValue=="0"){
+                if(classifyValue=="-1"){
+                    $debugParamContainer.append(model);
+                } else { // 仿真结果参数
                     // 基础参数
                     if(authority=="1"){
                         $baseParamContainer.append(model);
                     } else if(authority=="2"){ // 高级参数
                         $hgParamContainer.append(model);
                     }
-
-                } else if(classifyValue=="-1"){ // 仿真结果参数
-                    $debugParamContainer.append(model);
                 }
             }
         }
 
         // 获取关联的算法信息
-        function getAssocInfo(methodInfo,assocList) {
+        function getAssocInfo(objectMethodId,assocList) {
             var inspMethodList = buildModel.Product.InspMethodList;
             var assocInfoList = new Array;
             assocList.forEach(function(assocItem){
-                if(assocItem.MainNode.Attribute.ID == methodInfo.methodId){
+                if(assocItem.MainNode.Attribute.ID == objectMethodId){
                     assocItem.SubNode.forEach(function (subNode) {
                         var id = subNode.Attribute.ID;
                         var methodId = getMethodId(inspMethodList,id);
@@ -1232,6 +1260,79 @@
 
             // 关联region以黄色填充绘制
             drawAssocRegion(buildModel.Product.WorkStationList,[selectedNode.parents[0],selectedNode.parents[1]],item);
+        }
+
+        // 选择关系对象
+        function selectAssoc(item){
+            var assocItemIndex = item.id.split("-")[1];
+            getClickedGraph(callback);
+            function callback(clickedGraph){
+                console.log("clickedGraph",clickedGraph);
+
+                var objIds = [];
+                $.extend(true,objIds,selectedNode.parents);
+                if(selectedNode.nodeType == "object"){
+                    objIds.push(selectedNode.id);
+                }
+                var object = findObjectInArray(buildModel.Product.WorkStationList,objIds);
+
+                // 算法关系信息
+                var assocList = buildModel.Product.AssocList;
+                // 获取关联的算法信息
+                var assocInfoList = getAssocInfo(object.Attribute.InspMethodID,assocList);
+                // 当前参考图下所有对象信息
+                var objectList = getAllObject(selectedNode);
+
+                // 当前对象可选的子对象
+                var selectableSubObj = [];
+                objectList.forEach(function(object){
+                    if(assocInfoList[assocItemIndex].id == object.Attribute.InspMethodID){
+                        selectableSubObj.push(object);
+                    }
+                });
+
+                // 当前对象关系可选的region id
+                var selectableGraphIds = [];
+                selectableSubObj.forEach(function(obj){
+                    if(obj.RegionIDList[0]){
+                        selectableGraphIds.push(obj.RegionIDList[0].ID);
+                    }
+                });
+
+                // 当前对象关系可选的region
+                var selectableGraphs = [];
+                selectableGraphIds.forEach(function(graphId){
+                    graphList.forEach(function(graph){
+                        if(graphId == graph.id){
+                            selectableGraphs.push(graph);
+                        }
+                    });
+                });
+
+                // 判断点击的region是否在可选的region列表中
+                var index = selectableGraphs.indexOf(clickedGraph);
+                // 点击的region在列表中
+                if(index != -1){
+                    var objId;
+                    for(var i=0;i<selectableSubObj.length;i++){
+                        if(clickedGraph.id == selectableSubObj[i].RegionIDList[0].ID){
+                            objId = selectableSubObj[i].Attribute.ID;
+                        }
+                    }
+
+                    // 更新对象关系数据
+                    updateObjectAssoc({
+                            id:assocItemIndex,
+                            value:objId
+                    });
+
+                    // 更新参数界面显示
+                    var $assocSelect = eval('$("#'+assocItemIndex+'")');
+                    $assocSelect.val(objId);
+                }
+
+                console.log("index",index);
+            }
         }
 
         // 黄色填充绘制关联对象区域

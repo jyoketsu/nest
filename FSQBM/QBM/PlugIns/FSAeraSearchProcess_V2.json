@@ -1,15 +1,19 @@
 {
-    "ParamList": [
+  "ParamList": [
       {
         "Name": "ID_PARA_AreaSearchScore_1",
-        "Type": "5",
+        "Unit":"",
+        "DispUnit":"",
+        "Type": "10",
         "DefaultValue": "70",
         "Value": "70",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "20%%100",
+        "Range": "20%%100%%1",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_AreaSearchScore_1",
-        "Authority": "1"
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARA_AreaSearchHeight_2",
@@ -20,9 +24,11 @@
         "Value": "50",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "0%%100",
+        "Range": "0%%100%%1",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_AreaSearchHeight_2",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_AreaSearchWidth_3",
@@ -33,9 +39,11 @@
         "Value": "50",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "0%%100",
+        "Range": "0%%100%%1",
+        "ClassifyValue":"",
         "Tips": "ID_DSIP_AreaSearchWidth_3",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_ActFluxWidth_4",
@@ -46,9 +54,11 @@
         "Value": "8",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "0%%15",
+        "Range": "0%%15%%1",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_ActFluxWidth_4",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_AreaSearchOffset_5",
@@ -59,39 +69,116 @@
         "Value": "5",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "0%%10",
+        "Range": "0%%10%1",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_AreaSearchOffset_5",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_SaveFailedPic_6",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "0",
         "Value": "0",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_SaveFailedPic_6",
-        "Authority": "1"
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARA_EnableAreaSearch_7",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "0",
         "Value": "0",
-        "DispEnable": "1",
+        "DispEnable": "0",
         "ModifyEnable": "1",
+        "Range":"",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_EnableAreaSearch_7",
-        "Authority": "1"
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARA_EnableCtrlSearchWidth_8",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "0",
         "Value": "0",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
+        "ClassifyValue":"",
         "Tips": "ID_DISP_EnableCtrlSearchWidth_8",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
+      },
+      {
+        "Name": "ID_DefectType_Count_0",
+        "Unit":"",
+        "DispUnit":"",
+        "Type": "5",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Range":"",
+        "ClassifyValue":"",
+        "Tips":"",
+        "Authority": "2",
+        "Label": "IDS_LABEL_BASICFUNC"
+      },
+      {
+        "Name": "ID_DefectType_Name_1",
+        "Unit":"",
+        "DispUnit":"",
+        "Type": "1",
+        "DefaultValue": "定位失败",
+        "Value": "定位失败",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range":"",
+        "ClassifyValue":"",
+        "Tips":"",
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
+      },
+      {
+        "Name": "ID_DefectType_Score_1",
+        "Unit":"",
+        "DispUnit":"",
+        "Type": "5",
+        "DefaultValue": "100",
+        "Value": "-1",
+        "DispEnable": "1",
+        "ModifyEnable": "1",
+        "Range":"",
+        "ClassifyValue":"",
+        "Tips":"",
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
+      },
+      {
+        "Name": "ID_DefectType_GlobalID_1",
+        "Unit":"",
+        "DispUnit":"",
+        "Type": "5",
+        "DefaultValue": "1",
+        "Value": "1",
+        "DispEnable": "0",
+        "ModifyEnable": "0",
+        "Range":"",
+        "ClassifyValue":"",
+        "Tips":"",
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       }
     ]
-}
+  }

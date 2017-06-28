@@ -908,6 +908,96 @@ function selected(currentGraph,isDragging) {
     this.publishSubscribeService.publish("afterSelectGraph",currentGraph);*/
 }
 
+// 获取鼠标点击的图形
+function getClickedGraph(callback) {
+    $(canvas_bak).unbind();
+    // 改变鼠标样式
+    changeCursor("pointer");
+    // 点击的图形
+    var clickedGraph;
+
+    // 鼠标点击事件
+    var canvasClick = function(e){
+        // 取得画布上被单击的点
+        var scroolTop = $(window).scrollTop();
+        var scroolLeft = $(window).scrollLeft();
+        canvasTop = $(canvas_bg).offset().top - scroolTop;
+        canvasLeft = $(canvas_bg).offset().left - scroolLeft;
+
+        var clickX = e.clientX   - canvasLeft;
+        var clickY = e.clientY  - canvasTop;
+
+        // 以中点为旋转点
+        var rotatePoint = {
+            rotateX:options.midpoint.canvasX,
+            rotateY:options.midpoint.canvasY
+        };
+
+        // 遍历图形集合,查找被点击的图形
+        for (var i = graphList.length - 1; i >= 0; i--) {
+            var currentGraph = graphList[i];
+            // 矩形
+            if (currentGraph.graphType == 'square') {
+                var flag = isPointInRect(currentGraph, clickX, clickY, rotatePoint);
+                if (flag) {
+                    clickedGraph = currentGraph;
+                    break;
+                }
+                // 圆角矩形
+            } else if (currentGraph.graphType == 'roundRect') {
+                var flag = isPointInRoundRect(currentGraph, that.roundRectRadius, clickX, clickY, rotatePoint);
+                if (flag) {
+                    clickedGraph = currentGraph;
+                    break;
+                }
+                // 椭圆
+            } else if (currentGraph.graphType == 'oval') {
+                var flag = isPointInOval(currentGraph, clickX, clickY, rotatePoint);
+                if (flag) {
+                    clickedGraph = currentGraph;
+                    break;
+                }
+                // 多边形
+            } else if (currentGraph.graphType == 'polygon') {
+                var flag = isPointInPolygon(currentGraph, clickX, clickY, rotatePoint);
+                if (flag) {
+                    clickedGraph = currentGraph;
+                    break;
+                }
+            }
+        }
+
+    }
+
+    // 当点击画板外部时，中止此事件
+    var bodyClick = function (e) {
+        var clickTargetId = $(e.target).attr("id");
+        if(clickTargetId != "canvas_bak"){
+            clearInterval(interval);
+            $(canvas_bak).unbind();
+            $("body").unbind();
+            // 改变鼠标样式
+            changeCursor("not-allowed");
+        }
+    }
+
+    $("body").bind('mousedown',bodyClick);
+
+    $(canvas_bak).bind('click',canvasClick);
+
+    var interval = setInterval(function(){
+        console.log("interval");
+        if(clickedGraph){
+            $(canvas_bak).unbind();
+            $("body").unbind();
+            clearInterval(interval);
+            callback(clickedGraph);
+            // 改变鼠标样式
+            changeCursor("not-allowed");
+        }
+    },500);
+}
+
 // 根据ROI的ID选中ROI
 function selectGraphById(id){
     var selectedGraph=null;

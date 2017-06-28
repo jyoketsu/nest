@@ -1,155 +1,219 @@
 {
-    "ParamList": [
+  "ParamList": [
       {
         "Name": "ID_PARA_Savedefpic_1",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "0",
         "Value": "0",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
+        "ClassifyValue":"",
         "Tips": "Save the defect picture to the specified path.",
-        "Authority": "1"
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARA_Decodability_2",
+        "Unit":"",
+        "DispUnit":"",
         "Type": "6",
         "DefaultValue": "3",
         "Value": "3",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "0%%3",
+        "Range": "0%%3%%1",
+        "ClassifyValue":"",
         "Tips": "Whether to use image preprocessing.",
-        "Authority": "1"
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARA_Width_3",
+        "Unit": "mm",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "10",
         "Value": "10",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "1%%1000",
+        "Range": "1%%1000%%1",
+        "ClassifyValue":"",
         "Tips": "Actual Width of 2D Code.",
-        "Authority": "1"
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARA_Codetype_4",
+        "Unit": "mm",
+        "DispUnit":"",
         "Type": "8",
         "DefaultValue": "QR Code",
         "Value": "QR Code",
         "DispEnable": "1",
         "ModifyEnable": "1",
         "Range": "QR Code%%Data Matrix ECC 200%%PDF417",
-        "Authority": "1"
+        "ClassifyValue":"",
+        "Tips":"",
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARA_Qrversion_5",
+        "Unit": "mm",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "4",
         "Value": "4",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "1%%40",
-        "Authority": "1"
+        "Range": "1%%40%%1",
+        "ClassifyValue":"",
+        "Tips":"",
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARA_Timeout_6",
+        "Unit": "ms",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "10",
         "Value": "10",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "10%%10000",
+        "Range": "10%%10000%%10",
+        "ClassifyValue":"",
         "Tips": "The longest decoding deadline.",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_Mirrored_7",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "8",
         "DefaultValue": "no",
         "Value": "no",
         "DispEnable": "1",
         "ModifyEnable": "1",
         "Range": "yes%%no%%auto",
+        "ClassifyValue":"",
         "Tips": "Whether the symbol is or may be mirrored.",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_Mincontrast_8",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "30",
         "Value": "30",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "1%%100",
+        "Range": "1%%100%%1",
+        "ClassifyValue":"",
         "Tips": "Minimum contrast between the foreground and the background of the symbol.",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_Minmodsize_9",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "0",
         "Value": "0",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "0%%100",
+        "Range": "0%%100%%1",
+        "ClassifyValue":"",
         "Tips": "Minimum size of the modules in the image in pixels.",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_Maxmodsize_10",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "0",
         "Value": "0",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Range": "0%%100",
+        "Range": "0%%100%%1",
+        "ClassifyValue":"",
         "Tips": "Maximum size of the modules in the image in pixels.",
-        "Authority": "1"
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_PARA_Decodepattern_11",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "8",
         "DefaultValue": "standard",
         "Value": "standard",
         "DispEnable": "1",
         "ModifyEnable": "1",
         "Range": "standard%%enhanced%%maximum",
+        "ClassifyValue":"",
         "Tips": "Basic default settings of model parameters.",
-        "Authority": "1"
+        "Authority": "1",
+        "Label": "IDS_LABEL_BASICFUNC"
       },
       {
         "Name": "ID_PARAD_Preqrcodeversion_12",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
         "ClassifyValue": "-1",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_PARAD_Preqrmoduleqty_13",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
         "ClassifyValue": "-1",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_PARAD_Preinspectareaimage_14",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "2",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
         "ClassifyValue": "-1",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_PARAD_Predatacoderegion_15",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "1",
         "DefaultValue": "test",
         "Value": "test",
@@ -157,103 +221,144 @@
         "ModifyEnable": "1",
         "Range": "vertexcolor=#FFFF00FF;vertexwidth=4;linecolor=#FF00FFFF;linewidth=2;brushcolor=#FF00FF00;drawvertex=1",
         "ClassifyValue": "-1",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_PARAD_Predatacodresult_16",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
         "ClassifyValue": "-1",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_PARAD_Qrcodeversion_17",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
         "ClassifyValue": "-1",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_PARAD_Qrmoduleqty_18",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
         "ClassifyValue": "-1",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_PARAD_Inspectareaimage_19",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "2",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
         "ClassifyValue": "-1",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_PARAD_Datacoderegion_20",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "1",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
         "ClassifyValue": "-1",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_PARAD_Datacodresult_21",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "3",
         "DefaultValue": "test",
         "Value": "test",
         "DispEnable": "1",
         "ModifyEnable": "1",
+        "Range":"",
         "ClassifyValue": "-1",
-        "Authority": "1"
-      },
-      {
-        "Name": "ID_DefectType_Count_0",
-        "Type": "5",
-        "DefaultValue": "1",
-        "Value": "1",
-        "DispEnable": "0",
-        "ModifyEnable": "0",
-        "Authority": "1"
+        "Tips":"",
+        "Authority": "1",
+        "Label":""
       },
       {
         "Name": "ID_DefectType_Name_1",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "1",
-        "DefaultValue": "二维码识读失败",
-        "Value": "二维码识读失败",
+        "DefaultValue": "DataCode Decode Failed",
+        "Value": "DataCode Decode Failed",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Authority": "1"
+        "Range":"",
+        "ClassifyValue":"",
+        "Tips":"",
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_DefectType_Score_1",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "100",
         "Value": "-1",
         "DispEnable": "1",
         "ModifyEnable": "1",
-        "Authority": "1"
+        "Range":"",
+        "ClassifyValue":"",
+        "Tips":"",
+        "Authority": "2",
+        "Label": "IDS_LABEL_ADVFUNC"
       },
       {
         "Name": "ID_DefectType_GlobalID_1",
+        "Unit": "",
+        "DispUnit":"",
         "Type": "5",
         "DefaultValue": "1",
         "Value": "1",
         "DispEnable": "0",
         "ModifyEnable": "0",
-        "Authority": "1"
+        "Range":"",
+        "ClassifyValue":"",
+        "Tips":"",
+        "Authority": "2",
+        "Label": "IDS_LABEL_BASICFUNC"
       }
     ]
-}
+  }
