@@ -266,6 +266,22 @@
         {
           "Src": "Whether the characters are special font or not.",
           "Dst": "是否是特殊字体"
+        },
+		{
+          "Src": "IDS_LABEL_BASICFUNC",
+          "Dst": "基本设置"
+        },
+		{
+          "Src": "IDS_LABEL_ADVFUNC",
+          "Dst": "高级设置"
+        },
+		{
+          "Src": "IDS_LABEL_THRESHED",
+          "Dst": "二值化"
+        },
+		{
+          "Src": "IDS_LABEL_NoiseProcess",
+          "Dst": "噪声处理"
         }
       ]
     }

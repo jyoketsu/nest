@@ -157,7 +157,7 @@ function getStationTree(buildModel,refImageOnly) {
                                     parents:[workStation.Attribute.ID,refImage.Attribute.ID,group.Attribute.ID,inspObj.Attribute.ID]
                                 },
                                 {
-                                    text: "",
+                                    text: "region",
                                     icon: "fa fa-pencil-square-o",
                                     nodeType:"region",
                                     parents:[workStation.Attribute.ID,refImage.Attribute.ID,group.Attribute.ID,inspObj.Attribute.ID]

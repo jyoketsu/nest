@@ -86,6 +86,22 @@
         {
           "Src": "ID_DISP_LineShiftAngle_10",
           "Dst": "仿真参数：检测图像与模板图像的定位线转角"
+        },
+		{
+          "Src": "ID_DefectType_Name_1",
+          "Dst": "缺陷名称_转正失败"
+        },
+		{
+          "Src": "ID_DefectType_Score_1",
+          "Dst": "缺陷分数_转正失败"
+        },
+		{
+          "Src": "IDS_LABEL_BASICFUNC",
+          "Dst": "基本设置"
+        },
+		{
+          "Src": "IDS_LABEL_ADVFUNC",
+          "Dst": "高级设置"
         }
       ]
     }

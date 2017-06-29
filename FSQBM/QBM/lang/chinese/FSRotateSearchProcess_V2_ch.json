@@ -70,6 +70,10 @@
         {
           "Src": "ID_DISP_EnableCtrlSearchWidth_8",
           "Dst": "是否开启区域定位搜索宽度限制"
+        },
+		{
+          "Src": "IDS_LABEL_BASICFUNC",
+          "Dst": "基本设置"
         }
       ]
     }

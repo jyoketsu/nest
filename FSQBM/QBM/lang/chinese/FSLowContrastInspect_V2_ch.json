@@ -98,6 +98,18 @@
         {
           "Src": "The subtrahend of image brightening.",
           "Dst": "图像增亮减数"
+        },
+		{
+          "Src": "IDS_LABEL_BASICFUNC",
+          "Dst": "基本设置"
+        },
+		{
+          "Src": "IDS_LABEL_LIGDETECT",
+          "Dst": "亮缺陷检测"
+        },
+		{
+          "Src": "IDS_LABEL_DARKDETECT",
+          "Dst": "暗缺陷检测"
         }
       ]
     }

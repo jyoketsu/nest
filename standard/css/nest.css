@@ -45,6 +45,12 @@ h4.nest-large-font,.nest-large-font{
     font-size: 10px;
 }
 
+.nest-small-form .form-group{
+    margin-bottom: 5px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
 /*小号标签页*/
 .nest-small-tab>.nav-tabs>li{
     font-size: 10px;
@@ -59,6 +65,11 @@ h4.nest-large-font,.nest-large-font{
 }
 .nest-small-tab>.tab-content label{
     font-weight: normal;
+}
+
+.nest-small-tab .dropdown-menu{
+    min-width: 160px;
+    font-size: 10px;
 }
 
 /*小号栅格*/

@@ -134,6 +134,14 @@
         {
           "Src": "ID_DefectType_Score_1",
           "Dst": "缺陷分数_二维码解码失败"
+        },
+		{
+          "Src": "IDS_LABEL_BASICFUNC",
+          "Dst": "基本设置"
+        },
+		{
+          "Src": "IDS_LABEL_ADVFUNC",
+          "Dst": "高级设置"
         }
       ]
     }

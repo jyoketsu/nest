@@ -270,6 +270,38 @@
         {
           "Src": "ID_DefectType_Score_6",
           "Dst": "缺陷分数_黑色块缺陷"
+        },
+		{
+          "Src": "IDS_LABEL_BASICFUNC",
+          "Dst": "基本设置"
+        },
+		{
+          "Src": "IDS_LABEL_ADVFUNC",
+          "Dst": "高级设置"
+        },
+		{
+          "Src": "IDS_LABEL_DISPERSEDPOINT_HIGH",
+          "Dst": "白色散点检测"
+        },
+		{
+          "Src": "IDS_LABEL_DISPERSEDPOINT_Low",
+          "Dst": "黑色散点检测"
+        },
+		{
+          "Src": "IDS_LABEL_BLOCK_HIGH",
+          "Dst": "白色块检测"
+        },
+		{
+          "Src": "IDS_LABEL_POINT_HIGH",
+          "Dst": "白点检测"
+        },
+		{
+          "Src": "IDS_LABEL_BLOCK_Low",
+          "Dst": "黑块检测"
+        },
+		{
+          "Src": "IDS_LABEL_POINT_Low",
+          "Dst": "黑点检测"
         }
       ]
     }

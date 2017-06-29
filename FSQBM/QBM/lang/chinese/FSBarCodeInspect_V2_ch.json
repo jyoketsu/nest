@@ -490,6 +490,54 @@
         {
           "Src": "ID_DefectType_Score_12",
           "Dst": "缺陷分数_条码长短边缺陷"
+        },
+		{
+          "Src": "IDS_LABEL_BASICFUNC",
+          "Dst": "基本设置"
+        },
+		{
+          "Src": "IDS_LABEL_DEVIATIONDETECT",
+          "Dst": "偏位检测"
+        },
+		{
+          "Src": "IDS_LABEL_SIDESDETECT",
+          "Dst": "长短边检测"
+        },
+		{
+          "Src": "IDS_LABEL_SYMDETECT",
+          "Dst": "整体检测"
+        },
+		{
+          "Src": "IDS_LABEL_CLOUDDETECT",
+          "Dst": "蹭脏检测"
+        },
+		{
+          "Src": "IDS_LABEL_STARDETECT",
+          "Dst": "斑点检测"
+        },
+		{
+          "Src": "IDS_LABEL_DARKLDETECT",
+          "Dst": "黑拉丝检测"
+        },
+		{
+          "Src": "IDS_LABEL_LIGHTLDETECT",
+          "Dst": "白拉丝检测"
+        },
+		{
+          "Src": "IDS_LABEL_GHOSTDETECT",
+          "Dst": "重影检测"
+        },
+		{
+          "Src": "IDS_LABEL_BGDETECT",
+          "Dst": "背景检测"
+        },
+		{
+          "Src": "IDS_LABEL_BGLONGDETECT",
+          "Dst": "长边背景检测"
+        },
+		{
+          "Src": "IDS_LABEL_ANGLEDETECT",
+          "Dst": "歪版检测"
         }
       ]
     }

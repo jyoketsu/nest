@@ -124,6 +124,7 @@
             // 单击保存按钮
             $("#saveModel").on("click",function () {
                 postJson(JSON.stringify(buildModel));
+                console.log(JSON.stringify(buildModel));
             });
 
             // 单击退出按钮
@@ -641,7 +642,7 @@
                         parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
                     },
                     {
-                        text: "",
+                        text: "region",
                         icon: "fa fa-pencil-square-o",
                         nodeType:"region",
                         parents:[objectInfo.WorkStationID,objectInfo.RefImageID,objectInfo.GroupID,objectInfo.ID]
@@ -759,20 +760,23 @@
             // 算法关系信息
             var assocList = buildModel.Product.AssocList;
 
-            // 基础参数
-            var $baseParamContainer = $("#baseParam");
-            // 高级参数
-            var $hgParamContainer = $("#hgParam");
+            // 基础参数下拉
+            var $basicDropdownMemu = $("#basic-dropdown-menu");
+            // 高级参数下拉
+            var $advanceDropdownMemu = $("#advance-dropdown-menu");
             // 仿真结果参数
             var $debugParamContainer = $("#debugParam");
             // 算法关系
             var $assocContainer = $("#assocContainer");
+            // tab内容主体
+            var $tabContent = $("#tab-content");
 
             // 清空
-            $baseParamContainer.empty();
-            $hgParamContainer.empty();
             $debugParamContainer.empty();
             $assocContainer.empty();
+            $basicDropdownMemu.empty();
+            $advanceDropdownMemu.empty();
+            $(".dropDownContent").remove();
 
             // 获取关联的算法信息
             var assocInfoList = getAssocInfo(methodInfo.methodId,assocList);
@@ -807,7 +811,7 @@
                     }
                 });
 
-                var model = '<div class="form-group" style="margin: 0">' +
+                var model = '<div class="form-group">' +
                         '<label class="col-sm-4 control-label nest-sm-col">'+methodName+'</label>' +
                         '<div class="col-sm-6 nest-sm-col">' +
                         '<select class="form-control" id="'+i+'" value="'+assocValue+'" onchange="updateObjectAssoc(this)">'+option+'</select>' +
@@ -818,6 +822,9 @@
                 $assocContainer.append(model);
             }
 
+            var basicCategoryIdList = [];
+            var advanceCategoryIdList = [];
+
             // 循环生成算法参数内容
             for(var i=0;i<paramList.length;i++){
                 var paramItem = paramList[i];
@@ -826,15 +833,59 @@
                 var defaultValue = paramItem.Value;
                 var tip = translate(paramItem.Tips,languageData);
                 var type = paramItem.Type;
+                var dispEnable = paramItem.DispEnable;
+                var modifyEnable = paramItem.ModifyEnable;
+
+                if(dispEnable==0){
+                    continue;
+                }
 
                 // 0：算法参数 -1：仿真结果参数
                 var classifyValue = paramItem.ClassifyValue;
                 // 1：基础参数 2：高级参数
                 var authority = paramItem.Authority;
 
+                // 参数分类
+                var categoryId = paramItem.Label;
+                var categoryName = translate(categoryId,languageData);
+                // 基础参数
+                if(authority=="1"){
+                    if(categoryId){
+                        categoryId = categoryId+"-basic";
+                        if(basicCategoryIdList.indexOf(categoryId) == -1){
+                            if(basicCategoryIdList.length ==0){
+                                // 新增分类下拉tab
+                                $basicDropdownMemu.append('<li class="active"><a href="#'+categoryId+'" tabindex="-1" data-toggle="tab">'+categoryName+'</a></li>');
+                                // 新增tabContent
+                                $tabContent.append('<div role="tabpanel" class="tab-pane dropDownContent active" id="'+categoryId+'"></div>');
+                            } else {
+                                // 新增分类下拉tab
+                                $basicDropdownMemu.append('<li><a href="#'+categoryId+'" tabindex="-1" data-toggle="tab">'+categoryName+'</a></li>');
+                                // 新增tabContent
+                                $tabContent.append('<div role="tabpanel" class="tab-pane dropDownContent" id="'+categoryId+'"></div>');
+                            }
+                            basicCategoryIdList.push(categoryId);
+                        }
+                    }
+                }
+
+                // 高级参数
+                if(authority=="2"){
+                    if(categoryId){
+                        categoryId = categoryId+"-advance";
+                        if(advanceCategoryIdList.indexOf(categoryId) == -1){
+                            // 新增分类下拉tab
+                            $advanceDropdownMemu.append('<li><a href="#'+categoryId+'" tabindex="-1" data-toggle="tab">'+categoryName+'</a></li>');
+                            // 新增tabContent
+                            $tabContent.append('<div role="tabpanel" class="tab-pane dropDownContent" id="'+categoryId+'"></div>');
+                            advanceCategoryIdList.push(categoryId);
+                        }
+                    }
+                }
+
                 var model="";
                 // 文本框
-                if(type=="1"||type=="2"||type=="4"||type=="5"){
+                if(type=="1"||type=="2"){
                     model='<div class="form-group">' +
                             '<label class="col-sm-6 control-label">'+paramName+'</label>' +
                             '<div class="col-sm-6">' +
@@ -844,12 +895,32 @@
                 } else if(type=="3"){// checkbox
                     if(defaultValue == 1){
                         model='<div class="form-group"><label class="col-sm-12">' +
-                                '<input type="checkbox" checked id="'+id+'" value="'+defaultValue+'" title="'+tip+'" onchange="updateParam(this)" onclick="this.value=(this.value==0)?1:0">' + paramName+'</label></div>';
+                                '<input type="checkbox" checked id="'+id+'" value="'+defaultValue+'" title="'+tip+'" onchange="updateParam(this)" onclick="this.value=(this.value==0)?1:0"> ' + paramName+'</label></div>';
                     }else{
                         model='<div class="form-group"><label class="col-sm-12">' +
-                                '<input type="checkbox" id="'+id+'" value="'+defaultValue+'" title="'+tip+'" onchange="updateParam(this)" onclick="this.value=(this.value==0)?1:0">' + paramName+'</label></div>';
+                                '<input type="checkbox" id="'+id+'" value="'+defaultValue+'" title="'+tip+'" onchange="updateParam(this)" onclick="this.value=(this.value==0)?1:0"> ' + paramName+'</label></div>';
                     }
 
+                } else if(type=="4"){ // 浮点型数字
+                    var ranges = paramItem.Range.split("%%");
+                    var minValue = ranges[0];
+                    var maxValue = ranges[1];
+                    model='<div class="form-group">' +
+                            '<label class="col-sm-6 control-label">'+paramName+'</label>' +
+                            '<div class="col-sm-6">' +
+                            '<input type="number" class="form-control" id="'+id+'" value="'+defaultValue+'" min="'+minValue+'" max="'+maxValue+'" step="0.1" onchange="updateParam(this)"/>' +
+                            '</div>' +
+                            '</div>';
+                } else if(type=="5") { // 整数
+                    var ranges = paramItem.Range.split("%%");
+                    var minValue = ranges[0];
+                    var maxValue = ranges[1];
+                    model='<div class="form-group">' +
+                            '<label class="col-sm-6 control-label">'+paramName+'</label>' +
+                            '<div class="col-sm-6">' +
+                            '<input type="number" class="form-control" id="'+id+'" value="'+defaultValue+'" min="'+minValue+'" max="'+maxValue+'" onchange="updateParam(this)"/>' +
+                            '</div>' +
+                            '</div>';
                 } else if(type=="6"||type=="7"||type=="8"){// 下拉框
                     var options = paramItem.Range.split("%%");
                     var option="";
@@ -870,22 +941,21 @@
                     var minValue = ranges[0];
                     var maxValue = ranges[1];
                     model='<div class="form-group">' +
-                            '<label class="col-sm-6 control-label">'+paramName+'</label>' +
-                            '<div class="col-sm-6">' +
-                            '<input type="range" class="form-control" id="'+id+'" value="'+defaultValue+'"  min="'+minValue+'" max="'+maxValue+'" title="'+tip+'" onchange="updateParam(this)">' +
+                            '<label class="col-sm-4 control-label nest-sm-col">'+paramName+'</label>' +
+                            '<div class="col-sm-5 nest-sm-col">' +
+                            '<input type="range" class="form-control" id="'+id+'-slider" value="'+defaultValue+'"  min="'+minValue+'" max="'+maxValue+'" title="'+tip+'" onchange="updateParam(this)">' +
+                            '</div>' +
+                            '<div class="col-sm-3 nest-sm-col">' +
+                            '<input type="number" class="form-control" id="'+id+'-spinner" value="'+defaultValue+'" min="'+minValue+'" max="'+maxValue+'" style="width: 50px;" onclick="updateParam(this)"/>' +
                             '</div></div>';
 
                 }
-                // 算法参数
+                // 仿真结果参数
                 if(classifyValue=="-1"){
                     $debugParamContainer.append(model);
-                } else { // 仿真结果参数
-                    // 基础参数
-                    if(authority=="1"){
-                        $baseParamContainer.append(model);
-                    } else if(authority=="2"){ // 高级参数
-                        $hgParamContainer.append(model);
-                    }
+                } else { // 算法参数
+                    var $paramContainer = eval('$("#'+categoryId+'")');
+                    $paramContainer.append(model);
                 }
             }
         }
@@ -1161,6 +1231,8 @@
                     subNode.push({
                         Attribute:{
                             ID:"-1",
+                            Name:"",
+                            Extra:"",
                             Type:"1"
                         }
                     });
@@ -1169,6 +1241,8 @@
                 subNode.push({
                     Attribute:{
                         ID:"-1",
+                        Name:"",
+                        Extra:"",
                         Type:"1"
                     }
                 });
@@ -1178,12 +1252,15 @@
             var objectAssoc = {
                 Attribute:{
                     ID:assocId,
+                    Name:"",
                     Enable: "1",
                     Type: "1"
                 },
                 MainNode:{
                     Attribute:{
                         ID:objectInfo.ID,
+                        Name:"",
+                        Extra:"",
                         Type:"1"
                     }
                 },
@@ -1376,13 +1453,31 @@
             } else {
                 $.extend(true,ids,selectedNode.parents);
             }
+
+            // id
+            var id;
+            var paramItemIdDetails = paramItem.id.split("-");
+            id = paramItemIdDetails[0];
+            var type;
+
             var paramList = findObjectInArray(buildModel.Product.WorkStationList,ids).ParamList;
             for(var i=0;i<paramList.length;i++){
-                if(paramList[i].Name == paramItem.id){
+                if(paramList[i].Name == id){
                     paramList[i].Value = paramItem.value;
+                    type = paramList[i].Type;
                     break;
                 }
             }
+
+            // 参数输入控件联动
+            if(type == 10){
+                if(paramItemIdDetails[1]=="slider"){
+                    eval('$("#'+id+'-spinner").val('+paramItem.value+')');
+                }else{
+                    eval('$("#'+id+'-slider").val('+paramItem.value+')');
+                }
+            }
+
         }
 
         // 删除对象建模数据
@@ -1813,16 +1908,26 @@
                                     <div class="nest-small-tab">
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs" role="tablist">
-                                            <li role="presentation" class="active"><a href="#baseParam" aria-controls="home" role="tab" data-toggle="tab">基本参数</a></li>
-                                            <li role="presentation"><a href="#hgParam" aria-controls="profile" role="tab" data-toggle="tab">高级参数</a></li>
+                                            <li class="dropdown active">
+                                                <a href="#" id="myTabDrop1" class="dropdown-toggle"
+                                                   data-toggle="dropdown">基本参数
+                                                    <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="basic-dropdown-menu"></ul>
+                                            </li>
+                                            <li class="dropdown">
+                                                <a href="#" id="myTabDrop2" class="dropdown-toggle"
+                                                   data-toggle="dropdown">高级参数
+                                                    <b class="caret"></b>
+                                                </a>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop2" id="advance-dropdown-menu"></ul>
+                                            </li>
                                             <li role="presentation"><a href="#debugParam" aria-controls="messages" role="tab" data-toggle="tab">调试结果</a></li>
-                                            <li role="presentation"><button class="btn btn-default btn-xs" id="paramDebug" type="button" style="margin-top: 3px">调试</button></li>
+                                            <!--<li role="presentation"><button class="btn btn-default btn-xs" id="paramDebug" type="button" style="margin-top: 3px">调试</button></li>-->
                                         </ul>
 
                                         <!-- Tab panes -->
-                                        <div class="tab-content">
-                                            <div role="tabpanel" class="tab-pane active" id="baseParam">基本参数</div>
-                                            <div role="tabpanel" class="tab-pane" id="hgParam">高级参数</div>
+                                        <div class="tab-content" id="tab-content">
                                             <div role="tabpanel" class="tab-pane" id="debugParam">调试结果</div>
                                         </div>
 
