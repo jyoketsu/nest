@@ -11,30 +11,31 @@
         var flow = "";
         $(document).ready(function () {
             $("#newModel").on("click",function () {
-                flowInit();
-                initFlow(flow);
                 // 新建产品
                 // 读取产品原始模板：product.json文件
                 var productModel = getJson("/nest/FSQBM/QBM/Product.json",false);
                 // 将数据保存到session中
                 sessionStorage.setItem("buildModel",JSON.stringify(productModel));
+
+                flowInit();
+                initFlow(flow);
             });
             
             $("#openModel").on("click",function () {
-                flowInit();
-                initFlow("./../../config/build-model/flowConfig.json");
-
                 var productModel = getJson("/nest/product/2/2.json",false);
                  // 将数据保存到session中
                  sessionStorage.setItem("buildModel",JSON.stringify(productModel));
+
+                flowInit();
+                initFlow("./../../config/build-model/flowConfig.json");
             });
 
             $("#openModelOnserver").on("click",function () {
-                flowInit();
-                initFlow("./../../config/build-model/flowConfig.json");
-
                 var testData = getString("http://192.168.13.41:8080/servlet-demo/ProductServlet",false);
                 sessionStorage.setItem("buildModel",testData);
+
+                flowInit();
+                initFlow("./../../config/build-model/flowConfig.json");
             });
 
             function flowInit(){

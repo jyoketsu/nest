@@ -384,6 +384,26 @@
                     mouseDraft("newROI","polygon");
                 }
             });
+            // 绘制椭圆
+            $("#newOval").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("newROI","oval");
+                }
+            });
+            // 绘制圆角矩形
+            $("#newRoundRect").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("newROI","roundRect");
+                }
+            });
+
+            // 绘制矩形
+            $("#combineSquare").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("combineROI","square");
+                }
+            });
+
             // 选择ROI
             $("#selectRoi").on("click",function () {
                 // 图形：选中
@@ -512,16 +532,24 @@
                 currentObject = findObjectInArray(buildModel.Product.WorkStationList,objIds);
                 // 选中当前对象region
                 if(currentObject.RegionIDList.length!=0){
+                    // 选中图形
                     selectGraphById(currentObject.RegionIDList[0].ID);
+                    // 选中事件
+                    selectGraph();
                 }
             } else if(selectedNode.nodeType == "inspMethod"||selectedNode.nodeType == "region"){
                 currentObject = findObjectInArray(buildModel.Product.WorkStationList,objIds);
                 // 选中当前对象region
                 if(currentObject.RegionIDList.length!=0){
+                    // 选中图形
                     selectGraphById(currentObject.RegionIDList[0].ID);
+                    // 选中事件
+                    selectGraph();
                 }
             } else { // 取消选中
                 unSelectGraph();
+                // 选中事件
+                selectGraph();
             }
         }
 
@@ -1763,6 +1791,15 @@
                                     <li><a href="#" class="nest-nav-label">ROI</a></li>
                                     <li><a href="#" id="newSquare">矩形</a></li>
                                     <li><a href="#" id="newPolygon">多边形</a></li>
+                                    <li><a href="#" id="newOval">椭圆</a></li>
+                                    <li><a href="#" id="newRoundRect">圆角矩形</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">扩充</a></li>
+                                    <li><a href="#" id="combineSquare">矩形</a></li>
+                                    <li><a href="#" id="combinePolygon">多边形</a></li>
+                                    <li><a href="#" id="combineOval">椭圆</a></li>
+                                    <li><a href="#" id="combineRoundRect">圆角矩形</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -1835,11 +1872,11 @@
                                     <li><a href="#" id="zoomIn"><i class="fa fa-search-plus" aria-hidden="true"></i> 放大</a></li>
                                     <li><a href="#" id="zoomOut"><i class="fa fa-search-minus" aria-hidden="true"></i> 缩小</a></li>
                                 </ul>
-                                <ul class="nav navbar-nav nestNavbarUl">
+                                <!--<ul class="nav navbar-nav nestNavbarUl">
                                     <li><a href="#" class="nest-nav-label">元素</a></li>
                                     <li><a href="#"><i class="fa fa-square" aria-hidden="true"></i> 显示掩膜</a></li>
                                     <li><a href="#"><i class="fa fa-square-o" aria-hidden="true"></i> 动态边框</a></li>
-                                </ul>
+                                </ul>-->
                             </div>
                         </div>
                     </nav>

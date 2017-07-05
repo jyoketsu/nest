@@ -170,11 +170,16 @@
                     var ids = [selectedNode.parents[0],selectedNode.id];
                     var currentImg = findObjectInArray(buildModel.Product.WorkStationList,ids);
                     if(currentImg.RegionList.length!=0){
+                        // 选中图形
                         selectGraphById(currentImg.RegionList[0].Attribute.ID);
+                        // 选中事件
+                        selectGraph();
                     }
                 } else{
                     // 取消选中
                     unSelectGraph();
+                    // 选中事件
+                    selectGraph();
                 }
             });
             
@@ -231,6 +236,7 @@
             $("#zoomOut").on("click",function () {
                 zoomPic("zoom-out");
             });
+
             // 顺时针旋转
             $("#clockwise").on("click",function () {
                 if(graphList.length!=0){
@@ -511,11 +517,11 @@
                                     <li><a href="#" id="zoomIn"><i class="fa fa-search-plus" aria-hidden="true"></i> 放大</a></li>
                                     <li><a href="#" id="zoomOut"><i class="fa fa-search-minus" aria-hidden="true"></i> 缩小</a></li>
                                 </ul>
-                                <ul class="nav navbar-nav nestNavbarUl">
+                                <!--<ul class="nav navbar-nav nestNavbarUl">
                                     <li><a href="#" class="nest-nav-label">元素</a></li>
                                     <li><a href="#"><i class="fa fa-square" aria-hidden="true"></i> 显示掩膜</a></li>
                                     <li><a href="#"><i class="fa fa-square-o" aria-hidden="true"></i> 动态边框</a></li>
-                                </ul>
+                                </ul>-->
                             </div>
                         </div>
                     </nav>

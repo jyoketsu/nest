@@ -29,8 +29,6 @@ var style = {
 
 // 绘制的图形的集合
 var graphList;
-// 初始绘制的图形的集合
-var originGraphList;
 
 // 选中的图形
 var previousSelectedGraph = null;
@@ -73,6 +71,8 @@ $(document).ready(function(){
     initCanvas();
     // 设置画布大小
     setCanvasSize();
+    // 鼠标滚轮事件
+    $(canvas_bak).bind('mousewheel DOMMouseScroll',mouseWheel);
 });
 
 // 初始化画布
@@ -234,7 +234,7 @@ function mouseDraft(msg,graphType,continuous){
         return;
     }
     // 当是擦除或者扩充时，必须先选中ROI
-    if (msg=="eraseROI"||msg=="expandROI") {
+    if (msg=="eraseROI"||msg=="combineROI") {
         if (that.previousSelectedGraph == null) {
             alert("请先选中一个ROI！");
             return;
@@ -308,12 +308,12 @@ function mouseDraft(msg,graphType,continuous){
             } else if (graphType =='roundRect') {
                 that.clearContext("bak",null);
                 pointList[1] = {canvasX:endX,canvasY:endY};
-                that.drawRoundRect(pointList,that.roundRectRadius,that.context_bak,{rotateX:0,rotateY:0},true);
+                that.drawRoundRect(pointList,roundRectRadius,that.context_bak,{rotateX:0,rotateY:0},true);
                 // 椭圆
             } else if (graphType =='oval') {
-                that.clearContext("bak",null);
+                clearContext("bak",null);
                 pointList[1] = {canvasX:endX,canvasY:endY};
-                that.drawOval(pointList,that.context_bak,{rotateX:0,rotateY:0},true);
+                drawOval(pointList,context_bak,{rotateX:0,rotateY:0},true);
                 // 多边形
             } else if (graphType =='polygon') {
                 that.clearContext("bak",null);
@@ -354,6 +354,7 @@ function mouseDraft(msg,graphType,continuous){
                         currentPoint.imageY = imagePoint.imageY;
                     }
 
+                    // 矩形坐标转多边形坐标
                     if(graphType =='square'){
                         var tempPointList = new Array(4);
                         var startPoint = pointList[0];
@@ -382,7 +383,120 @@ function mouseDraft(msg,graphType,continuous){
                             // 当前压缩比
                             compressRatio: that.compressRatio
                         }
-                    } else {
+                    } else if(graphType =='oval'){
+                        // 椭圆坐标转多边形坐标
+                        var tempPointList = [];
+                        var startPointX = pointList[0].canvasX ;
+                        var startPointY = pointList[0].canvasY;
+                        var endPointX = pointList[1].canvasX;
+                        var endPointY = pointList[1].canvasY;
+
+                        // 长轴长度
+                        var OA = Math.abs(endPointX-startPointX)/2;
+                        // 短轴长度
+                        var OB = Math.abs(endPointY-startPointY)/2;
+
+                        // 椭圆圆点
+                        var O = [getMidpoint(startPointX,endPointX),getMidpoint(startPointY,endPointY)];
+                        // 循环360度
+                        for(var i=0;i<=360;i++){
+                            // 获取当前角度的弧度
+                            var ii = i*Math.PI/180;
+                            var canvasX=O[0]+OA*Math.cos(ii);
+                            var canvasY=O[1]-OB*Math.sin(ii);
+                            // 获得image坐标
+                            var imagePoint = getImagePoint(options.midpoint,canvasX,canvasY);
+                            tempPointList.push({
+                                canvasX:canvasX,
+                                canvasY:canvasY,
+                                imageX:imagePoint.imageX,
+                                imageY:imagePoint.imageY
+                            });
+
+                        }
+
+                        graphObject = {
+                            id : graphIndex,
+                            graphType : "polygon",
+                            isSelected : false,
+                            pointList : tempPointList,
+                            // 当前画图形时背景位图的偏移量
+                            currentDeg : deg,
+                            // 当前压缩比
+                            compressRatio: compressRatio
+                        }
+
+                    } else if(graphType =='roundRect'){
+                        // 圆角矩形坐标转多边形坐标
+
+                        var tempPointList = [];
+
+                        var startPointX = pointList[0].canvasX ;
+                        var startPointY = pointList[0].canvasY;
+                        var endPointX = pointList[1].canvasX;
+                        var endPointY = pointList[1].canvasY;
+
+                        // 长轴长度
+                        var OA = Math.abs(endPointX-startPointX)/2;
+                        // 短轴长度
+                        var OB = Math.abs(endPointY-startPointY)/2;
+                        // 矩形中心点
+                        var O = [getMidpoint(startPointX,endPointX),getMidpoint(startPointY,endPointY)];
+
+                        // 右上角弧度圆心
+                        var O1 = [O[0]+OA-roundRectRadius,O[1]-OB+roundRectRadius];
+                        // 左上角弧度圆心
+                        var O2 = [O[0]-OA+roundRectRadius,O[1]-OB+roundRectRadius];
+                        // 左下角弧度圆心
+                        var O3 = [O[0]-OA+roundRectRadius,O[1]+OB-roundRectRadius];
+                        // 右下角弧度圆心
+                        var O4 = [O[0]+OA-roundRectRadius,O[1]+OB-roundRectRadius];
+
+                        for(var i=0;i<=360;i++){
+                            // 获取当前角度的弧度
+                            var ii = i*Math.PI/180;
+                            // 右上角弧度点集
+                            if(i<=90){
+                                var canvasX=O1[0]+roundRectRadius*Math.cos(ii);
+                                var canvasY=O1[1]-roundRectRadius*Math.sin(ii);
+                            }
+                            // 左上角弧度点集
+                            if(i>90 && i<=180){
+                                var canvasX=O2[0]+roundRectRadius*Math.cos(ii);
+                                var canvasY=O2[1]-roundRectRadius*Math.sin(ii);
+                            }
+                            // 左下角弧度点集
+                            if(i>180 && i<=270){
+                                var canvasX=O3[0]+roundRectRadius*Math.cos(ii);
+                                var canvasY=O3[1]-roundRectRadius*Math.sin(ii);
+                            }
+                            // 右下角弧度点集
+                            if(i>270 && i<=360){
+                                var canvasX=O4[0]+roundRectRadius*Math.cos(ii);
+                                var canvasY=O4[1]-roundRectRadius*Math.sin(ii);
+                            }
+                            // 获得image坐标
+                            var imagePoint = getImagePoint(options.midpoint,canvasX,canvasY);
+                            tempPointList.push({
+                                canvasX:canvasX,
+                                canvasY:canvasY,
+                                imageX:imagePoint.imageX,
+                                imageY:imagePoint.imageY
+                            });
+                        }
+
+                        graphObject = {
+                            id : graphIndex,
+                            graphType : "polygon",
+                            isSelected : false,
+                            pointList : tempPointList,
+                            // 当前画图形时背景位图的偏移量
+                            currentDeg : deg,
+                            // 当前压缩比
+                            compressRatio: compressRatio
+                        }
+
+                    }else {
                         let tempPointList = $.extend(true,[],pointList);
 
                         graphObject = {
@@ -409,7 +523,7 @@ function mouseDraft(msg,graphType,continuous){
                     addRegionToBuildModel(graphObject);
 
                     if(continuous!=undefined&&!continuous){
-                        $(that.canvas_bak).unbind();
+                        $(canvas_bak).unbind();
                         // 改变鼠标样式
                         that.changeCursor("not-allowed");
                     }
@@ -681,6 +795,15 @@ function selectGraph() {
     var previousWidth;
     var tempGraph = {};
 
+    // 如果在事件前已选中
+    if(previousSelectedGraph){
+        graphSelected = true;
+        var result = getOuerHW(selectedPeakPoints);
+        previousHeight = result.height;
+        previousWidth = result.width;
+        $.extend(true,tempGraph,previousSelectedGraph);
+    }
+
     // 缩放图形
     function graphScale(pointList,origin,xScale,yScale){
         pointList.forEach(function(point){
@@ -761,19 +884,23 @@ function selectGraph() {
             }
         }
         // 没有选中任何图形，并且在位图区域内，则选中位图
-        if (!that.isDragging && that.isPointInPic(clickX,clickY)) {
+        if (!isDragging && isPointInPic(clickX,clickY)) {
             // 改变鼠标样式
-            that.changeCursor("move");
+            changeCursor("move");
             // 清除之前选择的图形
-            if (that.previousSelectedGraph != null) {
-                that.previousSelectedGraph.isSelected = false;
+            if (previousSelectedGraph != null) {
+                previousSelectedGraph.isSelected = false;
                 // 更新显示
-                that.clearContext("content",that.previousSelectedGraph.coverageId);
-                that.drawGraph(that.previousSelectedGraph);
+                clearContext("content",previousSelectedGraph.coverageId);
+                drawGraph(previousSelectedGraph);
+
+                // 清空轮廓
+                clearContext("bak",null);
+                selectedPeakPoints = null;
             }
             // 选中位图
             if (that.img != null) {
-                that.picDragging = true;
+                picDragging = true;
                 graphSelected = false;
             }
         }
@@ -789,6 +916,10 @@ function selectGraph() {
 
         var x = e.clientX   - canvasLeft;
         var y = e.clientY  - canvasTop;
+
+        // 移动的距离
+        var dragX = x - clickX;
+        var dragY = y - clickY;
 
         if(graphSelected){
             // 图形resize部分----------------------------------------------------------------------
@@ -905,6 +1036,7 @@ function selectGraph() {
                     // 左下角作为原点
                     origin = {canvasX:borderValue.left,canvasY:borderValue.bottom};
                 }
+                // 缩放图形
                 graphScale(pointList,origin,widthRatio,heightRatio);
 
                 // 更新显示
@@ -914,12 +1046,12 @@ function selectGraph() {
 
 
             // 图形移动部分----------------------------------------------------------------------
-            // 移动的距离
+            /*// 移动的距离
             var dragX = x - clickX;
-            var dragY = y - clickY;
+            var dragY = y - clickY;*/
 
             // 判断图形是否开始拖拽
-            if (that.isDragging == true) {
+            if (isDragging == true) {
                 // 判断拖拽对象是否存在
                 if (that.previousSelectedGraph != null) {
 
@@ -949,12 +1081,14 @@ function selectGraph() {
                         }
                     }
 
+                    // 清空蒙版
+                    clearContext("bak",null);
                     // 更新显示
                     that.clearContext("content",that.previousSelectedGraph.coverageId);
                     that.drawGraph(that.previousSelectedGraph);
                 }
                 // 判断图像是否开始拖拽
-            } else if (that.picDragging == true) {
+            } else if (picDragging == true) {
                 // 更新图形的canvas坐标
                 for (let i = 0;i<that.graphList.length;i++) {
                     let pointList = that.graphList[i].pointList;
@@ -984,14 +1118,46 @@ function selectGraph() {
                 // 更新显示
                 that.drawGraphs(that.graphList);
             }
-            clickX = x;
-            clickY = y;
+        } else {
+            // 判断图像是否开始拖拽
+            if(picDragging == true){
 
+                // 更新图形的canvas坐标
+                for (var i = 0;i<graphList.length;i++) {
+                    var pointList = that.graphList[i].pointList;
+                    for (var index=0;index<pointList.length;index++) {
+                        pointList[index].canvasX += dragX;
+                        pointList[index].canvasY += dragY;
+                    }
+                    // 如果包含要擦除的图形
+                    if (that.graphList[i].compositeType
+                        && that.graphList[i].compositeType == "erasure") {
+                        for (var j=0;j<that.graphList[i].childGraphs.length;j++) {
+                            let currentPointList = that.graphList[i].childGraphs[j].pointList;
+                            for (var index=0;index<currentPointList.length;index++) {
+                                currentPointList[index].canvasX += dragX;
+                                currentPointList[index].canvasY += dragY;
+                            }
+                        }
+                    }
+
+                }
+                // 更新中点的canvas坐标
+                options.midpoint.canvasX += dragX;
+                options.midpoint.canvasY += dragY;
+                // 更新焦点的canvas坐标
+                options.focalPoint.canvasX += dragX;
+                options.focalPoint.canvasY += dragY;
+                // 更新显示
+                drawGraphs(that.graphList);
+            }
         }
+        clickX = x;
+        clickY = y;
     }
 
-    // 停止拖拽
-    let stopDragging = function() {
+    // 抬起鼠标
+    let mouseUp = function() {
         // 改变鼠标样式
         changeCursor("pointer");
 
@@ -1000,6 +1166,15 @@ function selectGraph() {
         if(resizeStatus == 2){
             resizeStatus = 0;
 
+            // 更新顶点点集相对于图像(位图)的坐标
+            for (var i=0;i<selectedPeakPoints.length;i++) {
+                var currentPoint = selectedPeakPoints[i];
+                // 获得image坐标
+                var imagePoint = getImagePoint(options.midpoint,currentPoint.canvasX,currentPoint.canvasY);
+                currentPoint.imageX = imagePoint.imageX;
+                currentPoint.imageY = imagePoint.imageY;
+            }
+
             // 绘制顶点
             drawPeak(selectedPeakPoints,5);
 
@@ -1007,6 +1182,17 @@ function selectGraph() {
             previousHeight = result.height;
             previousWidth = result.width;
             $.extend(true,previousSelectedGraph,tempGraph);
+
+            // 更新图形的相对于图像(位图)的坐标
+            var pointList = previousSelectedGraph.pointList;
+            for (var index=0;index<pointList.length;index++) {
+                var point = getImagePoint (options.midpoint,pointList[index].canvasX,pointList[index].canvasY);
+                pointList[index].imageX = point.imageX;
+                pointList[index].imageY = point.imageY;
+            }
+
+            // 更新buildModel中的数据
+            updateRegionInBuildModel(previousSelectedGraph);
         }
 
 
@@ -1032,7 +1218,27 @@ function selectGraph() {
                     }
                 }
             }
+
             that.isDragging = false;
+
+
+            // 缩放用矩形轮廓顶点集合
+            selectedPeakPoints = getGraphPeakPoints(previousSelectedGraph.pointList);
+            // 更新image坐标
+            for (var i=0;i<selectedPeakPoints.length;i++) {
+                var currentPoint = selectedPeakPoints[i];
+                // 获得image坐标
+                var imagePoint = getImagePoint(options.midpoint,currentPoint.canvasX,currentPoint.canvasY);
+                currentPoint.imageX = imagePoint.imageX;
+                currentPoint.imageY = imagePoint.imageY;
+            }
+            // 清空蒙版
+            clearContext("bak",null);
+            // 外框
+            drawSquare([selectedPeakPoints[0],selectedPeakPoints[4]],context_bak,{rotateX:0,rotateY:0},true,style);
+            // 顶点矩形
+            drawPeak(selectedPeakPoints,5);
+
 
             // 更新buildModel中的数据
             updateRegionInBuildModel(previousSelectedGraph);
@@ -1045,98 +1251,15 @@ function selectGraph() {
         }
     }
 
-    // 拖拽图形
-    let dragGraph = function(e) {
-        // 取得鼠标位置
-        let scroolTop = $(window).scrollTop();
-        let scroolLeft = $(window).scrollLeft();
-        that.canvasTop = $(that.canvas_bg).offset().top - scroolTop;
-        that.canvasLeft = $(that.canvas_bg).offset().left - scroolLeft;
-
-        let x = e.clientX   - that.canvasLeft;
-        let y = e.clientY  - that.canvasTop;
-
-        // 移动的距离
-        let dragX = x - clickX;
-        let dragY = y - clickY;
-
-        // 判断图形是否开始拖拽
-        if (that.isDragging == true) {
-            // 判断拖拽对象是否存在
-            if (that.previousSelectedGraph != null) {
-
-                let currentDeg = that.previousSelectedGraph.currentDeg;
-
-                let startP = that.rotatePoint({X: clickX - that.options.midpoint.canvasX,Y: clickY - that.options.midpoint.canvasY},-(that.deg-currentDeg)*Math.PI/180);
-                let endP = that.rotatePoint({X: x - that.options.midpoint.canvasX,Y: y - that.options.midpoint.canvasY},-(that.deg-currentDeg)*Math.PI/180);
-                // 移动的距离
-                dragX = endP.X - startP.X;
-                dragY = endP.Y - startP.Y;
-
-                // 更新图形的坐标位置
-                let pointList = that.previousSelectedGraph.pointList;
-                for (let index=0;index<pointList.length;index++) {
-                    pointList[index].canvasX += dragX;
-                    pointList[index].canvasY += dragY;
-                }
-                // 如果包含要擦除的图形
-                if (that.previousSelectedGraph.compositeType
-                    && that.previousSelectedGraph.compositeType == "erasure") {
-                    for (let i=0;i<that.previousSelectedGraph.childGraphs.length;i++) {
-                        let currentPointList = that.previousSelectedGraph.childGraphs[i].pointList;
-                        for (let index=0;index<currentPointList.length;index++) {
-                            currentPointList[index].canvasX += dragX;
-                            currentPointList[index].canvasY += dragY;
-                        }
-                    }
-                }
-
-                // 更新显示
-                that.clearContext("content",that.previousSelectedGraph.coverageId);
-                that.drawGraph(that.previousSelectedGraph);
-            }
-            // 判断图像是否开始拖拽
-        } else if (that.picDragging == true) {
-            // 更新图形的canvas坐标
-            for (let i = 0;i<that.graphList.length;i++) {
-                let pointList = that.graphList[i].pointList;
-                for (let index=0;index<pointList.length;index++) {
-                    pointList[index].canvasX += dragX;
-                    pointList[index].canvasY += dragY;
-                }
-                // 如果包含要擦除的图形
-                if (that.graphList[i].compositeType
-                    && that.graphList[i].compositeType == "erasure") {
-                    for (let j=0;j<that.graphList[i].childGraphs.length;j++) {
-                        let currentPointList = that.graphList[i].childGraphs[j].pointList;
-                        for (let index=0;index<currentPointList.length;index++) {
-                            currentPointList[index].canvasX += dragX;
-                            currentPointList[index].canvasY += dragY;
-                        }
-                    }
-                }
-
-            }
-            // 更新中点的canvas坐标
-            that.options.midpoint.canvasX += dragX;
-            that.options.midpoint.canvasY += dragY;
-            // 更新焦点的canvas坐标
-            that.options.focalPoint.canvasX += dragX;
-            that.options.focalPoint.canvasY += dragY;
-            // 更新显示
-            that.drawGraphs(that.graphList);
-        }
-        clickX = x;
-        clickY = y;
-    };
-
     // 移除蒙版的事件处理程序。
     $(that.canvas_bak).unbind();
     // 绑定鼠标事件
+    // 鼠标滚轮事件
+    $(canvas_bak).bind('mousewheel DOMMouseScroll',mouseWheel);
     $(that.canvas_bak).bind('mousedown',canvasClick);
     $(that.canvas_bak).bind('mousemove',mouseMove);
-    $(that.canvas_bak).bind('mouseup',stopDragging);
-    $(that.canvas_bak).bind('mouseout',stopDragging);
+    $(that.canvas_bak).bind('mouseup',mouseUp);
+    $(that.canvas_bak).bind('mouseout',mouseUp);
 }
 
 // 选中图形
@@ -1165,89 +1288,13 @@ function selected(currentGraph,isDragging) {
     this.publishSubscribeService.publish("afterSelectGraph",currentGraph);*/
 
 
-
-    // 缩放用矩形轮廓
-    // 遍历点集，获取四个顶点
-    var pointList = currentGraph.pointList;
-    var borderValue = getBorderValue(pointList);
-    var topLeftPoint = {
-        canvasX:borderValue.left,
-        canvasY:borderValue.top
-    };
-    var topRightPoint = {
-        canvasX:borderValue.right,
-        canvasY:borderValue.top
-    };
-    var bottomLeftPoint = {
-        canvasX:borderValue.left,
-        canvasY:borderValue.bottom
-    };
-    var bottomRightPoint = {
-        canvasX:borderValue.right,
-        canvasY:borderValue.bottom
-    };
-    /*$.extend(true,topLeftPoint,pointList[0]);
-    $.extend(true,topRightPoint,pointList[0]);
-    $.extend(true,bottomLeftPoint,pointList[0]);
-    $.extend(true,bottomRightPoint,pointList[0]);
-    for(var i=0;i<pointList.length;i++){
-        var point = pointList[i];
-        // 左上顶点
-        if(point.canvasX<=topLeftPoint.canvasX && point.canvasY<=topLeftPoint.canvasY){
-            $.extend(true,topLeftPoint,point);
-        }
-        // 右上顶点
-        if(point.canvasX>=topRightPoint.canvasX && point.canvasY<=topRightPoint.canvasY){
-            $.extend(true,topRightPoint,point);
-        }
-        // 左下顶点
-        if(point.canvasX<=bottomLeftPoint.canvasX && point.canvasY>=bottomLeftPoint.canvasY){
-            $.extend(true,bottomLeftPoint,point);
-        }
-        // 右下顶点
-        if(point.canvasX>=bottomRightPoint.canvasX && point.canvasY>=bottomRightPoint.canvasY){
-            $.extend(true,bottomRightPoint,point);
-        }
-    }*/
-
-    // 四个顶点
-    /*topLeftPoint.canvasX -=10;
-    topLeftPoint.canvasY -=10;
-    bottomRightPoint.canvasX +=10;
-    bottomRightPoint.canvasY +=10;
-
-    topRightPoint.canvasX +=10;
-    topRightPoint.canvasY -=10;
-    bottomLeftPoint.canvasX -=10;
-    bottomLeftPoint.canvasY +=10;*/
-
-    // 两顶点中点
-    var topMiddlePoint = {
-        canvasX:(topLeftPoint.canvasX+topRightPoint.canvasX)/2,
-        canvasY:topLeftPoint.canvasY
-    }
-    var rightMiddlePoint = {
-        canvasX:topRightPoint.canvasX,
-        canvasY:(topRightPoint.canvasY+bottomRightPoint.canvasY)/2
-    }
-    var bottomsMiddlePoint = {
-        canvasX:(bottomLeftPoint.canvasX+bottomRightPoint.canvasX)/2,
-        canvasY:bottomRightPoint.canvasY
-    }
-    var leftMiddlePoint = {
-        canvasX:bottomLeftPoint.canvasX,
-        canvasY:(topLeftPoint.canvasY+bottomRightPoint.canvasY)/2
-    }
-
-    // 添加到顶点集合中
-    selectedPeakPoints = [topLeftPoint,topMiddlePoint,topRightPoint,
-        rightMiddlePoint,bottomRightPoint,bottomsMiddlePoint,
-        bottomLeftPoint,leftMiddlePoint];
+    // 缩放用矩形轮廓顶点集合
+    selectedPeakPoints = getGraphPeakPoints(currentGraph.pointList);
 
     // 清空蒙版
     clearContext("bak",null);
     // 外框
-    drawSquare([topLeftPoint,bottomRightPoint],context_bak,{rotateX:0,rotateY:0},true,style);
+    drawSquare([selectedPeakPoints[0],selectedPeakPoints[4]],context_bak,{rotateX:0,rotateY:0},true,style);
     // 顶点矩形
     drawPeak(selectedPeakPoints,5);
 
@@ -1297,6 +1344,62 @@ function getBorderValue(pointList) {
         left:left,
         right:right
     }
+}
+
+// 获取图形顶点集
+function getGraphPeakPoints(graphPointList){
+    // 遍历点集，获取四个顶点
+    var borderValue = getBorderValue(graphPointList);
+    var topLeftPoint = {
+        canvasX:borderValue.left,
+        canvasY:borderValue.top
+    };
+    var topRightPoint = {
+        canvasX:borderValue.right,
+        canvasY:borderValue.top
+    };
+    var bottomLeftPoint = {
+        canvasX:borderValue.left,
+        canvasY:borderValue.bottom
+    };
+    var bottomRightPoint = {
+        canvasX:borderValue.right,
+        canvasY:borderValue.bottom
+    };
+
+    // 两顶点中点
+    var topMiddlePoint = {
+        canvasX:(topLeftPoint.canvasX+topRightPoint.canvasX)/2,
+        canvasY:topLeftPoint.canvasY
+    }
+    var rightMiddlePoint = {
+        canvasX:topRightPoint.canvasX,
+        canvasY:(topRightPoint.canvasY+bottomRightPoint.canvasY)/2
+    }
+    var bottomsMiddlePoint = {
+        canvasX:(bottomLeftPoint.canvasX+bottomRightPoint.canvasX)/2,
+        canvasY:bottomRightPoint.canvasY
+    }
+    var leftMiddlePoint = {
+        canvasX:bottomLeftPoint.canvasX,
+        canvasY:(topLeftPoint.canvasY+bottomRightPoint.canvasY)/2
+    }
+
+    // 添加到顶点集合中,从左上顶点开始，顺时针排序
+    var points = [topLeftPoint,topMiddlePoint,topRightPoint,
+        rightMiddlePoint,bottomRightPoint,bottomsMiddlePoint,
+        bottomLeftPoint,leftMiddlePoint];
+
+    // 获得image坐标
+    for (var i=0;i<points.length;i++) {
+        var currentPoint = points[i];
+        // 获得image坐标
+        var imagePoint = getImagePoint(options.midpoint,currentPoint.canvasX,currentPoint.canvasY);
+        currentPoint.imageX = imagePoint.imageX;
+        currentPoint.imageY = imagePoint.imageY;
+    }
+
+    return points;
 }
 
 
@@ -1415,6 +1518,10 @@ function findGraphById(id){
 // 取消图形选中
 function unSelectGraph() {
     if (previousSelectedGraph != null) {
+        // 清空蒙版
+        clearContext("bak",null);
+        selectedPeakPoints = null;
+
         previousSelectedGraph.isSelected = false;
         // 更新显示
         clearContext("content",this.previousSelectedGraph.coverageId);
@@ -1440,6 +1547,11 @@ function deleteGraph() {
          that.publishSubscribeService.publish("afterDeleteGraph",that.previousSelectedGraph);*/
 
         that.previousSelectedGraph = null;
+
+        // 清空轮廓
+        clearContext("bak",null);
+        selectedPeakPoints = null;
+
     }
 }
 
@@ -1465,9 +1577,9 @@ function deleteGraphById(id){
 // 缩放
 function zoomPic(zoom) {
     let that = this;
-    $(that.canvas_bak).unbind();
+    /*$(that.canvas_bak).unbind();
     // 改变鼠标样式
-    that.changeCursor("not-allowed");
+    changeCursor("not-allowed");*/
     if (that.img != null) {
         // 放大
         if (zoom =="zoom-in") {
@@ -1514,7 +1626,7 @@ function zoomPic(zoom) {
             let currentGraph = that.graphList[i];
             let pointList = currentGraph.pointList;
             for (let i=0;i<pointList.length;i++) {
-                let canvasPoint = that.getCanvasPoint(that.options.focalPoint,pointList[i].imageX,pointList[i].imageY);
+                let canvasPoint = getCanvasPoint(options.focalPoint,pointList[i].imageX,pointList[i].imageY);
                 pointList[i].canvasX = canvasPoint.canvasX;
                 pointList[i].canvasY = canvasPoint.canvasY;
             }
@@ -1523,7 +1635,7 @@ function zoomPic(zoom) {
                 for (let i=0;i<currentGraph.childGraphs.length;i++) {
                     let currentPointList = currentGraph.childGraphs[i].pointList;
                     for (let index=0;index<currentPointList.length;index++) {
-                        let canvasPoint = that.getCanvasPoint(that.options.focalPoint,currentPointList[index].imageX,currentPointList[index].imageY);
+                        let canvasPoint = getCanvasPoint(options.focalPoint,currentPointList[index].imageX,currentPointList[index].imageY);
                         currentPointList[index].canvasX = canvasPoint.canvasX;
                         currentPointList[index].canvasY = canvasPoint.canvasY;
                     }
@@ -1535,9 +1647,36 @@ function zoomPic(zoom) {
         that.options.midpoint.canvasX = midPoint.canvasX;
         that.options.midpoint.canvasY = midPoint.canvasY;
 
+        // 更新顶点集canvas坐标
+        if(selectedPeakPoints){
+            for (var i=0;i<selectedPeakPoints.length;i++) {
+                var canvasPoint = getCanvasPoint(options.focalPoint,selectedPeakPoints[i].imageX,selectedPeakPoints[i].imageY);
+                selectedPeakPoints[i].canvasX = canvasPoint.canvasX;
+                selectedPeakPoints[i].canvasY = canvasPoint.canvasY;
+            }
+        }
+
         // 更新显示
-        that.drawGraphs(that.graphList);
+        drawGraphs(that.graphList);
+
+        // 更新顶点轮廓
+        if(selectedPeakPoints){
+            // 清空蒙版
+            clearContext("bak",null);
+            // 外框
+            drawSquare([selectedPeakPoints[0],selectedPeakPoints[4]],context_bak,{rotateX:0,rotateY:0},true,style);
+            // 顶点矩形
+            drawPeak(selectedPeakPoints,5);
+        }
+
     }
+}
+
+// 鼠标滚轮事件
+var mouseWheel = function(e){
+    var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? "zoom-in" : "zoom-out")) ||
+        (e.originalEvent.detail && (e.originalEvent.detail > 0 ? "zoom-out" : "zoom-in"));
+    zoomPic(delta);
 }
 
 // 旋转
@@ -1666,6 +1805,102 @@ function drawPolygon(pointList,ctx,rotatePoint,newPath,endPoint){
     }
     ctx.stroke();
     ctx.fill();
+}
+
+// 绘制圆角矩形
+function drawRoundRect(pointList,r,ctx,rotatePoint,newPath){
+    let startX = pointList[0].canvasX - rotatePoint.rotateX;
+    let startY = pointList[0].canvasY - rotatePoint.rotateY;
+    let endX = pointList[1].canvasX - rotatePoint.rotateX;
+    let endY = pointList[1].canvasY - rotatePoint.rotateY;
+
+    let w = Math.abs(endX-startX);
+    let h = Math.abs(endY-startY);
+    // 终点在起点的右下
+    if (endX > startX && endY > startY) {
+        this.declareRoundRect(startX,startY,w,h,r,ctx,newPath);
+        // 终点在起点的左上
+    } else if (endX < startX && endY < startY) {
+        this.declareRoundRect(endX,endY,w,h,r,ctx,newPath);
+        // 终点在起点的右上
+    } else if (endX > startX && endY < startY) {
+        this.declareRoundRect(startX,endY,w,h,r,ctx,newPath);
+        // 终点在起点的左下
+    } else {
+        this.declareRoundRect(endX,startY,w,h,r,ctx,newPath);
+    }
+
+    ctx.stroke();
+    ctx.fill();
+}
+
+// 定义圆角矩形
+function declareRoundRect (x,y,w,h,r,ctx,newPath) {
+    // 参数：x坐标，y坐标，宽度，高度，圆角半径
+    if (w < 2 * r) {
+        r = w / 2;
+    }
+    if (h < 2 * r) {
+        r = h / 2;
+    }
+    if (newPath) {
+        ctx.beginPath();
+    }
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    if (newPath) {
+        ctx.closePath();
+    }
+}
+
+// 绘制椭圆
+function drawOval (pointList,ctx,rotatePoint,newPath) {
+    let startX = pointList[0].canvasX - rotatePoint.rotateX;
+    let startY = pointList[0].canvasY - rotatePoint.rotateY;
+    let endX = pointList[1].canvasX - rotatePoint.rotateX;
+    let endY = pointList[1].canvasY - rotatePoint.rotateY;
+
+    let w = Math.abs(endX-startX);
+    let h = Math.abs(endY-startY);
+    // 终点在起点的右下
+    if (endX > startX && endY > startY) {
+        this.declareOval(this.getMidpoint(startX,endX), this.getMidpoint(startY,endY), w, h,ctx,newPath);
+        // 终点在起点的左上
+    } else if (endX < startX && endY < startY) {
+        this.declareOval(this.getMidpoint(endX,startX), this.getMidpoint(endY,startY), w, h,ctx,newPath);
+        // 终点在起点的右上
+    } else if (endX > startX && endY < startY) {
+        this.declareOval(this.getMidpoint(startX,endX), this.getMidpoint(endY,startY), w, h,ctx,newPath);
+        // 终点在起点的左下
+    } else {
+        this.declareOval(this.getMidpoint(endX,startX), this.getMidpoint(startY,endY), w, h,ctx,newPath);
+    }
+    ctx.stroke();
+    ctx.fill();
+}
+
+// 定义椭圆（使用两条贝赛尔曲线画出椭圆）
+function declareOval(x, y, width, height,ctx,newPath){
+    // 贝塞尔控制点x=(椭圆宽度/0.75)/2
+    var k = (width/0.75)/2,
+        w = width/2,
+        h = height/2;
+    if (newPath) {
+        ctx.beginPath();
+    }
+    ctx.moveTo(x, y-h);
+    ctx.bezierCurveTo(x+k, y-h, x+k, y+h, x, y+h);
+    ctx.bezierCurveTo(x-k, y+h, x-k, y-h, x, y-h);
+    if (newPath) {
+        ctx.closePath();
+    }
+}
+
+function getMidpoint(start,end){
+    return start+(end-start)/2;
 }
 
 // 判断点是否在线上
@@ -1889,15 +2124,15 @@ function isPointOnPoints (pointList,x,y){
 // 根据参照点得到画布坐标相对于图像的坐标
 function getImagePoint (referencePoint,x,y) {
     return {
-        imageX : referencePoint.imageX + (x-referencePoint.canvasX) * this.options.zoomRatio,
-        imageY : referencePoint.imageY + (y-referencePoint.canvasY) * this.options.zoomRatio
+        imageX : referencePoint.imageX + (x-referencePoint.canvasX) * options.zoomRatio,
+        imageY : referencePoint.imageY + (y-referencePoint.canvasY) * options.zoomRatio
     };
 }
 
 // 根据参照点得到图像坐标相对于画布的坐标
 function getCanvasPoint (referencePoint,imageX,imageY) {
     return {
-        canvasX : (imageX - referencePoint.imageX)/(this.options.zoomRatio) + referencePoint.canvasX,
-        canvasY : (imageY - referencePoint.imageY)/(this.options.zoomRatio) + referencePoint.canvasY
+        canvasX : (imageX - referencePoint.imageX)/(options.zoomRatio) + referencePoint.canvasX,
+        canvasY : (imageY - referencePoint.imageY)/(options.zoomRatio) + referencePoint.canvasY
     }
 }
