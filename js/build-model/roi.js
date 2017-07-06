@@ -32,6 +32,8 @@ var graphList;
 
 // 选中的图形
 var previousSelectedGraph = null;
+// 图形是否被选中
+var graphSelected = false;
 
 // 当前选中图形的顶点
 var selectedPeakPoints;
@@ -373,35 +375,7 @@ function mouseDraft(msg,graphType,continuous){
                             }
                         } else if(graphType =='oval'){
                             // 椭圆坐标转多边形坐标
-                            var tempPointList = [];
-                            var startPointX = pointList[0].canvasX ;
-                            var startPointY = pointList[0].canvasY;
-                            var endPointX = pointList[1].canvasX;
-                            var endPointY = pointList[1].canvasY;
-
-                            // 长轴长度
-                            var OA = Math.abs(endPointX-startPointX)/2;
-                            // 短轴长度
-                            var OB = Math.abs(endPointY-startPointY)/2;
-
-                            // 椭圆圆点
-                            var O = [getMidpoint(startPointX,endPointX),getMidpoint(startPointY,endPointY)];
-                            // 循环360度
-                            for(var i=0;i<=360;i++){
-                                // 获取当前角度的弧度
-                                var ii = i*Math.PI/180;
-                                var canvasX=O[0]+OA*Math.cos(ii);
-                                var canvasY=O[1]-OB*Math.sin(ii);
-                                // 获得image坐标
-                                var imagePoint = getImagePoint(options.midpoint,canvasX,canvasY);
-                                tempPointList.push({
-                                    canvasX:canvasX,
-                                    canvasY:canvasY,
-                                    imageX:imagePoint.imageX,
-                                    imageY:imagePoint.imageY
-                                });
-
-                            }
+                            var tempPointList = ovalPointsToPolygonPoints(pointList);
 
                             graphObject = {
                                 id : graphIndex,
@@ -417,61 +391,7 @@ function mouseDraft(msg,graphType,continuous){
                         } else if(graphType =='roundRect'){
                             // 圆角矩形坐标转多边形坐标
 
-                            var tempPointList = [];
-
-                            var startPointX = pointList[0].canvasX ;
-                            var startPointY = pointList[0].canvasY;
-                            var endPointX = pointList[1].canvasX;
-                            var endPointY = pointList[1].canvasY;
-
-                            // 长轴长度
-                            var OA = Math.abs(endPointX-startPointX)/2;
-                            // 短轴长度
-                            var OB = Math.abs(endPointY-startPointY)/2;
-                            // 矩形中心点
-                            var O = [getMidpoint(startPointX,endPointX),getMidpoint(startPointY,endPointY)];
-
-                            // 右上角弧度圆心
-                            var O1 = [O[0]+OA-roundRectRadius,O[1]-OB+roundRectRadius];
-                            // 左上角弧度圆心
-                            var O2 = [O[0]-OA+roundRectRadius,O[1]-OB+roundRectRadius];
-                            // 左下角弧度圆心
-                            var O3 = [O[0]-OA+roundRectRadius,O[1]+OB-roundRectRadius];
-                            // 右下角弧度圆心
-                            var O4 = [O[0]+OA-roundRectRadius,O[1]+OB-roundRectRadius];
-
-                            for(var i=0;i<=360;i++){
-                                // 获取当前角度的弧度
-                                var ii = i*Math.PI/180;
-                                // 右上角弧度点集
-                                if(i<=90){
-                                    var canvasX=O1[0]+roundRectRadius*Math.cos(ii);
-                                    var canvasY=O1[1]-roundRectRadius*Math.sin(ii);
-                                }
-                                // 左上角弧度点集
-                                if(i>90 && i<=180){
-                                    var canvasX=O2[0]+roundRectRadius*Math.cos(ii);
-                                    var canvasY=O2[1]-roundRectRadius*Math.sin(ii);
-                                }
-                                // 左下角弧度点集
-                                if(i>180 && i<=270){
-                                    var canvasX=O3[0]+roundRectRadius*Math.cos(ii);
-                                    var canvasY=O3[1]-roundRectRadius*Math.sin(ii);
-                                }
-                                // 右下角弧度点集
-                                if(i>270 && i<=360){
-                                    var canvasX=O4[0]+roundRectRadius*Math.cos(ii);
-                                    var canvasY=O4[1]-roundRectRadius*Math.sin(ii);
-                                }
-                                // 获得image坐标
-                                var imagePoint = getImagePoint(options.midpoint,canvasX,canvasY);
-                                tempPointList.push({
-                                    canvasX:canvasX,
-                                    canvasY:canvasY,
-                                    imageX:imagePoint.imageX,
-                                    imageY:imagePoint.imageY
-                                });
-                            }
+                            var tempPointList = roundRectPointsToPolygonPoints(pointList);
 
                             graphObject = {
                                 id : graphIndex,
@@ -524,14 +444,11 @@ function mouseDraft(msg,graphType,continuous){
                         // 清空蒙版
                         clearContext("bak",null);
 
-                        // 生成参数
-                        let graphObject = new Object();
-
                         // 获得image坐标
                         for (let i=0;i<pointList.length;i++) {
                             let currentPoint = pointList[i];
                             // 获得image坐标
-                            let imagePoint = that.getImagePoint(that.options.midpoint,currentPoint.canvasX,currentPoint.canvasY);
+                            let imagePoint = getImagePoint(options.midpoint,currentPoint.canvasX,currentPoint.canvasY);
                             currentPoint.imageX = imagePoint.imageX;
                             currentPoint.imageY = imagePoint.imageY;
                         }
@@ -539,147 +456,35 @@ function mouseDraft(msg,graphType,continuous){
                         if(graphType =='square'){
                             // 矩形点集转多边形点集
                             var tempPointList = squarePointsToPolygonPoints(pointList);
-                            /*tempPointList.forEach(function(point){
-                                previousSelectedGraph.pointList.push(point);
-                            });*/
+                        }else if(graphType =='oval'){
+                            // 椭圆点集转多边形点集
+                            var tempPointList = ovalPointsToPolygonPoints(pointList);
+
+                        }else if(graphType =='roundRect'){
+                            // 圆角矩形点集转多边形点集
+                            var tempPointList = roundRectPointsToPolygonPoints(pointList);
                         }
                         var currentPoints = previousSelectedGraph.pointList;
 
                         // 获取两图形交点
-                        var intersections = [];
-                        for(var i=0;i<currentPoints.length;i++){
-                            var a = {
-                                x:currentPoints[i].canvasX,
-                                y:currentPoints[i].canvasY,
-                            };
-                            var b = {};
-                            if(i+1==currentPoints.length){
-                                b = {
-                                    x:currentPoints[0].canvasX,
-                                    y:currentPoints[0].canvasY,
-                                }
-                                console.log("线段：",i,0);
-                            }else{
-                                b = {
-                                    x:currentPoints[i+1].canvasX,
-                                    y:currentPoints[i+1].canvasY,
-                                }
-                                console.log("线段：",i,i+1);
-                            }
-
-                            for(var j=0;j<tempPointList.length;j++){
-                                var c = {
-                                    x:tempPointList[j].canvasX,
-                                    y:tempPointList[j].canvasY,
-                                };
-                                var d = {};
-                                if(j+1==tempPointList.length){
-                                    d = {
-                                        x:tempPointList[0].canvasX,
-                                        y:tempPointList[0].canvasY,
-                                    }
-                                }else{
-                                    d = {
-                                        x:tempPointList[j+1].canvasX,
-                                        y:tempPointList[j+1].canvasY,
-                                    }
-                                }
-
-                                var intersection = segmentsIntr(a,b,c,d);
-                                if(intersection){
-                                    // 交点image坐标
-                                    var imagePoint = getImagePoint(options.midpoint,intersection.x,intersection.y);
-                                    // 交点信息
-                                    var intersectionInfo = {
-                                        intersection:{
-                                            canvasX:intersection.x,
-                                            canvasY:intersection.y,
-                                            imageX:imagePoint.imageX,
-                                            imageY:imagePoint.imageY
-                                        },
-                                        parentIndex:i,
-                                        childIndex:j
-                                    };
-                                    intersections.push(intersectionInfo);
-                                }
-                            }
-                        }
-                        console.log("交点：",intersections);
-
-                        // 以中点为旋转点
-                        var rotatePoint = {
-                            rotateX:options.midpoint.canvasX,
-                            rotateY:options.midpoint.canvasY
-                        };
+                        var intersections = getTwoGraphIntersections(currentPoints,tempPointList);
 
                         var newGraphPoints = [];
-
-                        var flag=false;
-                        for(var i=0;i<currentPoints.length;){
-                            if(i==intersections[0].parentIndex){
-                                // 线段i,i+1与combine图形相交
-                                if(isPointInPolygon({pointList:tempPointList},currentPoints[i].canvasX,currentPoints[i].canvasY,rotatePoint)){
-                                    // 添加第一个交点
-                                    newGraphPoints.push(intersections[0].intersection);
-                                    flag = true;
-                                }else{
-                                    // 添加父图形当前点
-                                    newGraphPoints.push(currentPoints[i]);
-                                    // 添加第一个交点
-                                    newGraphPoints.push(intersections[0].intersection);
-                                    // 添加子图像点
-                                    var childStartIndex = intersections[0].childIndex;
-                                    var childEndIndex = intersections[intersections.length-1].childIndex;
-                                    if(isPointInPolygon({pointList:currentPoints},tempPointList[childStartIndex].canvasX,tempPointList[childStartIndex].canvasY,rotatePoint)){
-                                        for(var j=childStartIndex+1;j<=childEndIndex;j++){
-                                            newGraphPoints.push(tempPointList[j]);
-                                        }
-                                    }else{
-                                        for(var j=childEndIndex+1;j>=childStartIndex;j--){
-                                            newGraphPoints.push(tempPointList[j]);
-                                        }
-                                    }
-                                    // 添加第二个交点
-                                    newGraphPoints.push(intersections[intersections.length-1].intersection);
-                                    i=intersections[intersections.length-1].parentIndex+1;
-                                }
-                            }else{
-                                if(flag){
-                                    newGraphPoints.push(currentPoints[i]);
-                                    if(i == intersections[intersections.length-1].parentIndex){
-                                        // 添加第二个交点
-                                        newGraphPoints.push(intersections[intersections.length-1].intersection);
-
-                                        // 添加子图像点
-                                        var childStartIndex = intersections[0].childIndex;
-                                        var childEndIndex = intersections[intersections.length-1].childIndex;
-                                        if(isPointInPolygon({pointList:currentPoints},tempPointList[childStartIndex].canvasX,tempPointList[childStartIndex].canvasY,rotatePoint)){
-                                            for(var j=childStartIndex+1;j<=childEndIndex;j++){
-                                                newGraphPoints.push(tempPointList[j]);
-                                            }
-                                        }else{
-                                            for(var j=childEndIndex+1;j>=childStartIndex;j--){
-                                                newGraphPoints.push(tempPointList[j]);
-                                            }
-                                        }
-                                    }
-                                    i++;
-                                }else{
-                                    newGraphPoints.push(currentPoints[i]);
-                                    i++;
-                                }
-                            }
+                        if(!isPointInChild(currentPoints[0],tempPointList)){
+                            newGraphPoints  = combinePoints(currentPoints,tempPointList,"parent","child",intersections);
+                        }else{
+                            newGraphPoints  = combinePoints(tempPointList,currentPoints,"child","parent",intersections);
                         }
-
 
                         // 清空点集
                         pointList.length = 0;
 
+                        console.log("newGraphPoints",newGraphPoints);
                         previousSelectedGraph.pointList = newGraphPoints;
                         // 更新显示
                         selected(previousSelectedGraph,false);
                         // 更新buildModel中的数据
-                        //updateRegionInBuildModel(previousSelectedGraph);
+                        updateRegionInBuildModel(previousSelectedGraph);
                     }
                 }
             }
@@ -701,42 +506,68 @@ function mouseDraft(msg,graphType,continuous){
 
         canDraw = false;
         // 清空蒙版
-        that.clearContext("bak",null);
-        // 生成参数
-        let graphObject = new Object();
+        clearContext("bak",null);
 
-        for (let i=0;i<pointList.length;i++) {
-            let currentPoint = pointList[i];
+        for (var i=0;i<pointList.length;i++) {
+            var currentPoint = pointList[i];
             // 获得image坐标
-            let imagePoint = that.getImagePoint(that.options.midpoint,currentPoint.canvasX,currentPoint.canvasY);
+            var imagePoint = getImagePoint(that.options.midpoint,currentPoint.canvasX,currentPoint.canvasY);
             currentPoint.imageX = imagePoint.imageX;
             currentPoint.imageY = imagePoint.imageY;
         }
 
-        let tempPointList = $.extend(true,[],pointList);
+        var tempPointList = $.extend(true,[],pointList);
 
-        graphObject = {
-            id : graphIndex,
-            graphType : graphType,
-            isSelected : false,
-            pointList : tempPointList,
-            // 当前画图形时背景位图的偏移量
-            currentDeg : that.deg
+        // 新增ROI的情况
+        if(msg=="newROI"){
+            // 生成参数
+            var graphObject = new Object();
+
+            graphObject = {
+                id : graphIndex,
+                graphType : graphType,
+                isSelected : false,
+                pointList : tempPointList,
+                // 当前画图形时背景位图的偏移量
+                currentDeg : that.deg
+            }
+            graphIndex++;
+
+            // 绘制ROI
+            console.log("graphObject",graphObject);
+            drawProcessedGraph("drawGraph",graphObject);
+
+            // 新增roi数据至buildModel数据
+            addRegionToBuildModel(graphObject);
+
+            // 清空多边形点集
+            pointList.length = 0;
+            $(that.canvas_bak).unbind();
+            // 改变鼠标样式
+            changeCursor("not-allowed");
+        }else if(msg=="combineROI"){ // 结合ROI的情况
+            var currentPoints = previousSelectedGraph.pointList;
+
+            // 获取两图形交点
+            var intersections = getTwoGraphIntersections(currentPoints,tempPointList);
+
+            var newGraphPoints = [];
+            if(!isPointInChild(currentPoints[0],tempPointList)){
+                newGraphPoints  = combinePoints(currentPoints,tempPointList,"parent","child",intersections);
+            }else{
+                newGraphPoints  = combinePoints(tempPointList,currentPoints,"child","parent",intersections);
+            }
+
+            // 清空点集
+            pointList.length = 0;
+
+            console.log("newGraphPoints",newGraphPoints);
+            previousSelectedGraph.pointList = newGraphPoints;
+            // 更新显示
+            selected(previousSelectedGraph,false);
+            // 更新buildModel中的数据
+            updateRegionInBuildModel(previousSelectedGraph);
         }
-        graphIndex++;
-
-        // 绘制ROI
-        console.log("graphObject",graphObject);
-        drawProcessedGraph("drawGraph",graphObject);
-
-        // 新增roi数据至buildModel数据
-        addRegionToBuildModel(graphObject);
-
-        // 清空多边形点集
-        pointList.length = 0;
-        $(that.canvas_bak).unbind();
-        // 改变鼠标样式
-        that.changeCursor("not-allowed");
     }
 
     $(that.canvas_bak).unbind();
@@ -937,8 +768,6 @@ function selectGraph() {
     // 点击的点坐标
     let clickX;
     let clickY;
-    // 图形是否被选中
-    var graphSelected = false;
     // 图形resize状态 0:不可resize；1：可以resize；2：resize中；3：resize结束
     var resizeStatus = 0;
     // resize类型，根据点击的图形轮廓顶点而定
@@ -1701,6 +1530,7 @@ function deleteGraph() {
          that.publishSubscribeService.publish("afterDeleteGraph",that.previousSelectedGraph);*/
 
         that.previousSelectedGraph = null;
+        graphSelected = false;
 
         // 清空轮廓
         clearContext("bak",null);
@@ -2310,6 +2140,100 @@ function squarePointsToPolygonPoints(pointList){
     return [point1,point2,point3,point4];
 }
 
+// 椭圆坐标转多边形坐标
+function ovalPointsToPolygonPoints(pointList){
+    var tempPointList = [];
+    var startPointX = pointList[0].canvasX ;
+    var startPointY = pointList[0].canvasY;
+    var endPointX = pointList[1].canvasX;
+    var endPointY = pointList[1].canvasY;
+
+    // 长轴长度
+    var OA = Math.abs(endPointX-startPointX)/2;
+    // 短轴长度
+    var OB = Math.abs(endPointY-startPointY)/2;
+
+    // 椭圆圆点
+    var O = [getMidpoint(startPointX,endPointX),getMidpoint(startPointY,endPointY)];
+    // 循环360度
+    for(var i=0;i<=360;i++){
+        // 获取当前角度的弧度
+        var ii = i*Math.PI/180;
+        var canvasX=O[0]+OA*Math.cos(ii);
+        var canvasY=O[1]-OB*Math.sin(ii);
+        // 获得image坐标
+        var imagePoint = getImagePoint(options.midpoint,canvasX,canvasY);
+        tempPointList.push({
+            canvasX:canvasX,
+            canvasY:canvasY,
+            imageX:imagePoint.imageX,
+            imageY:imagePoint.imageY
+        });
+
+    }
+    return tempPointList;
+}
+
+// 圆角矩形坐标转多边形坐标
+function roundRectPointsToPolygonPoints(pointList){
+    var tempPointList = [];
+
+    var startPointX = pointList[0].canvasX ;
+    var startPointY = pointList[0].canvasY;
+    var endPointX = pointList[1].canvasX;
+    var endPointY = pointList[1].canvasY;
+
+    // 长轴长度
+    var OA = Math.abs(endPointX-startPointX)/2;
+    // 短轴长度
+    var OB = Math.abs(endPointY-startPointY)/2;
+    // 矩形中心点
+    var O = [getMidpoint(startPointX,endPointX),getMidpoint(startPointY,endPointY)];
+
+    // 右上角弧度圆心
+    var O1 = [O[0]+OA-roundRectRadius,O[1]-OB+roundRectRadius];
+    // 左上角弧度圆心
+    var O2 = [O[0]-OA+roundRectRadius,O[1]-OB+roundRectRadius];
+    // 左下角弧度圆心
+    var O3 = [O[0]-OA+roundRectRadius,O[1]+OB-roundRectRadius];
+    // 右下角弧度圆心
+    var O4 = [O[0]+OA-roundRectRadius,O[1]+OB-roundRectRadius];
+
+    for(var i=0;i<=360;i++){
+        // 获取当前角度的弧度
+        var ii = i*Math.PI/180;
+        // 右上角弧度点集
+        if(i<=90){
+            var canvasX=O1[0]+roundRectRadius*Math.cos(ii);
+            var canvasY=O1[1]-roundRectRadius*Math.sin(ii);
+        }
+        // 左上角弧度点集
+        if(i>90 && i<=180){
+            var canvasX=O2[0]+roundRectRadius*Math.cos(ii);
+            var canvasY=O2[1]-roundRectRadius*Math.sin(ii);
+        }
+        // 左下角弧度点集
+        if(i>180 && i<=270){
+            var canvasX=O3[0]+roundRectRadius*Math.cos(ii);
+            var canvasY=O3[1]-roundRectRadius*Math.sin(ii);
+        }
+        // 右下角弧度点集
+        if(i>270 && i<=360){
+            var canvasX=O4[0]+roundRectRadius*Math.cos(ii);
+            var canvasY=O4[1]-roundRectRadius*Math.sin(ii);
+        }
+        // 获得image坐标
+        var imagePoint = getImagePoint(options.midpoint,canvasX,canvasY);
+        tempPointList.push({
+            canvasX:canvasX,
+            canvasY:canvasY,
+            imageX:imagePoint.imageX,
+            imageY:imagePoint.imageY
+        });
+    }
+    return tempPointList;
+}
+
 // 两线段交点
 // 参数 a，b：线段1两端点；c，d：线段2两端点
 function segmentsIntr(a, b, c, d){
@@ -2339,4 +2263,304 @@ function segmentsIntr(a, b, c, d){
     var dx= t*(b.x - a.x),
         dy= t*(b.y - a.y);
     return { x: a.x + dx , y: a.y + dy };
+}
+
+// 获取两图形交点
+function getTwoGraphIntersections(parentPoints,childPoints){
+    var intersections = [];
+    for(var i=0;i<parentPoints.length;i++){
+        var a = {
+            x:parentPoints[i].canvasX,
+            y:parentPoints[i].canvasY,
+        };
+        var b = {};
+        if(i+1==parentPoints.length){
+            b = {
+                x:parentPoints[0].canvasX,
+                y:parentPoints[0].canvasY,
+            }
+            console.log("线段：",i,0);
+        }else{
+            b = {
+                x:parentPoints[i+1].canvasX,
+                y:parentPoints[i+1].canvasY,
+            }
+            console.log("线段：",i,i+1);
+        }
+
+        for(var j=0;j<childPoints.length;j++){
+            var c = {
+                x:childPoints[j].canvasX,
+                y:childPoints[j].canvasY,
+            };
+            var d = {};
+            if(j+1==childPoints.length){
+                d = {
+                    x:childPoints[0].canvasX,
+                    y:childPoints[0].canvasY,
+                }
+            }else{
+                d = {
+                    x:childPoints[j+1].canvasX,
+                    y:childPoints[j+1].canvasY,
+                }
+            }
+
+            var intersection = segmentsIntr(a,b,c,d);
+            if(intersection){
+                // 交点image坐标
+                var imagePoint = getImagePoint(options.midpoint,intersection.x,intersection.y);
+                // 交点信息
+                var intersectionInfo = {
+                    intersection:{
+                        canvasX:intersection.x,
+                        canvasY:intersection.y,
+                        imageX:imagePoint.imageX,
+                        imageY:imagePoint.imageY
+                    },
+                    parentIndex:i,
+                    childIndex:j
+                };
+                intersections.push(intersectionInfo);
+            }
+        }
+    }
+    console.log("交点：",intersections);
+    return intersections;
+}
+
+// 以a点为开始端点的线段是否是相交线
+function isIntersectionLine(aIndex,type,intersections){
+    var result = false;
+    var intersectionInfo = [];
+    for(var i=0;i<intersections.length;i++){
+        if(type=="parent"){
+            if(aIndex == intersections[i].parentIndex){
+                intersectionInfo.push(intersections[i]);
+            }
+        }else if(type=="child"){
+            if(aIndex == intersections[i].childIndex){
+                intersectionInfo.push(intersections[i]);
+            }
+        }
+    }
+
+    // 获取获取距离a最近的交点
+    if(intersectionInfo.length>0){
+        result = intersectionInfo;
+    }
+    return result;
+}
+
+// 获取获取距离a最近的交点
+function getCloestIntersection(a,intersectionInfoList){
+    var result;
+    // 获取获取距离a最近的交点
+    if(intersectionInfoList.length>0){
+        if(intersectionInfoList.length == 1){
+            result = intersectionInfoList[0];
+        }else{
+            var distance = getTwoPointDistance(a,intersectionInfoList[0].intersection);
+            for(var i=0;i<intersectionInfoList.length;i++){
+                if(getTwoPointDistance(a,intersectionInfoList[i].intersection)<=distance){
+                    result = intersectionInfoList[i];
+                }
+            }
+        }
+    }
+    return result;
+}
+
+function findNextIntersection(startIndex,startType,startPointsLength,secondIntersectionInfoList){
+    var resultIndexList = [];
+    var result;
+    if(startType=="parent"){
+        for(var i=0;i<secondIntersectionInfoList.length;i++){
+            if(secondIntersectionInfoList[i].parentIndex+1!=startPointsLength &&
+                secondIntersectionInfoList[i].parentIndex>startIndex){
+                resultIndexList.push(secondIntersectionInfoList[i].parentIndex);
+            }
+        }
+        if(resultIndexList.length!=0){
+            var resultIndex = resultIndexList[0];
+            resultIndexList.forEach(function(index){
+                if(index<=resultIndex){
+                    resultIndex = index;
+                }
+            });
+
+            for(var i=0;i<secondIntersectionInfoList.length;i++){
+                if(secondIntersectionInfoList[i].parentIndex == resultIndex){
+                    result = {
+                        startIndex:resultIndex,
+                        intersection:secondIntersectionInfoList[i].intersection
+                    }
+                    break;
+                }
+            }
+        }
+    }else{
+        for(var i=0;i<secondIntersectionInfoList.length;i++){
+            if(secondIntersectionInfoList[i].childIndex+1!=startPointsLength &&
+                secondIntersectionInfoList[i].childIndex>startIndex){
+                resultIndexList.push(secondIntersectionInfoList[i].childIndex);
+            }
+        }
+        if(resultIndexList.length!=0){
+            var resultIndex = resultIndexList[0];
+            resultIndexList.forEach(function(index){
+                if(index<=resultIndex){
+                    resultIndex = index;
+                }
+            });
+
+            for(var i=0;i<secondIntersectionInfoList.length;i++){
+                if(secondIntersectionInfoList[i].childIndex == resultIndex){
+                    result = {
+                        startIndex:resultIndex,
+                        intersection:secondIntersectionInfoList[i].intersection
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+// 获得两点间距离
+function getTwoPointDistance(a,b){
+    return Math.sqrt(Math.pow((a.canvasX - b.canvasX),2) + Math.pow((a.canvasY - b.canvasY),2));
+}
+
+// 当前点是否在子图形内
+function isPointInChild(point,childPoints){
+    // 以中点为旋转点
+    var rotatePoint = {
+        rotateX:options.midpoint.canvasX,
+        rotateY:options.midpoint.canvasY
+    };
+    return isPointInPolygon({pointList:childPoints},point.canvasX,point.canvasY,rotatePoint);
+}
+
+// 结合两图形点集
+function combinePoints(startPoints,secondPoints,startType,secondType,intersections){
+    var combinedPoints = [];
+    for(var i=0;i<startPoints.length;){
+        var startPoint = startPoints[i];
+        var intersectionInfoList = isIntersectionLine(i,startType,intersections);
+        if(intersectionInfoList){
+            combinedPoints.push(startPoint);
+            var intersectionInfo;
+            if(intersectionInfoList.length==1){
+                intersectionInfo = intersectionInfoList[0];
+            }else{
+                intersectionInfo = getCloestIntersection(startPoint,intersectionInfoList);
+            }
+
+            combinedPoints.push(intersectionInfo.intersection);
+
+            var secondIndex;
+            if(startType == "parent"){
+                secondIndex = intersectionInfo.childIndex;
+            }else{
+                secondIndex = intersectionInfo.parentIndex;
+            }
+
+            var secondPoint = secondPoints[secondIndex];
+            var secondIntersectionInfoList = isIntersectionLine(secondIndex,secondType,intersections);
+            var nextIntr = findNextIntersection(i,startType,startPoints.length,secondIntersectionInfoList);
+            if(secondIntersectionInfoList.length <= 2 || !nextIntr){
+                var reversed = !isPointInChild(secondPoint,startPoints);
+                console.log("reversed",reversed);
+                if(!reversed){
+                    if(secondIndex + 1 == secondPoints.length){
+                        secondIndex = 0;
+                    }else{
+                        secondIndex = secondIndex + 1;
+                    }
+
+                    combinedPoints.push(secondPoints[secondIndex]);
+                    while(true){
+                        if(secondIndex+1 == secondPoints.length){
+                            secondIndex = 0;
+                        }else{
+                            secondIndex++;
+                        }
+                        secondPoint = secondPoints[secondIndex];
+                        secondIntersectionInfoList = isIntersectionLine(secondIndex,secondType,intersections);
+                        if(secondIntersectionInfoList){
+                            combinedPoints.push(secondPoint);
+                            var secondIntersectionInfo;
+                            if(secondIntersectionInfoList.length==1){
+                                secondIntersectionInfo = secondIntersectionInfoList[0];
+                            }else{
+                                secondIntersectionInfo = getCloestIntersection(secondPoint,secondIntersectionInfoList);
+                            }
+                            combinedPoints.push(secondIntersectionInfo.intersection);
+                            if(startType == "parent"){
+                                i = secondIntersectionInfo.parentIndex + 1;
+                            }else{
+                                i = secondIntersectionInfo.childIndex + 1;
+                            }
+                            break;
+                        }else{
+                            combinedPoints.push(secondPoint);
+                        }
+                    }
+                }else{ // 子图形反序
+                    combinedPoints.push(secondPoints[secondIndex]);
+                    while(true){
+                        if(secondIndex == 0){
+                            secondIndex = secondPoints.length-1;
+                        }else{
+                            secondIndex--;
+                        }
+                        secondPoint = secondPoints[secondIndex];
+                        secondIntersectionInfoList = isIntersectionLine(secondIndex,secondType,intersections);
+                        if(secondIntersectionInfoList){
+                            /*combinedPoints.push(secondPoint);*/
+                            var secondIntersectionInfo;
+                            if(secondIntersectionInfoList.length==1){
+                                secondIntersectionInfo = secondIntersectionInfoList[0];
+                            }else{
+                                var previousIndex;
+                                if(secondIndex+1 == secondPoints.length){
+                                    previousIndex = 0;
+                                }else{
+                                    previousIndex = secondIndex + 1;
+                                }
+                                secondIntersectionInfo = getCloestIntersection(secondPoints[previousIndex],secondIntersectionInfoList);
+                            }
+                            combinedPoints.push(secondIntersectionInfo.intersection);
+                            if(startType == "parent"){
+                                i = secondIntersectionInfo.parentIndex + 1;
+                            }else{
+                                i = secondIntersectionInfo.childIndex + 1;
+                            }
+                            break;
+                        }else{
+                            combinedPoints.push(secondPoint);
+                        }
+                    }
+
+                }
+            }else{
+                combinedPoints.push(nextIntr.intersection);
+                i=nextIntr.startIndex+1;
+            }
+        }else{
+            combinedPoints.push(startPoint);
+            i++;
+        }
+    }
+    return combinedPoints;
+}
+
+// 判断两点集顺序是否一致
+function orderReversed(aPoints,bPoints){
+    for(var i=1;i<aPoints.length;i++){
+
+    }
+
 }

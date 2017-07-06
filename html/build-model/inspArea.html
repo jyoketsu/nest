@@ -397,10 +397,28 @@
                 }
             });
 
-            // 绘制矩形
+            // 扩充矩形
             $("#combineSquare").on("click",function () {
                 if(checkAddRoi()){
                     mouseDraft("combineROI","square");
+                }
+            });
+            // 扩充多边形
+            $("#combinePolygon").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("combineROI","polygon");
+                }
+            });
+            // 扩充椭圆
+            $("#combineOval").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("combineROI","oval");
+                }
+            });
+            // 扩充圆角矩形
+            $("#combineRoundRect").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("combineROI","roundRect");
                 }
             });
 
