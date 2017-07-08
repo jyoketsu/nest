@@ -421,6 +421,30 @@
                     mouseDraft("combineROI","roundRect");
                 }
             });
+            // 擦除矩形
+            $("#eraseSquare").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("eraseROI","square");
+                }
+            });
+            // 擦除多边形
+            $("#erasePolygon").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("eraseROI","polygon");
+                }
+            });
+            // 擦除椭圆
+            $("#eraseOval").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("eraseROI","oval");
+                }
+            });
+            // 擦除圆角矩形
+            $("#eraseRoundRect").on("click",function () {
+                if(checkAddRoi()){
+                    mouseDraft("eraseROI","roundRect");
+                }
+            });
 
             // 选择ROI
             $("#selectRoi").on("click",function () {
@@ -1631,6 +1655,10 @@
         // 更新建模数据的region
         function updateRegionInBuildModel(graphObject){
             var outer = pointToOuter(graphObject.pointList);
+            var inner = [];
+            for(var i=0;i<graphObject.innerPoints.length;i++){
+                inner.push(pointToOuter(graphObject.innerPoints[i]));
+            }
 
             var workStationList = buildModel.Product.WorkStationList;
             // 寻找使用当前检测区的对象节点
@@ -1647,6 +1675,7 @@
                                 for(var l=0;l<regionList.length;l++){
                                     if(regionList[l].Attribute.ID == graphObject.id){
                                         regionList[l].Outer = outer;
+                                        regionList[l].Inner = inner;
                                         break outerloop;
                                     }
                                 }
@@ -1806,7 +1835,7 @@
                                     <li><a href="#" id="deleteRoi"><i class="fa fa-trash" aria-hidden="true"></i> 删除</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav nestNavbarUl">
-                                    <li><a href="#" class="nest-nav-label">ROI</a></li>
+                                    <li><a href="#" class="nest-nav-label">新增</a></li>
                                     <li><a href="#" id="newSquare">矩形</a></li>
                                     <li><a href="#" id="newPolygon">多边形</a></li>
                                     <li><a href="#" id="newOval">椭圆</a></li>
@@ -1818,6 +1847,13 @@
                                     <li><a href="#" id="combinePolygon">多边形</a></li>
                                     <li><a href="#" id="combineOval">椭圆</a></li>
                                     <li><a href="#" id="combineRoundRect">圆角矩形</a></li>
+                                </ul>
+                                <ul class="nav navbar-nav nestNavbarUl">
+                                    <li><a href="#" class="nest-nav-label">擦除</a></li>
+                                    <li><a href="#" id="eraseSquare">矩形</a></li>
+                                    <li><a href="#" id="erasePolygon">多边形</a></li>
+                                    <li><a href="#" id="eraseOval">椭圆</a></li>
+                                    <li><a href="#" id="eraseRoundRect">圆角矩形</a></li>
                                 </ul>
                             </div>
                         </div>

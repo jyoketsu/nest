@@ -214,6 +214,7 @@ function getGraphList(){
                 // 循环建模数据中所有的regionList
                 for(var l=0;l<regionList.length;l++){
                     var graphId = parseInt(regionList[l].Attribute.ID);
+                    // 外轮廓
                     var outer = regionList[l].Outer.split(",");
                     var tempPointList = [];
                     for(var outerIndex=0;outerIndex<outer.length;){
@@ -233,11 +234,36 @@ function getGraphList(){
                         graphIndex = graphId;
                         graphIndex++;
                     }
+
+                    // 内轮廓
+                    var tempPointList2 = [];
+                    if(regionList[l].Inner && regionList[l].Inner.length>0){
+                        for(var listIndex=0;listIndex<regionList[l].Inner.length;listIndex++){
+                            var inner = regionList[l].Inner[listIndex].split(",");
+
+                            var innerPoints=[];
+                            for(var innerIndex=0;innerIndex<inner.length;){
+                                var imageX=parseInt(inner[innerIndex]);
+                                var imageY=parseInt(inner[innerIndex+1]);
+                                var canvasPoint = getCanvasPoint(options.focalPoint,imageX,imageY);
+                                innerPoints.push({
+                                    canvasX:canvasPoint.canvasX,
+                                    canvasY:canvasPoint.canvasY,
+                                    imageX:imageX,
+                                    imageY:imageY
+                                });
+                                innerIndex=innerIndex+2;
+                            }
+                            tempPointList2.push(innerPoints);
+                        }
+                    }
+
                     var graphObject = {
                         id : graphId,
                         graphType : "polygon",
                         isSelected : false,
                         pointList : tempPointList,
+                        innerPoints : tempPointList2,
                         // 当前画图形时背景位图的偏移量
                         currentDeg : deg,
                         // 当前压缩比
@@ -289,11 +315,13 @@ function outerToPoint(region){
 // 点的转换:pointToOuter
 function pointToOuter(pointList){
     var outer="";
-    for(var i=0;i<pointList.length;i++){
-        var point = pointList[i];
-        outer+=Math.round(point.imageX)+","+Math.round(point.imageY)+","
+    if(pointList){
+        for(var i=0;i<pointList.length;i++){
+            var point = pointList[i];
+            outer+=Math.round(point.imageX)+","+Math.round(point.imageY)+","
+        }
+        outer = outer.substring(0,outer.length-1);
     }
-    outer = outer.substring(0,outer.length-1);
     return outer;
 }
 
