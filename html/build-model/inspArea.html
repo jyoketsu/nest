@@ -81,6 +81,8 @@
         var buildModel = "";
         // 关联的对象图形
         var assocGraphs = [];
+        // 复制region的偏移值
+        var copyDeviant = 10;
 
         $(document).ready(function(){
             // WebSocket连接
@@ -1656,8 +1658,10 @@
         function updateRegionInBuildModel(graphObject){
             var outer = pointToOuter(graphObject.pointList);
             var inner = [];
-            for(var i=0;i<graphObject.innerPoints.length;i++){
-                inner.push(pointToOuter(graphObject.innerPoints[i]));
+            if(graphObject.innerPoints){
+                for(var i=0;i<graphObject.innerPoints.length;i++){
+                    inner.push(pointToOuter(graphObject.innerPoints[i]));
+                }
             }
 
             var workStationList = buildModel.Product.WorkStationList;
@@ -1767,10 +1771,17 @@
             $("#center-content").switchClass( "col-md-6", "col-md-9", 500);
             $("#collapse-button").find("i").attr("class","fa fa-angle-double-left");
         }
+
+        function unbind(){
+            $(canvas_bak).unbind();
+        }
+        function test(){
+            alert("xxxx");
+        }
     </script>
 </head>
 <body>
-    <div class="nest-head">
+    <div class="nest-head" style="z-index: 1000">
         <!-- tab菜单 -->
         <div class="nest-tab-navbar">
             <ul class="nav nav-tabs" role="tablist">
@@ -1842,19 +1853,31 @@
                                     <li><a href="#" id="newRoundRect">圆角矩形</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav nestNavbarUl">
-                                    <li><a href="#" class="nest-nav-label">扩充</a></li>
-                                    <li><a href="#" id="combineSquare">矩形</a></li>
-                                    <li><a href="#" id="combinePolygon">多边形</a></li>
-                                    <li><a href="#" id="combineOval">椭圆</a></li>
-                                    <li><a href="#" id="combineRoundRect">圆角矩形</a></li>
+                                    <li><a href="#" class="nest-nav-label">编辑</a></li>
+                                    <li><a href="#" id="objectCopy">复制</a></li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">扩充<span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" id="combineSquare">矩形</a></li>
+                                            <li><a href="#" id="combinePolygon">多边形</a></li>
+                                            <li><a href="#" id="combineOval">椭圆</a></li>
+                                            <li><a href="#" id="combineRoundRect">圆角矩形</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">擦除<span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" id="eraseSquare">矩形</a></li>
+                                            <li><a href="#" id="erasePolygon">多边形</a></li>
+                                            <li><a href="#" id="eraseOval">椭圆</a></li>
+                                            <li><a href="#" id="eraseRoundRect">圆角矩形</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
-                                <ul class="nav navbar-nav nestNavbarUl">
+                                <!--<ul class="nav navbar-nav nestNavbarUl">
                                     <li><a href="#" class="nest-nav-label">擦除</a></li>
-                                    <li><a href="#" id="eraseSquare">矩形</a></li>
-                                    <li><a href="#" id="erasePolygon">多边形</a></li>
-                                    <li><a href="#" id="eraseOval">椭圆</a></li>
-                                    <li><a href="#" id="eraseRoundRect">圆角矩形</a></li>
-                                </ul>
+
+                                </ul>-->
                             </div>
                         </div>
                     </nav>

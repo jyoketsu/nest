@@ -1118,6 +1118,7 @@ function selectGraph() {
                 var heightRatio = result.height/previousHeight;
                 var widthRatio = result.width/previousWidth;
                 // 更新图形坐标
+                tempGraph = {};
                 $.extend(true,tempGraph,previousSelectedGraph);
                 var pointList = tempGraph.pointList;
                 var borderValue = getBorderValue(pointList);
@@ -3256,6 +3257,7 @@ function isConcavePolygon(points){
 
 // 判断多边形时钟方向 <0顺时针，>0逆时针
 // 参考http://blog.csdn.net/xxdddail/article/details/48787059
+// http://blog.csdn.net/betwater/article/details/52478703
 function clockDirection(points)
 {
     var i, j, k;
