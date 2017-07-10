@@ -1,0 +1,1638 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Product>
+  <Attribute>
+    <NoteCount>1</NoteCount>
+  </Attribute>
+  <AssocList>
+    <AssocItem>
+      <Attribute>
+        <ID>1</ID>
+        <Name></Name>
+        <Enable>1</Enable>
+        <Type>1</Type>
+      </Attribute>
+      <MainNode>
+        <Attribute>
+          <ID>1</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </MainNode>
+      <SubNode>
+        <Attribute>
+          <ID>3</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </SubNode>
+      <SubNode>
+        <Attribute>
+          <ID>3</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </SubNode>
+    </AssocItem>
+    <AssocItem>
+      <Attribute>
+        <ID>2</ID>
+        <Name></Name>
+        <Enable>1</Enable>
+        <Type>1</Type>
+      </Attribute>
+      <MainNode>
+        <Attribute>
+          <ID>4</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </MainNode>
+      <SubNode>
+        <Attribute>
+          <ID>2</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </SubNode>
+    </AssocItem>
+    <AssocItem>
+      <Attribute>
+        <ID>3</ID>
+        <Name></Name>
+        <Enable>1</Enable>
+        <Type>1</Type>
+      </Attribute>
+      <MainNode>
+        <Attribute>
+          <ID>5</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </MainNode>
+      <SubNode>
+        <Attribute>
+          <ID>2</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </SubNode>
+    </AssocItem>
+    <AssocItem>
+      <Attribute>
+        <ID>4</ID>
+        <Name></Name>
+        <Enable>1</Enable>
+        <Type>1</Type>
+      </Attribute>
+      <MainNode>
+        <Attribute>
+          <ID>6</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </MainNode>
+      <SubNode>
+        <Attribute>
+          <ID>2</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </SubNode>
+    </AssocItem>
+    <AssocItem>
+      <Attribute>
+        <ID>5</ID>
+        <Name></Name>
+        <Enable>1</Enable>
+        <Type>1</Type>
+      </Attribute>
+      <MainNode>
+        <Attribute>
+          <ID>7</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </MainNode>
+      <SubNode>
+        <Attribute>
+          <ID>2</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </SubNode>
+    </AssocItem>
+    <AssocItem>
+      <Attribute>
+        <ID>6</ID>
+        <Name></Name>
+        <Enable>1</Enable>
+        <Type>1</Type>
+      </Attribute>
+      <MainNode>
+        <Attribute>
+          <ID>8</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </MainNode>
+      <SubNode>
+        <Attribute>
+          <ID>2</ID>
+          <Name></Name>
+          <Extra></Extra>
+          <Type>6</Type>
+        </Attribute>
+      </SubNode>
+    </AssocItem>
+  </AssocList>
+  <InspMethodList>
+    <InspMethod>
+      <Attribute>
+        <ID>1</ID>
+        <Name>FSRotateProcessing_V2</Name>
+      </Attribute>
+    </InspMethod>
+    <InspMethod>
+      <Attribute>
+        <ID>2</ID>
+        <Name>FSAeraSearchProcess_V2</Name>
+      </Attribute>
+    </InspMethod>
+    <InspMethod>
+      <Attribute>
+        <ID>3</ID>
+        <Name>FSRotateSearchProcess_V2</Name>
+      </Attribute>
+    </InspMethod>
+    <InspMethod>
+      <Attribute>
+        <ID>4</ID>
+        <Name>FSComparisonInspect_V2</Name>
+      </Attribute>
+    </InspMethod>
+    <InspMethod>
+      <Attribute>
+        <ID>5</ID>
+        <Name>FSBarCodeInspect_V2</Name>
+      </Attribute>
+    </InspMethod>
+    <InspMethod>
+      <Attribute>
+        <ID>6</ID>
+        <Name>FSCharacterInspect_V2</Name>
+      </Attribute>
+    </InspMethod>
+    <InspMethod>
+      <Attribute>
+        <ID>7</ID>
+        <Name>FS2DCodeRecognition_V2</Name>
+      </Attribute>
+    </InspMethod>
+    <InspMethod>
+      <Attribute>
+        <ID>8</ID>
+        <Name>FSLowContrastInspect_V2</Name>
+      </Attribute>
+    </InspMethod>
+  </InspMethodList>
+  <WorkStationList>
+    <WorkStation>
+      <Attribute>
+        <ID>1</ID>
+        <Name>Station1</Name>
+      </Attribute>
+      <AssocList>
+        <AssocItem>
+          <Attribute>
+            <ID>1</ID>
+            <Name></Name>
+            <Enable>1</Enable>
+            <Type>1</Type>
+          </Attribute>
+          <SubNode>
+            <Attribute>
+              <ID>1</ID>
+              <Name></Name>
+              <Extra></Extra>
+              <Type>3</Type>
+            </Attribute>
+          </SubNode>
+          <SubNode>
+            <Attribute>
+              <ID>2</ID>
+              <Name></Name>
+              <Extra></Extra>
+              <Type>3</Type>
+            </Attribute>
+          </SubNode>
+          <SubNode>
+            <Attribute>
+              <ID>3</ID>
+              <Name></Name>
+              <Extra></Extra>
+              <Type>3</Type>
+            </Attribute>
+          </SubNode>
+        </AssocItem>
+      </AssocList>
+      <RefImageList>
+        <RefImage>
+          <Attribute>
+            <ID>1</ID>
+            <Name>RefImage#1</Name>
+            <WorkStationID>1</WorkStationID>
+            <DefaultInspID>4</DefaultInspID>
+            <DefaultLevel>0</DefaultLevel>
+          </Attribute>
+          <NoteList>
+            <Note>
+              <Attribute>
+                <ID>1</ID>
+                <CenterY>0</CenterY>
+                <CenterX>0</CenterX>
+                <Angle>0.0</Angle>
+              </Attribute>
+              <RegionList />
+            </Note>
+          </NoteList>
+          <RegionList></RegionList>
+          <CamImageList>
+            <CamImage>
+              <Attribute>
+                <ID>1</ID>
+                <Name>C1</Name>
+                <IsMainImage>1</IsMainImage>
+                <WorkStationID>1</WorkStationID>
+                <GrabImageIndex>0</GrabImageIndex>
+                <Enable>1</Enable>
+                <YPos>0</YPos>
+                <XPos>0</XPos>
+                <RefImageID>1</RefImageID>
+              </Attribute>
+              <AssocList></AssocList>
+            </CamImage>
+          </CamImageList>
+          <GroupList>
+            <Group>
+              <Attribute>
+                <ID>1</ID>
+                <Name>比对分组#1</Name>
+                <Level>0</Level>
+                <WorkStationID>1</WorkStationID>
+                <RefImageID>1</RefImageID>
+              </Attribute>
+              <AssocList></AssocList>
+              <RegionList></RegionList>
+              <GroupInspMethodList>
+                <GroupInspMethod>
+                  <Attribute>
+                    <ID>4</ID>
+                    <Name>FSComparisonInspect_V2</Name>
+                    <IsDefault>1</IsDefault>
+                  </Attribute>
+                  <ParamList>
+                    <ParamItem>
+                      <Name>ID_PARA_Bginspectobj_1</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>This Inspect Object Is Blackground or Not</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BASICFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Invaded_2</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>If Allow Foreground Invade In Background</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Studynum_3</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>100</DefaultValue>
+                      <Value>20</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>1%%255</Range>
+                      <ClassifyValue />
+                      <Tips>The Number of This Inspect Object Is Need to Study</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Totalblobsarea_4</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>15000</DefaultValue>
+                      <Value>15000</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>The Sum of The Blobs' Area</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BASICFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hgreytolerance_7</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>2</DefaultValue>
+                      <Value>2</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%255</Range>
+                      <ClassifyValue />
+                      <Tips>Up Offset While Generating Thresh Image With learning result</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BASICFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lgreytolerance_8</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>2</DefaultValue>
+                      <Value>2</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%255</Range>
+                      <ClassifyValue />
+                      <Tips>Low Offset While Generating Thresh Image With learning result</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BASICFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Edgeenlarge_9</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>5</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Edge Enlarge</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BASICFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hdispersedpoint_10</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Detect Dispersed Point for High Image or Not</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_HIGH</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hminarea_11</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit />
+                      <Type>10</Type>
+                      <DefaultValue>5</DefaultValue>
+                      <Value>5</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Min Area in Disperse Detection</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdispersedpoint_10=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hmaxarea_12</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>10</Type>
+                      <DefaultValue>30</DefaultValue>
+                      <Value>30</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Max Area in Disperse Detection</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdispersedpoint_10=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hminenergy_13</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>10</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%255%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Min Energy in Disperse Detection</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdispersedpoint_10=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hmincount_14</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>25</DefaultValue>
+                      <Value>25</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Min Count in Disperse Detection</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdispersedpoint_10=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hdefectname_15</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>白色散点</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Defect Name</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdispersedpoint_10=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Name_1</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>白色散点缺陷</DefaultValue>
+                      <Value>白色散点缺陷</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdispersedpoint_10=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Score_1</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>100</DefaultValue>
+                      <Value>100</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdispersedpoint_10=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_GlobalID_1</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>16</DefaultValue>
+                      <Value>16</Value>
+                      <DispEnable>0</DispEnable>
+                      <ModifyEnable>0</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdispersedpoint_10=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Ldispersedpoint_16</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Detect Dispersed Point for Low Image or Not</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_Low</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lminarea_17</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>10</Type>
+                      <DefaultValue>6</DefaultValue>
+                      <Value>6</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Min Area in Disperse Detection</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_Low</Label>
+                      <Condition>ID_PARA_Ldispersedpoint_16=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lmaxarea_18</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>10</Type>
+                      <DefaultValue>31</DefaultValue>
+                      <Value>31</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Max Area in Disperse Detection</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_Low</Label>
+                      <Condition>ID_PARA_Ldispersedpoint_16=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lminenergy_19</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>10</Type>
+                      <DefaultValue>51</DefaultValue>
+                      <Value>51</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%255%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Min Energy in Disperse Detection</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_Low</Label>
+                      <Condition>ID_PARA_Ldispersedpoint_16=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lmincount_20</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>26</DefaultValue>
+                      <Value>26</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Min Count in Disperse Detection</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_Low</Label>
+                      <Condition>ID_PARA_Ldispersedpoint_16=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Ldefectname_21</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>黑色散点</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Defect Name</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_Low</Label>
+                      <Condition>ID_PARA_Ldispersedpoint_16=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Name_2</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>黑色散点缺陷</DefaultValue>
+                      <Value>黑色散点缺陷</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_Low</Label>
+                      <Condition>ID_PARA_Ldispersedpoint_16=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Score_2</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>100</DefaultValue>
+                      <Value>100</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_Low</Label>
+                      <Condition>ID_PARA_Ldispersedpoint_16=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_GlobalID_2</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>17</DefaultValue>
+                      <Value>17</Value>
+                      <DispEnable>0</DispEnable>
+                      <ModifyEnable>0</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_DISPERSEDPOINT_Low</Label>
+                      <Condition>ID_PARA_Ldispersedpoint_16=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hdetectblock_22</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Detect Block for High Image or Not</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hblockdefectarea_23</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>10</Type>
+                      <DefaultValue>70</DefaultValue>
+                      <Value>70</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%200%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Area in Block Defect</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hadjblockdefectarea_24</Name>
+                      <Unit />
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Adjust Area in Block Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hblockdefectenergy_25</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>10</Type>
+                      <DefaultValue>30</DefaultValue>
+                      <Value>60</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%255%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Energy in Block Defect</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hadjblockdefectenergy_26</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>20</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Adjust Energy in Block Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hblockdefectareaper_27</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Area Percentage in Block Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hblockdefectenergyper_28</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Energy Percentage in Block Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hblockdefectname_29</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>白色块</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Defect Name</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Name_5</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>白色块缺陷</DefaultValue>
+                      <Value>白色块缺陷</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Score_5</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>100</DefaultValue>
+                      <Value>100</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_GlobalID_5</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>20</DefaultValue>
+                      <Value>20</Value>
+                      <DispEnable>0</DispEnable>
+                      <ModifyEnable>0</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_HIGH</Label>
+                      <Condition>ID_PARA_Hdetectblock_22=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hdefectpoint_30</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Detect Point for High Image or Not</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hpointdefectarea_31</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>10</Type>
+                      <DefaultValue>40</DefaultValue>
+                      <Value>35</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Area in Point Defect</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hadjpointdefectarea_32</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>5</Type>
+                      <DefaultValue>25</DefaultValue>
+                      <Value>25</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Adjust Area in Point Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hpointdefectenergy_33</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>10</Type>
+                      <DefaultValue>80</DefaultValue>
+                      <Value>60</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%255%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Energy in Point Defect</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hadjpointdefectenergy_34</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Adjust Energy in Point Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hpointdefectareaper_35</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Area Percentage in Point Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hpointdefectenergyper_36</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Energy Percentage in Point Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Hpointdefectname_37</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>白点</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Defect Name</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Name_3</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>白点缺陷</DefaultValue>
+                      <Value>白点缺陷</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Score_3</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>100</DefaultValue>
+                      <Value>100</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_GlobalID_3</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>18</DefaultValue>
+                      <Value>18</Value>
+                      <DispEnable>0</DispEnable>
+                      <ModifyEnable>0</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_HIGH</Label>
+                      <Condition>ID_PARA_Hdefectpoint_30=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Ldetectblock_38</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Detect Block for Low Image or Not</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lblockdefectarea_39</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>10</Type>
+                      <DefaultValue>70</DefaultValue>
+                      <Value>70</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%200%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Area in Block Defect</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Ladjblockdefectarea_40</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Adjust Area in Block Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lblockdefectenergy_41</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>10</Type>
+                      <DefaultValue>30</DefaultValue>
+                      <Value>60</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%255%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Energy in Block Defect</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Ladjblockdefectenergy_42</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>20</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Adjust Energy in Block Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lblockdefectareaper_43</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Area Percentage in Block Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lblockdefectenergyper_44</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Energy Percentage in Block Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lblockdefectname_45</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>黑色块</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Defect Name</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Name_6</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>黑色块缺陷</DefaultValue>
+                      <Value>黑色块缺陷</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Score_6</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>100</DefaultValue>
+                      <Value>100</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_GlobalID_6</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>21</DefaultValue>
+                      <Value>21</Value>
+                      <DispEnable>0</DispEnable>
+                      <ModifyEnable>0</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BLOCK_Low</Label>
+                      <Condition>ID_PARA_Ldetectblock_38=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Ldetectpoint_46</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Detect Point for Low Image or Not</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lpointdefectarea_47</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>10</Type>
+                      <DefaultValue>40</DefaultValue>
+                      <Value>35</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Area in Point Defect</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Ladjpointdefectarea_48</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>5</Type>
+                      <DefaultValue>25</DefaultValue>
+                      <Value>25</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Adjust Area in Point Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lpointdefectenergy_49</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>10</Type>
+                      <DefaultValue>80</DefaultValue>
+                      <Value>60</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%255%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Energy in Point Defect</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Ladjpointdefectenergy_50</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Adjust Energy in Point Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lpointdefectareaper_51</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Area Percentage in Point Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lpointdefectenergyper_52</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>Energy Percentage in Point Defect</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_Lblockdefectname_53</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>黑点</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>Defect Name</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Name_4</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>黑点缺陷</DefaultValue>
+                      <Value>黑点缺陷</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Score_4</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>100</DefaultValue>
+                      <Value>100</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_GlobalID_4</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>19</DefaultValue>
+                      <Value>19</Value>
+                      <DispEnable>0</DispEnable>
+                      <ModifyEnable>0</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_POINT_Low</Label>
+                      <Condition>ID_PARA_Ldetectpoint_46=1;</Condition>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARAD_Hblobimage_54</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>2</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value></Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue>-1</ClassifyValue>
+                      <Tips>Defect Name</Tips>
+                      <Authority>1</Authority>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARAD_Lblobimage_55</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>2</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value></Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue>-1</ClassifyValue>
+                      <Tips>Defect Name</Tips>
+                      <Authority>1</Authority>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARAD_Defectcontour_56</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value></Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue>-1</ClassifyValue>
+                      <Tips>Defect Contour</Tips>
+                      <Authority>1</Authority>
+                    </ParamItem>
+                  </ParamList>
+                </GroupInspMethod>
+                <GroupInspMethod>
+                  <Attribute>
+                    <ID>2</ID>
+                    <Name>FSAeraSearchProcess_V2</Name>
+                    <IsDefault>1</IsDefault>
+                  </Attribute>
+                  <ParamList>
+                    <ParamItem>
+                      <Name>ID_PARA_AreaSearchScore_1</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>10</Type>
+                      <DefaultValue>70</DefaultValue>
+                      <Value>70</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>20%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>ID_DISP_AreaSearchScore_1</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BASICFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_AreaSearchHeight_2</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>ID_DISP_AreaSearchHeight_2</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_AreaSearchWidth_3</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>5</Type>
+                      <DefaultValue>50</DefaultValue>
+                      <Value>50</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%100%%1</Range>
+                      <ClassifyValue />
+                      <Tips>ID_DSIP_AreaSearchWidth_3</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_ActFluxWidth_4</Name>
+                      <Unit>mm</Unit>
+                      <DispUnit>mm</DispUnit>
+                      <Type>5</Type>
+                      <DefaultValue>8</DefaultValue>
+                      <Value>8</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%15%%1</Range>
+                      <ClassifyValue />
+                      <Tips>ID_DISP_ActFluxWidth_4</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_AreaSearchOffset_5</Name>
+                      <Unit>Pixel</Unit>
+                      <DispUnit>Pixel</DispUnit>
+                      <Type>5</Type>
+                      <DefaultValue>5</DefaultValue>
+                      <Value>5</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range>0%%10%1</Range>
+                      <ClassifyValue />
+                      <Tips>ID_DISP_AreaSearchOffset_5</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_SaveFailedPic_6</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>0</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>ID_DISP_SaveFailedPic_6</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BASICFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_EnableAreaSearch_7</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>0</Value>
+                      <DispEnable>0</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>ID_DISP_EnableAreaSearch_7</Tips>
+                      <Authority>1</Authority>
+                      <Label>IDS_LABEL_BASICFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_PARA_EnableCtrlSearchWidth_8</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>3</Type>
+                      <DefaultValue>0</DefaultValue>
+                      <Value>0</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range />
+                      <ClassifyValue />
+                      <Tips>ID_DISP_EnableCtrlSearchWidth_8</Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Count_0</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>0</DispEnable>
+                      <ModifyEnable>0</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_BASICFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Name_1</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>1</Type>
+                      <DefaultValue>定位失败</DefaultValue>
+                      <Value>定位失败</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_Score_1</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>100</DefaultValue>
+                      <Value>-1</Value>
+                      <DispEnable>1</DispEnable>
+                      <ModifyEnable>1</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                    <ParamItem>
+                      <Name>ID_DefectType_GlobalID_1</Name>
+                      <Unit />
+                      <DispUnit />
+                      <Type>5</Type>
+                      <DefaultValue>1</DefaultValue>
+                      <Value>1</Value>
+                      <DispEnable>0</DispEnable>
+                      <ModifyEnable>0</ModifyEnable>
+                      <Range></Range>
+                      <ClassifyValue />
+                      <Tips></Tips>
+                      <Authority>2</Authority>
+                      <Label>IDS_LABEL_ADVFUNC</Label>
+                    </ParamItem>
+                  </ParamList>
+                </GroupInspMethod>
+              </GroupInspMethodList>
+              <InspObjList></InspObjList>
+            </Group>
+          </GroupList>
+        </RefImage>
+      </RefImageList>
+    </WorkStation>
+  </WorkStationList>
+</Product>

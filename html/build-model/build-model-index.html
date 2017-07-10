@@ -16,6 +16,7 @@
                 var productModel = getJson("/nest/FSQBM/QBM/Product.json",false);
                 // 将数据保存到session中
                 sessionStorage.setItem("buildModel",JSON.stringify(productModel));
+                sessionStorage.setItem("buildModelType","new");
 
                 flowInit();
                 initFlow(flow);
@@ -23,8 +24,9 @@
             
             $("#openModel").on("click",function () {
                 var productModel = getJson("/nest/product/2/2.json",false);
-                 // 将数据保存到session中
-                 sessionStorage.setItem("buildModel",JSON.stringify(productModel));
+                // 将数据保存到session中
+                sessionStorage.setItem("buildModel",JSON.stringify(productModel));
+                sessionStorage.setItem("buildModelType","edit");
 
                 flowInit();
                 initFlow("./../../config/build-model/flowConfig.json");
@@ -33,6 +35,7 @@
             $("#openModelOnserver").on("click",function () {
                 var testData = getString("http://192.168.13.41:8080/servlet-demo/ProductServlet",false);
                 sessionStorage.setItem("buildModel",testData);
+                sessionStorage.setItem("buildModelType","edit");
 
                 flowInit();
                 initFlow("./../../config/build-model/flowConfig.json");

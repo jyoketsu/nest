@@ -300,11 +300,36 @@ function outerToPoint(region){
         graphIndex = graphId;
         graphIndex++;
     }
+
+    // 内轮廓
+    var tempPointList2 = [];
+    if(region.Inner && region.Inner.length>0){
+        for(var listIndex=0;listIndex<region.Inner.length;listIndex++){
+            var inner = region.Inner[listIndex].split(",");
+
+            var innerPoints=[];
+            for(var innerIndex=0;innerIndex<inner.length;){
+                var imageX=parseInt(inner[innerIndex]);
+                var imageY=parseInt(inner[innerIndex+1]);
+                var canvasPoint = getCanvasPoint(options.focalPoint,imageX,imageY);
+                innerPoints.push({
+                    canvasX:canvasPoint.canvasX,
+                    canvasY:canvasPoint.canvasY,
+                    imageX:imageX,
+                    imageY:imageY
+                });
+                innerIndex=innerIndex+2;
+            }
+            tempPointList2.push(innerPoints);
+        }
+    }
+
     return {
         id : graphId,
         graphType : "polygon",
         isSelected : false,
         pointList : tempPointList,
+        innerPoints : tempPointList2,
         // 当前画图形时背景位图的偏移量
         currentDeg : deg,
         // 当前压缩比

@@ -1,0 +1,20 @@
+<extractInspectObject>
+    <Classify>
+        <Main_Color>
+            <Thinckness>15</Thinckness>
+        </Main_Color>
+        <Coord>
+            <X_dis>85</X_dis>
+            <Y_dis>20</Y_dis>
+        </Coord>
+        <Color_Dis>
+            <Distance>20</Distance>
+            <RChannel>true</RChannel>
+            <GChannel>true</GChannel>
+            <BChannel>true</BChannel>
+        </Color_Dis>
+        <Ratio>
+            <Value>0.07</Value>
+        </Ratio>
+    </Classify>
+</extractInspectObject>

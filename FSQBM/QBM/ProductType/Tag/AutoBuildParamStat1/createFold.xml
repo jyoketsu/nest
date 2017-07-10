@@ -1,0 +1,19 @@
+<root>
+    <createFold>
+        <stationParams>
+            <path>D:\部署\stationParams\</path>
+        </stationParams>
+        <ImagePath>
+            <path>D:\一级\LARGE_3通道\101.bmp</path>
+        </ImagePath>
+        <scaleX>
+            <value>0.5</value>
+        </scaleX>
+        <scaleY>
+            <value>0.5</value>
+        </scaleY>
+        <FoldNum>
+            <value>0</value>
+        </FoldNum>
+    </createFold>
+</root>

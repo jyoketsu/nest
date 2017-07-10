@@ -30,6 +30,12 @@
                 setForm(buildModel.Product.Attribute);
             }
 
+            // 新建产品的情况
+            if(sessionStorage.getItem("buildModelType")=="new"){
+                // 初始化产品类型下拉框
+                initProductType();
+            }
+
             // 单击退出按钮
             $("#quit").on("click",function(){
                 var prePage = sessionStorage.getItem("prePage");
@@ -103,6 +109,20 @@
                 var currentTime = new Date();
                 return currentTime.getFullYear()+"/"+currentTime.getMonth()+"/"+currentTime.getDate()
                         +" "+currentTime.getHours()+":"+currentTime.getMinutes()+":"+currentTime.getSeconds();
+            }
+            // 初始化产品类型下拉框
+            function initProductType(){
+                var productType = getJson("/nest/FSQBM/QBM/ProductType/ProductType.json",false);
+                var typeOption='<option value="-1"></option>';
+                for(var i=0;i<productType.nameList.length;i++){
+                    var value=productType.nameList[i];
+                    if(value == buildModel.Product.Attribute.ProductType){
+                        typeOption+='<option value="'+value+'" selected>'+value+'</option>';
+                    }else{
+                        typeOption+='<option value="'+value+'">'+value+'</option>';
+                    }
+                }
+                $("#ProductType").append(typeOption);
             }
 
             $.mockjax({

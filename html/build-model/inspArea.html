@@ -82,7 +82,7 @@
         // 关联的对象图形
         var assocGraphs = [];
         // 复制region的偏移值
-        var copyDeviant = 10;
+        var copyDeviant = 50;
 
         $(document).ready(function(){
             // WebSocket连接
@@ -347,6 +347,12 @@
                 deleteObject();
                 // 删除图形
                 deleteGraph();
+            });
+
+            // 点击复制对象按钮
+            $("#objectCopy").on("click",function () {
+                // 复制对象
+                copyObject();
             });
 
             
@@ -737,6 +743,7 @@
             $("#objectToolbar").css("display","block");
 
             $("#algorithm-select").val(defaultInspID);
+            $("#objectName").html(objectNode.text);
             // 生成算法参数界面
             generateAlgorithmParam(methodInfo);
             // 显示算法参数界面
@@ -795,6 +802,178 @@
                 // 标识关联对象区域
                 markAssocRegion(selectedNode);
             }
+        }
+
+        // 复制对象
+        function copyObject(){
+            // 建模数据部分--------------------------------------------
+            var groupIds=[selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
+            var objectIds=[];
+            if(selectedNode.nodeType=="object"){
+                $.extend(true,objectIds,selectedNode.parents);
+                objectIds.push(selectedNode.id);
+            } else {
+                $.extend(true,objectIds,selectedNode.parents);
+            }
+
+            // 当前分组及对象
+            var currentGroup = findObjectInArray(buildModel.Product.WorkStationList,groupIds);
+            var currentObject = findObjectInArray(buildModel.Product.WorkStationList,objectIds);
+            var currentRegion;
+            var currentAssoc;
+            console.log("copyTarget",currentObject);
+            // 获取当前对象的region
+            if(currentObject.RegionIDList.length!=0){
+                var regionId=currentObject.RegionIDList[0].ID;
+                for(var i=0;i<currentGroup.RegionList.length;i++){
+                    if(regionId == currentGroup.RegionList[i].Attribute.ID){
+                        currentRegion = currentGroup.RegionList[i];
+                    }
+                }
+            }
+            console.log("copyTargetRegion",currentRegion);
+            // 获取当前对象关系
+            for(var i=0;i<currentGroup.AssocList.length;i++){
+                if(currentObject.Attribute.ID == currentGroup.AssocList[i].MainNode.Attribute.ID){
+                    currentAssoc = currentGroup.AssocList[i];
+                }
+            }
+
+            // 复制region
+            if(currentRegion){
+                var copyRegion={};
+                $.extend(true,copyRegion,currentRegion);
+                copyRegion.Attribute.ID = graphIndex;
+                graphIndex++;
+                // region值偏移
+                var outerArray = copyRegion.Outer.split(",");
+                var outer="";
+                for(var i=0;i<outerArray.length;i++){
+                    outer+=parseInt(outerArray[i])+copyDeviant+",";
+                }
+                outer = outer.substring(0,outer.length-1);
+                copyRegion.Outer = outer;
+                if(copyRegion.Inner && copyRegion.Inner.length!=0){
+                    var inner=[];
+                    for(var i=0;i<copyRegion.Inner.length;i++){
+                        var innerArray = copyRegion.Inner[i].split(",");
+                        var innerItem="";
+                        for(var j=0;j<innerArray.length;j++){
+                            innerItem+=parseInt(innerArray[j])+copyDeviant+",";
+                        }
+                        innerItem = innerItem.substring(0,outer.length-1);
+                        inner.push(innerItem);
+                    }
+                    copyRegion.Inner = inner;
+                }
+                console.log("copyRegion",copyRegion);
+
+                // 添加到group中
+                currentGroup.RegionList.push(copyRegion);
+            }
+
+            // 复制对象
+            var copyObject={};
+            $.extend(true,copyObject,currentObject);
+            copyObject.Attribute.ID = objectIndex;
+            copyObject.Attribute.Name = "对象#"+objectIndex;
+            if(currentRegion){
+                copyObject.Attribute.RegionIDList = [{ID:copyRegion.Attribute.ID}];
+                copyObject.RegionIDList = [{ID:copyRegion.Attribute.ID}];
+            }
+            objectIndex++;
+            console.log("copyObject",copyObject);
+            // 添加到group中
+            currentGroup.InspObjList.push(copyObject);
+
+            // 复制对象关系
+            var copyAssoc={};
+            $.extend(true,copyAssoc,currentAssoc);
+            copyAssoc.MainNode.Attribute.ID = copyObject.Attribute.ID;
+            copyAssoc.Attribute.ID = parseInt(currentGroup.AssocList[currentGroup.AssocList.length-1].Attribute.ID)+1;
+            // 添加到group中
+            currentGroup.AssocList.push(copyAssoc);
+
+
+            // 界面显示部分--------------------------------------------
+            // 绘制ROI
+            var graphObject = outerToPoint(copyRegion);
+            drawProcessedGraph("drawGraph",graphObject);
+
+
+            // todo 一下方法日后需和方法 addObject(regionID) 合并
+            // 当前分组id
+            var groupId = "";
+            var ids = [selectedNode.parents[0],selectedNode.parents[1]];
+
+            // 当前选中的节点是分组
+            if(selectedNode.nodeType=="group"){
+                groupId = selectedNode.id;
+            } else if(selectedNode.nodeType=="object"){ // 当前选中的节点是对象
+                groupId = selectedNode.parents[2];
+            } else if(selectedNode.nodeType=="inspMethod"){ // 当前选中的节点是对象检测方法
+                groupId = selectedNode.parents[2];
+            }
+
+            ids.push(groupId);
+
+            // 当前分组节点
+            var currentGroupNode = findNodeInTreeNode(ids);
+            // 获取检测算法
+            var inspID = copyObject.Attribute.InspMethodID;
+            var methodInfo = findInspMethodById(inspID);
+            // 翻译算法名
+            var methodName = translate(methodInfo.methodName,methodInfo.languageData);
+
+            // 对象树节点
+            var objectNode = {
+                id: copyObject.Attribute.ID,
+                text: copyObject.Attribute.Name,
+                icon: "fa fa-cube",
+                nodeType: "object",
+                parents:[selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]],
+                state: {
+                    expanded:true,
+                    selected: true
+                },
+                nodes:[
+                    {
+                        text: methodName,
+                        icon: "fa fa-gear",
+                        nodeType: "inspMethod",
+                        methodId: inspID,
+                        parents:[selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2],copyObject.Attribute.ID]
+                    },
+                    {
+                        text: "region",
+                        icon: "fa fa-pencil-square-o",
+                        nodeType:"region",
+                        parents:[selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2],copyObject.Attribute.ID]
+                    }
+                ]
+            };
+
+            selectedNode.state.selected = false;
+            currentGroupNode.state.expanded = true;
+            currentGroupNode.state.selected = false;
+            currentGroupNode.nodes.push(objectNode);
+            objectIndex++;
+
+            $('#tree').treeview(treeNode);
+            treeEvent();
+            selectedNode = $('#tree').treeview('getSelected')[0];
+            // 显示对象工具栏
+            $("#imageToolbar").css("display","none");
+            $("#groupToolbar").css("display","none");
+            $("#objectToolbar").css("display","block");
+
+            $("#algorithm-select").val(inspID);
+            // 更新界面对象名
+            $("#objectName").html(objectNode.text);
+            // 生成算法参数界面
+            generateAlgorithmParam(methodInfo);
+            // 显示算法参数界面
+            showRightContent();
         }
 
         // 初始化算法选择下拉框

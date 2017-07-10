@@ -123,7 +123,7 @@ function initPic (result) {
     let startTime = new Date().getTime();
 
     // todo 清空图形和ROI
-    // this.clearContext("all",null);
+    clearContext("all",null);
     // 显示加载模态框
     $("#canvasLoadingModal").modal("show");
     this.img = new Image();

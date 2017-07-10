@@ -1,0 +1,34 @@
+<extractParams>
+    <color>
+        <ProdRegion>
+            <holesMaxArea>660</holesMaxArea>
+            <openLengthH>51</openLengthH>
+            <openLengthV>52</openLengthV>
+            <morphR>-1</morphR>
+            <RejectionThreshold>0.5</RejectionThreshold>
+        </ProdRegion>
+        <FgRegion>
+            <Enable1DCode>true</Enable1DCode>
+            <defautType1D>Code 128</defautType1D>
+            <Enable2DCode>true</Enable2DCode>
+            <extractCode2dType>
+                <Item>QR Code</Item>
+            </extractCode2dType>
+            <LowThd>21</LowThd>
+            <HightThd>41</HightThd>
+            <ConnectR>1</ConnectR>
+            <morphR>-1</morphR>
+            <minExtractArea>301</minExtractArea>
+        </FgRegion>
+    </color>
+    <gray>
+        <ProdRegion>
+            <LowThd>51</LowThd>
+            <HightThd>61</HightThd>
+            <ConnectR>2</ConnectR>
+            <openLengthH>81</openLengthH>
+            <openLengthV>82</openLengthV>
+            <morphR>-2</morphR>
+        </ProdRegion>
+    </gray>
+</extractParams>
