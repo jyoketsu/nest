@@ -137,7 +137,7 @@ function getStationTree(buildModel,refImageOnly) {
                             objectIndex++;
                         }
                         // 获取当前对象算法信息
-                        var methodInfo = findInspMethodById(inspObj.Attribute.InspMethodID);
+                        var methodInfo = findInspMethodById(inspObj.Attribute.InspMethodID,group);
                         // 翻译算法名
                         var methodName = translate(methodInfo.methodName,methodInfo.languageData);
                         // 对象节点

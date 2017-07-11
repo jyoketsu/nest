@@ -156,6 +156,21 @@
 
             // 切换算法选择
             $("#algorithm-select").on("change",function () {
+                var groupIds = [selectedNode.parents[0],selectedNode.parents[1]];
+                var groupId;
+                // 当前选中的节点是分组
+                if(selectedNode.nodeType=="group"){
+                    groupId = selectedNode.id;
+                } else if(selectedNode.nodeType=="object"){ // 当前选中的节点是对象
+                    groupId = selectedNode.parents[2];
+                } else if(selectedNode.nodeType=="inspMethod"){ // 当前选中的节点是对象检测方法
+                    groupId = selectedNode.parents[2];
+                }
+                groupIds.push(groupId);
+
+                // 当前分组数据
+                var currentGroup = findObjectInArray(buildModel.Product.WorkStationList,groupIds);
+
                 // 清除关联对象标识区域
                 if(assocGraphs.length != 0){
                     assocGraphs.forEach(function(graph){
@@ -167,7 +182,7 @@
 
                 // 更新对象参数显示界面
                 var methodId = $(this).val();
-                var methodInfo = findInspMethodById(methodId);
+                var methodInfo = findInspMethodById(methodId,currentGroup);
                 // 更新对象建模数据
                 updateObjectBuildModel(methodInfo);
                 // 更新对象关系数据
@@ -541,6 +556,11 @@
                 $("#groupToolbar").css("display","block");
                 hideRightContent();
             } else if(selectedNode.nodeType == "object"){
+                // 当前分组ids
+                var groupIds = [selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
+                // 当前分组数据
+                var currentGroup = findObjectInArray(buildModel.Product.WorkStationList,groupIds);
+
                 // 显示对象工具按钮
                 $("#objectToolbar").css("display","block");
                 // 显示算法参数界面
@@ -552,10 +572,16 @@
                 ids.push(selectedNode.id);
                 var methodInfo = findInspMethod(ids);
                 generateAlgorithmParam(methodInfo);
+                limitAlgorithmSelect(currentGroup);
                 $("#algorithm-select").val(selectedNode.nodes[0].methodId);
                 // 更新界面对象名
                 $("#objectName").html(selectedNode.text);
             } else if(selectedNode.nodeType == "inspMethod"||selectedNode.nodeType == "region"){
+                // 当前分组ids
+                var groupIds = [selectedNode.parents[0],selectedNode.parents[1],selectedNode.parents[2]];
+                // 当前分组数据
+                var currentGroup = findObjectInArray(buildModel.Product.WorkStationList,groupIds);
+
                 // 显示算法参数界面
                 showRightContent();
 
@@ -564,6 +590,7 @@
                 // 更新算法参数界面
                 var methodInfo = findInspMethod(selectedNode.parents);
                 generateAlgorithmParam(methodInfo);
+                limitAlgorithmSelect(currentGroup);
                 $("#algorithm-select").val(objectNode.nodes[0].methodId);
                 // 更新界面对象名
                 $("#objectName").html(objectNode.text);
@@ -672,12 +699,14 @@
 
             // 当前分组节点
             var currentGroupNode = findNodeInTreeNode(ids);
+            // 当前分组数据
+            var currentGroup = findObjectInArray(buildModel.Product.WorkStationList,ids);
 
             // 当前参考图建模数据
             var buildModelImageData = findImgInbuildModel(selectedNode.parents[1]);
             // 获取默认检测算法
             var defaultInspID = buildModelImageData.Attribute.DefaultInspID;
-            var methodInfo = findInspMethodById(defaultInspID);
+            var methodInfo = findInspMethodById(defaultInspID,currentGroup);
             console.log("methodInfo",methodInfo);
             // 翻译算法名
             var methodName = translate(methodInfo.methodName,methodInfo.languageData);
@@ -744,6 +773,8 @@
 
             $("#algorithm-select").val(defaultInspID);
             $("#objectName").html(objectNode.text);
+
+            limitAlgorithmSelect(currentGroup);
             // 生成算法参数界面
             generateAlgorithmParam(methodInfo);
             // 显示算法参数界面
@@ -921,7 +952,7 @@
             var currentGroupNode = findNodeInTreeNode(ids);
             // 获取检测算法
             var inspID = copyObject.Attribute.InspMethodID;
-            var methodInfo = findInspMethodById(inspID);
+            var methodInfo = findObjectInspMethod(copyObject,currentGroup);
             // 翻译算法名
             var methodName = translate(methodInfo.methodName,methodInfo.languageData);
 
@@ -974,6 +1005,8 @@
             generateAlgorithmParam(methodInfo);
             // 显示算法参数界面
             showRightContent();
+            // 标识关联对象区域
+            markAssocRegion(selectedNode);
         }
 
         // 初始化算法选择下拉框
@@ -990,6 +1023,29 @@
                 option+='<option value="'+methodId+'">'+methadDispName+'</option>';
             }
             $algorithmSelect.append(option);
+        }
+
+        // 限制下拉框选项
+        function limitAlgorithmSelect(currentGroup){
+            var limitAlgorithmIds = [];
+
+            if(currentGroup.GroupInspMethodList){
+                for(var i=0;i<currentGroup.GroupInspMethodList.length;i++){
+                    limitAlgorithmIds.push(currentGroup.GroupInspMethodList[i].Attribute.ID);
+                }
+            }
+            var $algorithmSelect = $("#algorithm-select");
+            if(limitAlgorithmIds.length!=0){
+                $algorithmSelect.children("option").each(function(){
+                    if(limitAlgorithmIds.indexOf($(this).val())!=-1){
+                        $(this).prop('hidden',false);
+                    }else{
+                        $(this).prop('hidden',true);
+                    }
+                });
+            }else{
+                $algorithmSelect.children("option").prop('hidden',false);
+            }
         }
 
         // 获取算法语言翻译
@@ -1343,22 +1399,79 @@
             return assocValues;
         }
 
-        // 根据检测方法id获取指定的检测方法
-        function findInspMethodById(id) {
+        // 获取对象的检测方法信息
+        function findObjectInspMethod(inspObj,group){
+            var methodId = inspObj.Attribute.InspMethodID;
             var methodName = "";
             for(var i=0;i<buildModel.Product.InspMethodList.length;i++){
                 var inspMethod = buildModel.Product.InspMethodList[i];
-                if(inspMethod.Attribute.ID==id){
+                if(inspMethod.Attribute.ID==methodId){
                     methodName = inspMethod.Attribute.Name;
                     break;
                 }
             }
 
             var inspMethodFileName = inspMethod.Attribute.Name+".json";
-            // 获取算法参数信息
-            algorithmParam = getJson(algorithmPath+inspMethodFileName,false);
             // 获取翻译语言信息
             var languageData = getLanguageData(paramLanguagePath+inspMethodFileName,language)
+                    .Translation.Module.LangItem;
+            var paramList = inspObj.ParamList;
+
+            // 获取算法关系值
+            var assocValues = new Array();
+            // 当前分组下的对象关系
+            var objectAssocList = group.AssocList;
+            // 遍历获取算法关系值
+            for(var i=0;i<objectAssocList.length;i++){
+                if(inspObj.Attribute.ID == objectAssocList[i].MainNode.Attribute.ID){
+                    for(var j=0;j<objectAssocList[i].SubNode.length;j++){
+                        assocValues.push(objectAssocList[i].SubNode[j].Attribute.ID);
+                    }
+                    break;
+                }
+            }
+
+            return {
+                methodId:methodId,
+                methodName:methodName,
+                paramList:paramList,
+                languageData:languageData,
+                assocValues:assocValues
+            }
+        }
+
+        // 根据检测方法id获取指定的检测方法
+        function findInspMethodById(id,currentGroup) {
+            // 算法名
+            var methodName = "";
+            // 获取算法参数信息
+            var algorithmParam;
+
+            var groupInspMethodList = currentGroup.GroupInspMethodList;
+            if(groupInspMethodList && groupInspMethodList.length!=0){
+                // 从分组指定算法中获取算法信息
+                for(var i=0;i<groupInspMethodList.length;i++){
+                    var inspMethod = groupInspMethodList[i];
+                    if(inspMethod.Attribute.ID==id){
+                        methodName = inspMethod.Attribute.Name;
+                        algorithmParam = inspMethod;
+                        break;
+                    }
+                }
+            }else{
+                // 从产品算法中获取算法信息
+                for(var i=0;i<buildModel.Product.InspMethodList.length;i++){
+                    var inspMethod = buildModel.Product.InspMethodList[i];
+                    if(inspMethod.Attribute.ID==id){
+                        methodName = inspMethod.Attribute.Name;
+                        algorithmParam = getJson(algorithmPath+methodName+".json",false);
+                        break;
+                    }
+                }
+            }
+
+            // 获取翻译语言信息
+            var languageData = getLanguageData(paramLanguagePath+methodName+".json",language)
                     .Translation.Module.LangItem;
             return {
                 methodId:id,
@@ -1921,11 +2034,6 @@
 
             for(var i=0;i<idsList.length;i++){
                 var node = findNodeInTreeNode(idsList[i]);
-                /*selectedNode.state.selected=false;
-                node.state.selected=true;*/
-
-                /*$('#tree').treeview(treeNode);
-                treeEvent();*/
                 $('#tree').treeview('selectNode', [ node, { silent: true } ]);
                 selectedNode = node;
                 afterSelecttreeNode();

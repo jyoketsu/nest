@@ -33,6 +33,8 @@
         var selectedNode = "";
         // WebSocket连接
         var ws = null;
+        // 现在的检测范围
+        var currentDetectRange = null;
 
         $(document).ready(function(){
             // WebSocket连接
@@ -81,17 +83,8 @@
             // 初始化绘制模板图像
             initPic("./../../product/test/Station1-C1-0.bmp");
 
-            // 如果是单工位单模板图，初期显示检测范围
-            drawDetectRange();
-
-            // 工位树点击事件
-            $('#tree').on('nodeSelected', function(event, data) {
-                /*selectedNode = data;*/
-                selectedNode = $('#tree').treeview('getSelected')[0];
-                // todo
-                /*afterSelecttreeNode();
-                selectROI();*/
-            });
+            // 初始化检测范围
+            initDetectRange();
 
             // 单击退出按钮
             $("#quit").on("click",function(){
@@ -111,8 +104,9 @@
             });
             // 单击下一步按钮
             $("#nextStep").on("click",function(){
-                if(graphList.length==0){
-                    alert("请绘制检测范围！！");
+                var result = operateComplete();
+                if(!result.result){
+                    alert(result.msg);
                 } else {
                     // 进入下一步
                     nextFlow();
@@ -168,6 +162,7 @@
                 }
             });
 
+            // 工位树事件
             $('#tree').on('nodeSelected', function(event, data) {
                 selectedNode = $('#tree').treeview('getSelected')[0];
                 $("#captureImg").attr("disabled",true);
@@ -177,14 +172,32 @@
                     var ids = [selectedNode.parents[0],selectedNode.id];
                     var currentImg = findObjectInArray(buildModel.Product.WorkStationList,ids);
                     if(currentImg.RegionList.length!=0){
-                        // 选中图形
-                        selectGraphById(currentImg.RegionList[0].Attribute.ID);
-                        // 选中事件
-                        selectGraph();
+                        // 绘制检测范围
+                        if(currentDetectRange){
+                            clearContext("content",currentDetectRange.coverageId);
+                        }
+                        drawDetectRange(currentImg.RegionList[0].Attribute.ID);
+                    }else{
+                        // 清空检测范围显示
+                        if(currentDetectRange){
+                            clearContext("content",currentDetectRange.coverageId);
+                            // 清空蒙版
+                            clearContext("bak",null);
+                            previousSelectedGraph = null;
+                            currentDetectRange = null;
+                        }
                     }
+                    // 选中事件
+                    selectGraph();
                 } else{
-                    // 取消选中
-                    unSelectGraph();
+                    // 清空检测范围显示
+                    if(currentDetectRange){
+                        clearContext("content",currentDetectRange.coverageId);
+                        // 清空蒙版
+                        clearContext("bak",null);
+                        previousSelectedGraph = null;
+                        currentDetectRange = null;
+                    }
                     // 选中事件
                     selectGraph();
                 }
@@ -194,10 +207,13 @@
             $("#detectRange").on("click",function () {
                 if(selectedNode.nodeType!="refImage"){
                     alert("请选择一参考图！");
-                } else if(graphList.length!=0){
-                    alert("请先删除当前检测范围!");
                 } else {
-                    mouseDraft("newROI","square",false);
+                    var refImgIds = [selectedNode.parents[0],selectedNode.id];
+                    if(existDetectRange(refImgIds)){
+                        alert("请先删除当前检测范围!");
+                    }else{
+                        mouseDraft("newROI","square",false);
+                    }
                 }
             });
 
@@ -214,6 +230,7 @@
                     deleteGraph();
                     // 删除检测范围数据
                     deleteRegionInBuildModel();
+                    currentDetectRange = null;
                 } else {
                     alert("未选中任何图形！");
                 }
@@ -246,27 +263,41 @@
 
             // 顺时针旋转
             $("#clockwise").on("click",function () {
-                if(graphList.length!=0){
-                    alert("请先删除当前检测范围!");
-                }else{
-                    rotate("clockwise");
+                if(selectedNode.nodeType!="refImage"){
+                    alert("请选择一参考图！");
+                } else {
+                    var refImgIds = [selectedNode.parents[0],selectedNode.id];
+                    if(existDetectRange(refImgIds)){
+                        alert("请先删除当前检测范围!");
+                    }else{
+                        rotate("clockwise");
+                    }
                 }
-
             });
             // 逆时针旋转
             $("#antiClockwise").on("click",function () {
-                if(graphList.length!=0){
-                    alert("请先删除当前检测范围!");
-                }else{
-                    rotate("antiClockwise");
+                if(selectedNode.nodeType!="refImage"){
+                    alert("请选择一参考图！");
+                } else {
+                    var refImgIds = [selectedNode.parents[0],selectedNode.id];
+                    if(existDetectRange(refImgIds)){
+                        alert("请先删除当前检测范围!");
+                    }else{
+                        rotate("antiClockwise");
+                    }
                 }
             });
             // 重置旋转
             $("#resetRotate").on("click",function () {
-                if(graphList.length!=0){
-                    alert("请先删除当前检测范围!");
-                }else{
-                    rotate("resetRotate");
+                if(selectedNode.nodeType!="refImage"){
+                    alert("请选择一参考图！");
+                } else {
+                    var refImgIds = [selectedNode.parents[0],selectedNode.id];
+                    if(existDetectRange(refImgIds)){
+                        alert("请先删除当前检测范围!");
+                    }else{
+                        rotate("resetRotate");
+                    }
                 }
             });
         });
@@ -294,22 +325,32 @@
             }
         }
 
+        // 初始化检测范围
+        function initDetectRange(){
+            var interval = setInterval(function(){
+                if(options){
+                    clearInterval(interval);
+                    // 获取检测范围(一定要在初始化图像之后)
+                    graphList = getDetectRanges();
+                    // 选中首个工位首个参考图
+                    var node = findNodeInTreeNode([1,1]);
+                    $('#tree').treeview('selectNode', [ node, { silent: true } ]);
+                    selectedNode = node;
+                    var firstRefImg = findObjectInArray(buildModel.Product.WorkStationList,[1,1]);
+                    if(firstRefImg.RegionList && firstRefImg.RegionList.length!=0){
+                        drawDetectRange(firstRefImg.RegionList[0].Attribute.ID);
+                    }
+                }
+            },50);
+        }
+
         // 如果是单工位单模板图，初期显示检测范围
-        function drawDetectRange(){
-            if(buildModel.Product.WorkStationList.length == 1){
-                if(buildModel.Product.WorkStationList[0].RefImageList.length == 1){
-                    var interval = setInterval(function(){
-                        if(options){
-                            // 获取检测范围(一定要在初始化图像之后)
-                            var graph = getOneDetectRange();
-                            if(graph){
-                                graphList = [graph];
-                                // 绘制检测范围
-                                drawRegions(graphList);
-                            }
-                            clearInterval(interval);
-                        }
-                    },50);
+        function drawDetectRange(regionId){
+            for(var i=0;i<graphList.length;i++){
+                if(regionId == graphList[i].id){
+                    // 绘制检测范围
+                    drawGraph(graphList[i]);
+                    currentDetectRange = graphList[i];
                 }
             }
         }
@@ -323,13 +364,31 @@
                 for (var j=0;j<refImageList.length;j++){
                     var refImage = refImageList[j];
                     var regionList = refImage.RegionList;
-                    if(regionList[0]){
+                    if(regionList && regionList[0]){
                         return outerToPoint(regionList[0]);
                     } else {
                         return null
                     }
                 }
             }
+        }
+
+        // 获取所有检测范围
+        function getDetectRanges(){
+            var result=[];
+            var workStationList = buildModel.Product.WorkStationList;
+            for(var i=0;i<workStationList.length;i++){
+                var workStation = workStationList[i];
+                var refImageList = workStation.RefImageList;
+                for (var j=0;j<refImageList.length;j++){
+                    var refImage = refImageList[j];
+                    var regionList = refImage.RegionList;
+                    if(regionList && regionList[0]){
+                        result.push(outerToPoint(regionList[0]));
+                    }
+                }
+            }
+            return result;
         }
 
         // 根据当前选中的region选中参考图树节点
@@ -390,6 +449,40 @@
             ids.push(selectedNode.id);
             var currentRefImg = findObjectInArray(buildModel.Product.WorkStationList,ids);
             currentRefImg.RegionList = [];
+        }
+
+        // 判断当前参考图是否有检测范围
+        function existDetectRange(refImgIds){
+            var refImg = findObjectInArray(buildModel.Product.WorkStationList,refImgIds);
+            if(refImg.RegionList.length!=0){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        // 判断当前建模操作是否完成
+        function operateComplete(){
+            var result={
+                result:true,
+                msg:""
+            }
+            var workStationList = buildModel.Product.WorkStationList;
+            outerloop:
+            for(var i=0;i<workStationList.length;i++){
+                var workStation = workStationList[i];
+                var refImageList = workStation.RefImageList;
+                for (var j=0;j<refImageList.length;j++){
+                    var refImage = refImageList[j];
+                    var regionList = refImage.RegionList;
+                    if(regionList.length==0){
+                        result.result=false;
+                        result.msg=workStationList[i].Attribute.Name+"的"+refImage.Attribute.Name+"没有检测范围！";
+                        break outerloop;
+                    }
+                }
+            }
+            return result;
         }
     </script>
 </head>

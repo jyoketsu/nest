@@ -345,7 +345,8 @@
                                     "YPos": "0",
                                     "XPos": "0",
                                     "RefImageID": "1"
-                                }
+                                },
+                                "AssocList":[]
                             }
                         ],
                         "GroupList": []

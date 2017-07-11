@@ -1,9 +1,11 @@
 {
-  "nameList":[
-    "Cigarette Box",
-    "Cigarette Hard",
-    "Cigarette Soft",
-    "Color Box",
-    "Tag"
+  "productTypeList":[
+    {
+      "name":"CigaretteBox",
+      "autoBuild":"0"
+    },{
+      "name":"Tag",
+      "autoBuild":"1"
+    }
   ]
 }

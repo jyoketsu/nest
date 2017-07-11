@@ -22,6 +22,7 @@
     <script src="../../js/common/flow.js"></script>
 
     <script>
+        var productType;
         $(document).ready(function(){
             // 获取session中的建模数据
             var buildModel = JSON.parse(sessionStorage.getItem("buildModel"));
@@ -39,11 +40,12 @@
             // 单击退出按钮
             $("#quit").on("click",function(){
                 var prePage = sessionStorage.getItem("prePage");
-                if(prePage == "product-info"){
-                    window.location.href = "../product-info/product-info.html";
-                } else if (prePage == "product-detect"){
-                    window.location.href = "../product-detect/product-detect.html";
-                }
+                window.location.href = "../build-model/build-model-index.html";
+                /*if(prePage == "product-info"){
+                 window.location.href = "../product-info/product-info.html";
+                 } else if (prePage == "product-detect"){
+                 window.location.href = "../product-detect/product-detect.html";
+                 }*/
             });
             // 单击上一步按钮
             $("#prevStep").on("click",function(){
@@ -66,6 +68,27 @@
                     // 进入下一步
                     nextFlow();
                 }
+            });
+
+            // 产品类型
+            $("#ProductType").on("change",function(){
+                var typeValue = $("#ProductType").val();
+                if(autoBuildSupport(typeValue)=="1"){
+                    $("#AutoBuild").attr("disabled", false);
+                }else{
+                    $("#AutoBuild").attr("disabled", true);
+                }
+                if(typeValue!=-1){
+                    // 产品类型模板数据地址
+                    var productTypeUrl = "/nest/FSQBM/QBM/ProductType/"+typeValue+"/Product.json";
+                    // 获取产品类型模板数据
+                    buildModel = getJson(productTypeUrl,false);
+                }else{
+                    buildModel = getJson("/nest/FSQBM/QBM/Product.json",false);
+                }
+                // 设置表单数据
+                setForm(buildModel.Product.Attribute);
+                console.log("productTypeModel",buildModel);
             });
 
             // 保存建模第一步数据
@@ -112,10 +135,11 @@
             }
             // 初始化产品类型下拉框
             function initProductType(){
-                var productType = getJson("/nest/FSQBM/QBM/ProductType/ProductType.json",false);
+                productType = getJson("/nest/FSQBM/QBM/ProductType/ProductType.json",false);
                 var typeOption='<option value="-1"></option>';
-                for(var i=0;i<productType.nameList.length;i++){
-                    var value=productType.nameList[i];
+                for(var i=0;i<productType.productTypeList.length;i++){
+                    var productTypeInfo = productType.productTypeList[i];
+                    var value=productTypeInfo.name;
                     if(value == buildModel.Product.Attribute.ProductType){
                         typeOption+='<option value="'+value+'" selected>'+value+'</option>';
                     }else{
@@ -123,6 +147,18 @@
                     }
                 }
                 $("#ProductType").append(typeOption);
+            }
+
+            // 判断是否支持自动建模
+            function autoBuildSupport(name){
+                var result;
+                for(var i=0;i<productType.productTypeList.length;i++){
+                    if(productType.productTypeList[i].name == name){
+                        result = productType.productTypeList[i].autoBuild;
+                        break;
+                    }
+                }
+                return result;
             }
 
             $.mockjax({
@@ -246,16 +282,11 @@
                         </div>
                         <div class="form-group">
                             <label>产品类型</label>
-                            <select class="form-control" id="ProductType" name="ProductType">
-                                <!--<option value="吊牌">吊牌</option>
-                                <option value="烟包小盒">烟包小盒</option>
-                                <option value="烟包条盒">烟包条盒</option>
-                                <option value="烟包软包">烟包软包</option>-->
-                            </select>
+                            <select class="form-control" id="ProductType" name="ProductType"></select>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" id="AutoBuild" name="AutoBuild" value="0" onclick="this.value=(this.value==0)?1:0">自动建模
+                                <input type="checkbox" id="AutoBuild" name="AutoBuild" value="0" disabled onclick="this.value=(this.value==0)?1:0">自动建模
                             </label>
                         </div>
                     </form>
