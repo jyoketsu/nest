@@ -125,108 +125,122 @@ function setCanvasSize(){
     this.offscreenCanvas.height = this.canvasHeight;
 }
 
-// 初期显示图像
-function initPic (result) {
-    let startTime = new Date().getTime();
-
-    // todo 清空图形和ROI
-    clearContext("all",null);
+// 初始化offscreen
+function initOffScreen(imgInfoList,callback){
+    var startTime = new Date().getTime();
     // 显示加载模态框
     $("#canvasLoadingModal").modal("show");
-    this.img = new Image();
-    //this.img.crossOrigin = "anonymous";
 
-    let that = this;
-    this.img.onload = function() {
-        let endTime = new Date().getTime();
-        console.log("-----image load time : ");
-        console.log((endTime - startTime)/1000);
+    for(var i=0;i<imgInfoList.length;i++){
+        imgInfoList[i].img = new Image();
+        imgInfoList[i].img.src = imgInfoList[i].src;
+    }
 
+    var offscreenWidth = 0;
+    var offscreenHeight = 0;
+    var loadedCount = 0;
+    for(var i=0;i<imgInfoList.length;i++){
+        var script = 'var img'+i+' = imgInfoList[i].img;' +
+            'img'+i+'.onload = function(){' +
+            'loadedCount++;' +
+            'offscreenWidth+=img'+i+'.width;' +
+            'offscreenHeight=img'+i+'.height;' +
+            'img'+i+'=null;};';
+        eval(script);
+    }
+
+    var loadInterval = setInterval(function(){
+        if(loadedCount == imgInfoList.length){
+            clearInterval(loadInterval);
+            offscreenContext.clearRect(0,0,offscreenCanvas.width,offscreenCanvas.height);
+            offscreenCanvas.width = offscreenWidth;
+            offscreenCanvas.height = offscreenHeight;
+
+            var drawX=0;
+            var drawY=0;
+            for(var i=0;i<imgInfoList.length;i++){
+                offscreenContext.drawImage(imgInfoList[i].img,drawX,drawY,imgInfoList[i].img.width,imgInfoList[i].img.height);
+                drawX+=imgInfoList[i].img.width;
+                imgInfoList[i].img = null;
+            }
+            callback();
+
+            var endTime = new Date().getTime();
+            console.log("image load time",(endTime - startTime)/1000);
+            // 隐藏加载模态框
+            $("#canvasLoadingModal").modal("hide");
+        }
+    },50);
+}
+
+// 初期显示图像
+function initPic (imgInfoList) {
+    // 清空图形和ROI
+    clearContext("all",null);
+
+    initOffScreen(imgInfoList,drawOffScreen);
+
+    function drawOffScreen(){
         // 图片长宽比
-        let ratio = that.img.width / that.img.height;
+        var ratio = offscreenCanvas.width / offscreenCanvas.height;
         // canvas长宽比
-        let canvasRatio = that.canvasWidth / that.canvasHeight;
+        var canvasRatio = canvasWidth / canvasHeight;
         // 绘制的宽度和高度
-        let iw = (ratio < canvasRatio) ? that.img.width*(that.canvasHeight/that.img.height) : that.canvasWidth;
-        let ih = (ratio < canvasRatio) ? that.canvasHeight : that.img.height*(that.canvasWidth/that.img.width);
-
-        that.offscreenCanvas.width = that.img.width;
-        that.offscreenCanvas.height = that.img.height;
-
-        let drawStime = new Date().getTime();
-        that.offscreenContext.drawImage(that.img,0,0,that.img.width,that.img.height);
-        let drawEtime = new Date().getTime();
-        console.log("-----draw offscreenCanvas time : ");
-        console.log((drawEtime - drawStime)/1000);
+        var iw = (ratio < canvasRatio) ? offscreenCanvas.width*(canvasHeight/offscreenCanvas.height) : canvasWidth;
+        var ih = (ratio < canvasRatio) ? canvasHeight : offscreenCanvas.height*(canvasWidth/offscreenCanvas.width);
 
         // 初期化绘图参数
-        that.options = new Object();
-        that.options.iw = iw;
-        that.options.ih = ih;
-        that.options.ratio = ratio;
-        that.options.canvasRatio = canvasRatio;
-        that.options.scale = 1;
+        options = new Object();
+        options.iw = iw;
+        options.ih = ih;
+        options.ratio = ratio;
+        options.canvasRatio = canvasRatio;
+        options.scale = 1;
         // 原图与显示图的缩放比例
-        that.options.zoomRatio = that.img.width / (iw*that.options.scale);
+        options.zoomRatio = offscreenCanvas.width / (iw * options.scale);
         // 中点
-        that.options.midpoint = {
-            canvasX : that.canvasWidth/2,
-            canvasY : that.canvasHeight/2,
-            imageX : that.img.width/2,
-            imageY : that.img.height/2
+        options.midpoint = {
+            canvasX : canvasWidth/2,
+            canvasY : canvasHeight/2,
+            imageX : offscreenCanvas.width/2,
+            imageY : offscreenCanvas.height/2
         };
         // 焦点
-        that.options.focalPoint = {
-            canvasX : that.canvasWidth/2,
-            canvasY : that.canvasHeight/2,
-            imageX : that.img.width/2,
-            imageY : that.img.height/2
+        options.focalPoint = {
+            canvasX : canvasWidth/2,
+            canvasY : canvasHeight/2,
+            imageX : offscreenCanvas.width/2,
+            imageY : offscreenCanvas.height/2
         };
 
         // 绘制背景图片
-        drawStime = new Date().getTime();
-        paintPic(that.options);
-        drawEtime = new Date().getTime();
-        console.log("-----draw image time : ");
-        console.log((drawEtime - drawStime)/1000);
-        console.log("-----draw image total time : ");
-        console.log((drawEtime - startTime)/1000);
-
-        // 隐藏加载模态框
-        $("#canvasLoadingModal").modal("hide");
-    };
-    this.img.src = result;
+        paintPic(options);
+    }
 }
 
 // 绘制位图
 function paintPic (options) {
-    if (this.img != null) {
-        let scale = options.scale;
-        let iw = options.iw;
-        let ih = options.ih;
+    let scale = options.scale;
+    let iw = options.iw;
+    let ih = options.ih;
 
-        // 设置x,y坐标，以焦点缩放
-        let canvasX = this.options.focalPoint.canvasX;
-        let canvasY = this.options.focalPoint.canvasY;
-        let imageX = this.options.focalPoint.imageX;
-        let imageY = this.options.focalPoint.imageY;
+    // 设置x,y坐标，以焦点缩放
+    let canvasX = this.options.focalPoint.canvasX;
+    let canvasY = this.options.focalPoint.canvasY;
+    let imageX = this.options.focalPoint.imageX;
+    let imageY = this.options.focalPoint.imageY;
 
-        let x = canvasX - iw*scale*(imageX/this.img.width);
-        let y = canvasY - ih*scale*(imageY/this.img.height);
+    let x = canvasX - iw*scale*(imageX/offscreenCanvas.width);
+    let y = canvasY - ih*scale*(imageY/offscreenCanvas.height);
 
-        let drawContextStime = new Date().getTime();
-
-        this.context_bg.save();
-        // 位移：将图像中点设为canvas原点
-        this.context_bg.translate(this.options.midpoint.canvasX,this.options.midpoint.canvasY);
-        // 旋转
-        this.context_bg.rotate(this.deg*Math.PI/180);
-        this.context_bg.drawImage(this.offscreenCanvas, x - this.options.midpoint.canvasX, y - this.options.midpoint.canvasY, iw*scale, ih*scale);
-        //this.context_bg.drawImage(this.img, x - this.options.midpoint.canvasX, y - this.options.midpoint.canvasY, iw*scale, ih*scale);
-        this.context_bg.restore();
-
-        let drawContextEtime = new Date().getTime();
-    }
+    this.context_bg.save();
+    // 位移：将图像中点设为canvas原点
+    this.context_bg.translate(this.options.midpoint.canvasX,this.options.midpoint.canvasY);
+    // 旋转
+    this.context_bg.rotate(this.deg*Math.PI/180);
+    this.context_bg.drawImage(this.offscreenCanvas, x - this.options.midpoint.canvasX, y - this.options.midpoint.canvasY, iw*scale, ih*scale);
+    //this.context_bg.drawImage(this.img, x - this.options.midpoint.canvasX, y - this.options.midpoint.canvasY, iw*scale, ih*scale);
+    this.context_bg.restore();
 }
 
 // 彩色转灰度
@@ -329,11 +343,11 @@ function mouseDraft(msg,graphType,continuous){
     let startY;
     let canDraw = false;
 
-    // 绘制前必须先加载位图
+    /*// 绘制前必须先加载位图
     if (that.img == null) {
         alert("请先选择图片！");
         return;
-    }
+    }*/
     // 当是擦除或者扩充时，必须先选中ROI
     if (msg=="eraseROI"||msg=="combineROI") {
         if (that.previousSelectedGraph == null) {
@@ -972,10 +986,10 @@ function selectGraph() {
     let that = this;
     // 改变鼠标样式
     changeCursor("pointer");
-    if (that.img == null) {
+    /*if (that.img == null) {
         alert("请先选择图片！");
         return;
-    }
+    }*/
     var style = {
         strokeColor:"#808080",
         strokeSize:2,
@@ -1098,10 +1112,12 @@ function selectGraph() {
                 selectedPeakPoints = null;
             }
             // 选中位图
-            if (that.img != null) {
-                picDragging = true;
-                graphSelected = false;
-            }
+            /*if (that.img != null) {
+             picDragging = true;
+             graphSelected = false;
+             }*/
+            picDragging = true;
+            graphSelected = false;
         }
     };
 
@@ -1796,96 +1812,97 @@ function zoomPic(zoom) {
     /*$(that.canvas_bak).unbind();
     // 改变鼠标样式
     changeCursor("not-allowed");*/
-    if (that.img != null) {
-        // 放大
-        if (zoom =="zoom-in") {
+    /*if (that.img == null) {
+        return;
+    }*/
+
+    // 放大
+    if (zoom =="zoom-in") {
+        that.options.scale += 0.05;
+        // 缩小
+    } else if (zoom =="zoom-out") {
+        that.options.scale -= 0.05;
+        if (that.options.scale<=0){
             that.options.scale += 0.05;
-            // 缩小
-        } else if (zoom =="zoom-out") {
-            that.options.scale -= 0.05;
-            if (that.options.scale<=0){
-                that.options.scale += 0.05;
-            }
-            // 适应高度
-        } else if (zoom =="height") {
-            that.options.scale = 1;
-            that.options.iw = that.canvasHeight*(that.img.width/that.img.height);
-            that.options.ih = that.canvasHeight;
-            // 适应宽度
-        } else if (zoom =="width") {
-            that.options.scale = 1;
-            that.options.iw = that.canvasWidth;
-            that.options.ih = that.canvasWidth/(that.img.width/that.img.height);
-            // 适应窗口
-        } else if (zoom =="window") {
-            that.options.scale = 1;
-            // 图片长宽比
-            let ratio = that.img.width / that.img.height;
-            // canvas长宽比
-            let canvasRatio = that.canvasWidth / that.canvasHeight;
-            let iw = (ratio < canvasRatio) ? that.img.width*(that.canvasHeight/that.img.height) : that.canvasWidth;
-            let ih = (ratio < canvasRatio) ? that.canvasHeight : that.img.height*(that.canvasWidth/that.img.width);
-            that.options.iw = iw;
-            that.options.ih = ih;
-            // 1:1
-        } else if (zoom =="origin") {
-            that.options.scale = 1;
-            that.options.iw = that.img.width*that.compressRatio;
-            that.options.ih = that.img.height*that.compressRatio;
         }
+        // 适应高度
+    } else if (zoom =="height") {
+        that.options.scale = 1;
+        that.options.iw = that.canvasHeight*(offscreenCanvas.width/offscreenCanvas.height);
+        that.options.ih = that.canvasHeight;
+        // 适应宽度
+    } else if (zoom =="width") {
+        that.options.scale = 1;
+        that.options.iw = that.canvasWidth;
+        that.options.ih = that.canvasWidth/(offscreenCanvas.width/offscreenCanvas.height);
+        // 适应窗口
+    } else if (zoom =="window") {
+        that.options.scale = 1;
+        // 图片长宽比
+        let ratio = offscreenCanvas.width / offscreenCanvas.height;
+        // canvas长宽比
+        let canvasRatio = that.canvasWidth / that.canvasHeight;
+        let iw = (ratio < canvasRatio) ? offscreenCanvas.width*(that.canvasHeight/offscreenCanvas.height) : that.canvasWidth;
+        let ih = (ratio < canvasRatio) ? that.canvasHeight : offscreenCanvas.height*(that.canvasWidth/offscreenCanvas.width);
+        that.options.iw = iw;
+        that.options.ih = ih;
+        // 1:1
+    } else if (zoom =="origin") {
+        that.options.scale = 1;
+        that.options.iw = offscreenCanvas.width*that.compressRatio;
+        that.options.ih = offscreenCanvas.height*that.compressRatio;
+    }
 
-        // 更新缩放比例
-        that.options.zoomRatio = that.img.width / (that.options.iw*that.options.scale);
+    // 更新缩放比例
+    that.options.zoomRatio = offscreenCanvas.width / (that.options.iw*that.options.scale);
 
-        // 更新图形canvas坐标
-        for (let i = 0;i<that.graphList.length;i++) {
-            let currentGraph = that.graphList[i];
-            let pointList = currentGraph.pointList;
-            for (var index=0;index<pointList.length;index++) {
-                var canvasPoint = getCanvasPoint(options.focalPoint,pointList[index].imageX,pointList[index].imageY);
-                pointList[index].canvasX = canvasPoint.canvasX;
-                pointList[index].canvasY = canvasPoint.canvasY;
-            }
-            // 内轮廓
-            var innerPointsList = currentGraph.innerPoints;
-            if(innerPointsList){
-                for (var index=0;index<innerPointsList.length;index++) {
-                    var innerPoints = innerPointsList[index];
-                    for(var j=0;j<innerPoints.length;j++){
-                        var canvasPoint = getCanvasPoint(options.focalPoint,innerPoints[j].imageX,innerPoints[j].imageY);
-                        innerPoints[j].canvasX = canvasPoint.canvasX;
-                        innerPoints[j].canvasY = canvasPoint.canvasY;
-                    }
+    // 更新图形canvas坐标
+    for (let i = 0;i<that.graphList.length;i++) {
+        let currentGraph = that.graphList[i];
+        let pointList = currentGraph.pointList;
+        for (var index=0;index<pointList.length;index++) {
+            var canvasPoint = getCanvasPoint(options.focalPoint,pointList[index].imageX,pointList[index].imageY);
+            pointList[index].canvasX = canvasPoint.canvasX;
+            pointList[index].canvasY = canvasPoint.canvasY;
+        }
+        // 内轮廓
+        var innerPointsList = currentGraph.innerPoints;
+        if(innerPointsList){
+            for (var index=0;index<innerPointsList.length;index++) {
+                var innerPoints = innerPointsList[index];
+                for(var j=0;j<innerPoints.length;j++){
+                    var canvasPoint = getCanvasPoint(options.focalPoint,innerPoints[j].imageX,innerPoints[j].imageY);
+                    innerPoints[j].canvasX = canvasPoint.canvasX;
+                    innerPoints[j].canvasY = canvasPoint.canvasY;
                 }
             }
         }
-        // 更新中点canvas坐标
-        let midPoint = that.getCanvasPoint(that.options.focalPoint,that.options.midpoint.imageX,that.options.midpoint.imageY);
-        that.options.midpoint.canvasX = midPoint.canvasX;
-        that.options.midpoint.canvasY = midPoint.canvasY;
+    }
+    // 更新中点canvas坐标
+    let midPoint = that.getCanvasPoint(that.options.focalPoint,that.options.midpoint.imageX,that.options.midpoint.imageY);
+    that.options.midpoint.canvasX = midPoint.canvasX;
+    that.options.midpoint.canvasY = midPoint.canvasY;
 
-        // 更新顶点集canvas坐标
-        if(selectedPeakPoints){
-            for (var i=0;i<selectedPeakPoints.length;i++) {
-                var canvasPoint = getCanvasPoint(options.focalPoint,selectedPeakPoints[i].imageX,selectedPeakPoints[i].imageY);
-                selectedPeakPoints[i].canvasX = canvasPoint.canvasX;
-                selectedPeakPoints[i].canvasY = canvasPoint.canvasY;
-            }
+    // 更新顶点集canvas坐标
+    if(selectedPeakPoints){
+        for (var i=0;i<selectedPeakPoints.length;i++) {
+            var canvasPoint = getCanvasPoint(options.focalPoint,selectedPeakPoints[i].imageX,selectedPeakPoints[i].imageY);
+            selectedPeakPoints[i].canvasX = canvasPoint.canvasX;
+            selectedPeakPoints[i].canvasY = canvasPoint.canvasY;
         }
+    }
 
-        // 更新显示
-        drawGraphs(that.graphList);
+    // 更新显示
+    drawGraphs(that.graphList);
 
-        // 更新顶点轮廓
-        if(selectedPeakPoints){
-            // 清空蒙版
-            clearContext("bak",null);
-            // 外框
-            drawSquare([selectedPeakPoints[0],selectedPeakPoints[4]],context_bak,{rotateX:0,rotateY:0},true,style);
-            // 顶点矩形
-            drawPeak(selectedPeakPoints,5);
-        }
-
+    // 更新顶点轮廓
+    if(selectedPeakPoints){
+        // 清空蒙版
+        clearContext("bak",null);
+        // 外框
+        drawSquare([selectedPeakPoints[0],selectedPeakPoints[4]],context_bak,{rotateX:0,rotateY:0},true,style);
+        // 顶点矩形
+        drawPeak(selectedPeakPoints,5);
     }
 }
 
@@ -1894,6 +1911,7 @@ var mouseWheel = function(e){
     var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? "zoom-in" : "zoom-out")) ||
         (e.originalEvent.detail && (e.originalEvent.detail > 0 ? "zoom-out" : "zoom-in"));
     zoomPic(delta);
+    selectGraph();
 }
 
 // 旋转

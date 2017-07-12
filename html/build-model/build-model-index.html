@@ -32,6 +32,16 @@
                 initFlow("./../../config/build-model/flowConfig.json");
             });
 
+            $("#openModelSplicing").on("click",function () {
+                var productModel = getJson("/nest/product/splicing/splicing.json",false);
+                // 将数据保存到session中
+                sessionStorage.setItem("buildModel",JSON.stringify(productModel));
+                sessionStorage.setItem("buildModelType","edit");
+
+                flowInit();
+                initFlow("./../../config/build-model/flowConfig.json");
+            });
+
             $("#openModelOnserver").on("click",function () {
                 var testData = getString("http://192.168.13.41:8080/servlet-demo/ProductServlet",false);
                 sessionStorage.setItem("buildModel",testData);
@@ -62,10 +72,12 @@
     <input type="radio" name="flow" value="flow2" />
     流程2：检测区-检测范围-产品信息
 
-    <br>
+    <br><br>
     <button id="newModel">新建模板</button>
     <button id="openModel">打开本地模板</button>
     <button id="openModelOnserver">打开服务器模板</button>
+    <br><br>
+    <button id="openModelSplicing">打开本地模板(模板图拼接)</button>
 </div>
 
 </body>

@@ -1,0 +1,1418 @@
+{
+    "Product": {
+        "Attribute": {
+            "NoteCount": "1",
+            "Name": "splicing",
+            "GrabLength": "284.4",
+            "ProductType": "",
+            "AutoBuild": "0",
+            "ID": "",
+            "ProductPath": "",
+            "IsRelease": "",
+            "CreateTime": "2017/5/29 16:33:58",
+            "Page": "",
+            "TrainingPath": "",
+            "RefreshTime": "2017/5/29 16:33:58"
+        },
+        "AssocList": [
+            {
+                "Attribute": {
+                    "ID": "1",
+                    "Name": "",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "2",
+                        "Name": "",
+                        "Extra": "",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "1",
+                            "Name": "",
+                            "Extra": "",
+                            "Type": "6"
+                        }
+                    },
+                    {
+                        "Attribute": {
+                            "ID": "1",
+                            "Name": "",
+                            "Extra": "",
+                            "Type": "6"
+                        }
+                    }
+                ]
+            },
+            {
+                "Attribute": {
+                    "ID": "2",
+                    "Name": "",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "4",
+                        "Name": "",
+                        "Extra": "",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "3",
+                            "Name": "",
+                            "Extra": "",
+                            "Type": "6"
+                        }
+                    }
+                ]
+            },
+            {
+                "Attribute": {
+                    "ID": "3",
+                    "Name": "",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "5",
+                        "Name": "",
+                        "Extra": "",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "3",
+                            "Name": "",
+                            "Extra": "",
+                            "Type": "6"
+                        }
+                    }
+                ]
+            },
+            {
+                "Attribute": {
+                    "ID": "4",
+                    "Name": "",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "6",
+                        "Name": "",
+                        "Extra": "",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "3",
+                            "Name": "",
+                            "Extra": "",
+                            "Type": "6"
+                        }
+                    }
+                ]
+            },
+            {
+                "Attribute": {
+                    "ID": "5",
+                    "Name": "",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "7",
+                        "Name": "",
+                        "Extra": "",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "3",
+                            "Name": "",
+                            "Extra": "",
+                            "Type": "6"
+                        }
+                    }
+                ]
+            },
+            {
+                "Attribute": {
+                    "ID": "6",
+                    "Name": "",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "8",
+                        "Name": "",
+                        "Extra": "",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "3",
+                            "Name": "",
+                            "Extra": "",
+                            "Type": "6"
+                        }
+                    }
+                ]
+            },
+            {
+                "Attribute": {
+                    "ID": "7",
+                    "Name": "",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "9",
+                        "Name": "",
+                        "Extra": "",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "3",
+                            "Name": "",
+                            "Extra": "",
+                            "Type": "6"
+                        }
+                    }
+                ]
+            },
+            {
+                "Attribute": {
+                    "ID": "8",
+                    "Name": "",
+                    "Enable": "1",
+                    "Type": "1"
+                },
+                "MainNode": {
+                    "Attribute": {
+                        "ID": "10",
+                        "Name": "",
+                        "Extra": "",
+                        "Type": "6"
+                    }
+                },
+                "SubNode": [
+                    {
+                        "Attribute": {
+                            "ID": "3",
+                            "Name": "",
+                            "Extra": "",
+                            "Type": "6"
+                        }
+                    }
+                ]
+            }
+        ],
+        "InspMethodList": [
+            {
+                "Attribute": {
+                    "ID": "1",
+                    "Name": "FSRotateSearchProcess_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "2",
+                    "Name": "FSRotateProcessing_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "3",
+                    "Name": "FSAeraSearchProcess_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "4",
+                    "Name": "FSComparisonInspect_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "5",
+                    "Name": "FSBarCodeInspect_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "6",
+                    "Name": "FSCharacterInspect_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "7",
+                    "Name": "FS2DCodeRecognition_V2"
+                }
+            },
+            {
+                "Attribute": {
+                    "ID": "8",
+                    "Name": "FSLowContrastInspect_V2"
+                }
+            }
+        ],
+        "WorkStationList": [
+            {
+                "Attribute": {
+                    "ID": "1",
+                    "Name": "Station1"
+                },
+                "AssocList": [
+                    {
+                        "Attribute": {
+                            "ID": "1",
+                            "Name": "",
+                            "Enable": "1",
+                            "Type": "1"
+                        },
+                        "SubNode": [
+                            {
+                                "Attribute": {
+                                    "ID": "1",
+                                    "Name": "",
+                                    "Extra": "",
+                                    "Type": "3"
+                                }
+                            },
+                            {
+                                "Attribute": {
+                                    "ID": "2",
+                                    "Name": "",
+                                    "Extra": "",
+                                    "Type": "3"
+                                }
+                            },
+                            {
+                                "Attribute": {
+                                    "ID": "3",
+                                    "Name": "",
+                                    "Extra": "",
+                                    "Type": "3"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "RefImageList": [
+                    {
+                        "Attribute": {
+                            "ID": "1",
+                            "Name": "RefImage#1",
+                            "WorkStationID": "1",
+                            "DefaultInspID": "3",
+                            "DefaultLevel": "0"
+                        },
+                        "NoteList": [
+                            {
+                                "Attribute": {
+                                    "ID": "1",
+                                    "CenterY": "0",
+                                    "CenterX": "0",
+                                    "Angle": "0.0"
+                                }
+                            }
+                        ],
+                        "RegionList": [
+                            {
+                                "Attribute": {
+                                    "ID": 0,
+                                    "NoteID": ""
+                                },
+                                "Outer": "2632,115,5394,115,5394,2677,2632,2677"
+                            }
+                        ],
+                        "CamImageList": [
+                            {
+                                "Attribute": {
+                                    "ID": "1",
+                                    "Name": "C1",
+                                    "IsMainImage": "1",
+                                    "WorkStationID": "1",
+                                    "GrabImageIndex": "0",
+                                    "Enable": "1",
+                                    "YPos": "0",
+                                    "XPos": "0",
+                                    "RefImageID": "1"
+                                }
+                            },
+                            {
+                                "Attribute": {
+                                    "ID": "2",
+                                    "Name": "C2",
+                                    "IsMainImage": "1",
+                                    "WorkStationID": "1",
+                                    "GrabImageIndex": "0",
+                                    "Enable": "1",
+                                    "YPos": "0",
+                                    "XPos": "0",
+                                    "RefImageID": "1"
+                                }
+                            }
+                        ],
+                        "GroupList": [
+                            {
+                                "Attribute": {
+                                    "ID": 1,
+                                    "Name": "分组#1",
+                                    "WorkStationID": "1",
+                                    "RefImageID": "1"
+                                },
+                                "AssocList": [
+                                    {
+                                        "Attribute": {
+                                            "ID": 2,
+                                            "Name": "",
+                                            "Enable": "1",
+                                            "Type": "1"
+                                        },
+                                        "MainNode": {
+                                            "Attribute": {
+                                                "ID": 1,
+                                                "Name": "",
+                                                "Extra": "",
+                                                "Type": "1"
+                                            }
+                                        },
+                                        "SubNode": [
+                                            {
+                                                "Attribute": {
+                                                    "ID": "2",
+                                                    "Name": "",
+                                                    "Extra": "",
+                                                    "Type": "1"
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Attribute": {
+                                            "ID": 3,
+                                            "Name": "",
+                                            "Enable": "1",
+                                            "Type": "1"
+                                        },
+                                        "MainNode": {
+                                            "Attribute": {
+                                                "ID": 2,
+                                                "Name": "",
+                                                "Extra": "",
+                                                "Type": "1"
+                                            }
+                                        },
+                                        "SubNode": [
+                                            {
+                                                "Attribute": {
+                                                    "ID": "-1",
+                                                    "Name": "",
+                                                    "Extra": "",
+                                                    "Type": "1"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "RegionList": [
+                                    {
+                                        "Attribute": {
+                                            "ID": 0,
+                                            "NoteID": ""
+                                        },
+                                        "Outer": "3952,45,4721,45,4721,640,3952,640"
+                                    },
+                                    {
+                                        "Attribute": {
+                                            "ID": 1,
+                                            "NoteID": ""
+                                        },
+                                        "Outer": "3960,2148,4153,2148,4153,2323,3960,2323"
+                                    }
+                                ],
+                                "InspObjList": [
+                                    {
+                                        "Attribute": {
+                                            "ID": 1,
+                                            "Name": "对象#1",
+                                            "WorkStationID": "1",
+                                            "RefImageID": "1",
+                                            "GroupID": 1,
+                                            "InspMethodID": "7",
+                                            "RegionIDList": [
+                                                {
+                                                    "ID": 0
+                                                }
+                                            ],
+                                            "ParamList": [
+                                                {
+                                                    "Name": "ID_PARA_AreaSearchScore_1",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "10",
+                                                    "DefaultValue": "70",
+                                                    "Value": "70",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "20%%100%%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_AreaSearchScore_1",
+                                                    "Authority": "1",
+                                                    "Label": "IDS_LABEL_BASICFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_AreaSearchHeight_2",
+                                                    "Unit": "Pixel",
+                                                    "DispUnit": "Pixel",
+                                                    "Type": "5",
+                                                    "DefaultValue": "50",
+                                                    "Value": "50",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "0%%100%%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_AreaSearchHeight_2",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_AreaSearchWidth_3",
+                                                    "Unit": "Pixel",
+                                                    "DispUnit": "Pixel",
+                                                    "Type": "5",
+                                                    "DefaultValue": "50",
+                                                    "Value": "50",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "0%%100%%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DSIP_AreaSearchWidth_3",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_ActFluxWidth_4",
+                                                    "Unit": "mm",
+                                                    "DispUnit": "mm",
+                                                    "Type": "5",
+                                                    "DefaultValue": "8",
+                                                    "Value": "8",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "0%%15%%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_ActFluxWidth_4",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_AreaSearchOffset_5",
+                                                    "Unit": "Pixel",
+                                                    "DispUnit": "Pixel",
+                                                    "Type": "5",
+                                                    "DefaultValue": "5",
+                                                    "Value": "5",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "0%%10%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_AreaSearchOffset_5",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_SaveFailedPic_6",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "3",
+                                                    "DefaultValue": "0",
+                                                    "Value": "0",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_SaveFailedPic_6",
+                                                    "Authority": "1",
+                                                    "Label": "IDS_LABEL_BASICFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_EnableAreaSearch_7",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "3",
+                                                    "DefaultValue": "0",
+                                                    "Value": "0",
+                                                    "DispEnable": "0",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_EnableAreaSearch_7",
+                                                    "Authority": "1",
+                                                    "Label": "IDS_LABEL_BASICFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_EnableCtrlSearchWidth_8",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "3",
+                                                    "DefaultValue": "0",
+                                                    "Value": "0",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_EnableCtrlSearchWidth_8",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_DefectType_Count_0",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "5",
+                                                    "DefaultValue": "1",
+                                                    "Value": "1",
+                                                    "DispEnable": "0",
+                                                    "ModifyEnable": "0",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_BASICFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_DefectType_Name_1",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "1",
+                                                    "DefaultValue": "定位失败",
+                                                    "Value": "定位失败",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_DefectType_Score_1",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "5",
+                                                    "DefaultValue": "100",
+                                                    "Value": "-1",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_DefectType_GlobalID_1",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "5",
+                                                    "DefaultValue": "1",
+                                                    "Value": "1",
+                                                    "DispEnable": "0",
+                                                    "ModifyEnable": "0",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                }
+                                            ]
+                                        },
+                                        "RegionIDList": [
+                                            {
+                                                "ID": 0
+                                            }
+                                        ],
+                                        "ParamList": [
+                                            {
+                                                "Name": "ID_PARA_Savedefpic_1",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "0",
+                                                "Value": "0",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "Save the defect picture to the specified path.",
+                                                "Authority": "1",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Decodability_2",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "6",
+                                                "DefaultValue": "3",
+                                                "Value": "3",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%3%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "Whether to use image preprocessing.",
+                                                "Authority": "1",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Width_3",
+                                                "Unit": "mm",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "10",
+                                                "Value": "10",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "1%%1000%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "Actual Width of 2D Code.",
+                                                "Authority": "1",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Codetype_4",
+                                                "Unit": "mm",
+                                                "DispUnit": "",
+                                                "Type": "8",
+                                                "DefaultValue": "QR Code",
+                                                "Value": "QR Code",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "QR Code%%Data Matrix ECC 200%%PDF417",
+                                                "ClassifyValue": "",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Qrversion_5",
+                                                "Unit": "mm",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "4",
+                                                "Value": "4",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "1%%40%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Timeout_6",
+                                                "Unit": "ms",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "10",
+                                                "Value": "10",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "10%%10000%%10",
+                                                "ClassifyValue": "",
+                                                "Tips": "The longest decoding deadline.",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Mirrored_7",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "8",
+                                                "DefaultValue": "no",
+                                                "Value": "no",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "yes%%no%%auto",
+                                                "ClassifyValue": "",
+                                                "Tips": "Whether the symbol is or may be mirrored.",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Mincontrast_8",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "30",
+                                                "Value": "30",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "1%%100%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "Minimum contrast between the foreground and the background of the symbol.",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Minmodsize_9",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "0",
+                                                "Value": "0",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%100%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "Minimum size of the modules in the image in pixels.",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Maxmodsize_10",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "0",
+                                                "Value": "0",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%100%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "Maximum size of the modules in the image in pixels.",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_Decodepattern_11",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "8",
+                                                "DefaultValue": "standard",
+                                                "Value": "standard",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "standard%%enhanced%%maximum",
+                                                "ClassifyValue": "",
+                                                "Tips": "Basic default settings of model parameters.",
+                                                "Authority": "1",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Preqrcodeversion_12",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Preqrmoduleqty_13",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Preinspectareaimage_14",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "2",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Predatacoderegion_15",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "1",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "vertexcolor=#FFFF00FF;vertexwidth=4;linecolor=#FF00FFFF;linewidth=2;brushcolor=#FF00FF00;drawvertex=1",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Predatacodresult_16",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Qrcodeversion_17",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Qrmoduleqty_18",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Inspectareaimage_19",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "2",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Datacoderegion_20",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "1",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_PARAD_Datacodresult_21",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "test",
+                                                "Value": "test",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "-1",
+                                                "Tips": "",
+                                                "Authority": "1",
+                                                "Label": ""
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_Name_1",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "1",
+                                                "DefaultValue": "DataCode Decode Failed",
+                                                "Value": "DataCode Decode Failed",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_Score_1",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "100",
+                                                "Value": "-1",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_GlobalID_1",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "1",
+                                                "Value": "1",
+                                                "DispEnable": "0",
+                                                "ModifyEnable": "0",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Attribute": {
+                                            "ID": 2,
+                                            "Name": "对象#2",
+                                            "WorkStationID": "1",
+                                            "RefImageID": "1",
+                                            "GroupID": 1,
+                                            "InspMethodID": "3",
+                                            "RegionIDList": [
+                                                {
+                                                    "ID": 1
+                                                }
+                                            ],
+                                            "ParamList": [
+                                                {
+                                                    "Name": "ID_PARA_AreaSearchScore_1",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "10",
+                                                    "DefaultValue": "70",
+                                                    "Value": "70",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "20%%100%%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_AreaSearchScore_1",
+                                                    "Authority": "1",
+                                                    "Label": "IDS_LABEL_BASICFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_AreaSearchHeight_2",
+                                                    "Unit": "Pixel",
+                                                    "DispUnit": "Pixel",
+                                                    "Type": "5",
+                                                    "DefaultValue": "50",
+                                                    "Value": "50",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "0%%100%%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_AreaSearchHeight_2",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_AreaSearchWidth_3",
+                                                    "Unit": "Pixel",
+                                                    "DispUnit": "Pixel",
+                                                    "Type": "5",
+                                                    "DefaultValue": "50",
+                                                    "Value": "50",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "0%%100%%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DSIP_AreaSearchWidth_3",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_ActFluxWidth_4",
+                                                    "Unit": "mm",
+                                                    "DispUnit": "mm",
+                                                    "Type": "5",
+                                                    "DefaultValue": "8",
+                                                    "Value": "8",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "0%%15%%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_ActFluxWidth_4",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_AreaSearchOffset_5",
+                                                    "Unit": "Pixel",
+                                                    "DispUnit": "Pixel",
+                                                    "Type": "5",
+                                                    "DefaultValue": "5",
+                                                    "Value": "5",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "0%%10%1",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_AreaSearchOffset_5",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_SaveFailedPic_6",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "3",
+                                                    "DefaultValue": "0",
+                                                    "Value": "0",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_SaveFailedPic_6",
+                                                    "Authority": "1",
+                                                    "Label": "IDS_LABEL_BASICFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_EnableAreaSearch_7",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "3",
+                                                    "DefaultValue": "0",
+                                                    "Value": "0",
+                                                    "DispEnable": "0",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_EnableAreaSearch_7",
+                                                    "Authority": "1",
+                                                    "Label": "IDS_LABEL_BASICFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_PARA_EnableCtrlSearchWidth_8",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "3",
+                                                    "DefaultValue": "0",
+                                                    "Value": "0",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "ID_DISP_EnableCtrlSearchWidth_8",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_DefectType_Count_0",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "5",
+                                                    "DefaultValue": "1",
+                                                    "Value": "1",
+                                                    "DispEnable": "0",
+                                                    "ModifyEnable": "0",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_BASICFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_DefectType_Name_1",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "1",
+                                                    "DefaultValue": "定位失败",
+                                                    "Value": "定位失败",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_DefectType_Score_1",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "5",
+                                                    "DefaultValue": "100",
+                                                    "Value": "-1",
+                                                    "DispEnable": "1",
+                                                    "ModifyEnable": "1",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                },
+                                                {
+                                                    "Name": "ID_DefectType_GlobalID_1",
+                                                    "Unit": "",
+                                                    "DispUnit": "",
+                                                    "Type": "5",
+                                                    "DefaultValue": "1",
+                                                    "Value": "1",
+                                                    "DispEnable": "0",
+                                                    "ModifyEnable": "0",
+                                                    "Range": "",
+                                                    "ClassifyValue": "",
+                                                    "Tips": "",
+                                                    "Authority": "2",
+                                                    "Label": "IDS_LABEL_ADVFUNC"
+                                                }
+                                            ]
+                                        },
+                                        "RegionIDList": [
+                                            {
+                                                "ID": 1
+                                            }
+                                        ],
+                                        "ParamList": [
+                                            {
+                                                "Name": "ID_PARA_AreaSearchScore_1",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "10",
+                                                "DefaultValue": "70",
+                                                "Value": "70",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "20%%100%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "ID_DISP_AreaSearchScore_1",
+                                                "Authority": "1",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_AreaSearchHeight_2",
+                                                "Unit": "Pixel",
+                                                "DispUnit": "Pixel",
+                                                "Type": "5",
+                                                "DefaultValue": "50",
+                                                "Value": "50",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%100%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "ID_DISP_AreaSearchHeight_2",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_AreaSearchWidth_3",
+                                                "Unit": "Pixel",
+                                                "DispUnit": "Pixel",
+                                                "Type": "5",
+                                                "DefaultValue": "50",
+                                                "Value": "50",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%100%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "ID_DSIP_AreaSearchWidth_3",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_ActFluxWidth_4",
+                                                "Unit": "mm",
+                                                "DispUnit": "mm",
+                                                "Type": "5",
+                                                "DefaultValue": "8",
+                                                "Value": "8",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%15%%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "ID_DISP_ActFluxWidth_4",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_AreaSearchOffset_5",
+                                                "Unit": "Pixel",
+                                                "DispUnit": "Pixel",
+                                                "Type": "5",
+                                                "DefaultValue": "5",
+                                                "Value": "5",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "0%%10%1",
+                                                "ClassifyValue": "",
+                                                "Tips": "ID_DISP_AreaSearchOffset_5",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_SaveFailedPic_6",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "0",
+                                                "Value": "0",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "ID_DISP_SaveFailedPic_6",
+                                                "Authority": "1",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_EnableAreaSearch_7",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "0",
+                                                "Value": "0",
+                                                "DispEnable": "0",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "ID_DISP_EnableAreaSearch_7",
+                                                "Authority": "1",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_PARA_EnableCtrlSearchWidth_8",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "3",
+                                                "DefaultValue": "0",
+                                                "Value": "0",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "ID_DISP_EnableCtrlSearchWidth_8",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_Count_0",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "1",
+                                                "Value": "1",
+                                                "DispEnable": "0",
+                                                "ModifyEnable": "0",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_BASICFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_Name_1",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "1",
+                                                "DefaultValue": "定位失败",
+                                                "Value": "定位失败",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_Score_1",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "100",
+                                                "Value": "-1",
+                                                "DispEnable": "1",
+                                                "ModifyEnable": "1",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            },
+                                            {
+                                                "Name": "ID_DefectType_GlobalID_1",
+                                                "Unit": "",
+                                                "DispUnit": "",
+                                                "Type": "5",
+                                                "DefaultValue": "1",
+                                                "Value": "1",
+                                                "DispEnable": "0",
+                                                "ModifyEnable": "0",
+                                                "Range": "",
+                                                "ClassifyValue": "",
+                                                "Tips": "",
+                                                "Authority": "2",
+                                                "Label": "IDS_LABEL_ADVFUNC"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
