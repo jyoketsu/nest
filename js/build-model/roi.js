@@ -62,11 +62,18 @@ var canvasNum = 2;
 // 最大图层id
 var maxCoverageId;
 
+// 压缩的画布，用于最终显示
 var offscreenCanvas;
 var offscreenContext;
+// RGB备份用画布
+var rgbBackupCanvas;
+var rgbBackupContext;
 
 // 图形索引，用作图形id
 var graphIndex = 0;
+
+// 原始图像像素信息
+var originImageData = null;
 
 $(document).ready(function(){
     // 初始化画布
@@ -219,6 +226,98 @@ function paintPic (options) {
         this.context_bg.restore();
 
         let drawContextEtime = new Date().getTime();
+    }
+}
+
+// 彩色转灰度
+function imageConvertToGray(){
+    var imageData = getImageDataForRGB();
+    var dataLength = imageData.data.length;
+    for (var i = 0; i < dataLength; i += 4) {
+        var red = imageData.data[i];
+        var green = imageData.data[i + 1];
+        var blue = imageData.data[i + 2];
+        var gray = parseInt((red + green + blue) / 3);
+        imageData.data[i] = gray;
+        imageData.data[i + 1] = gray;
+        imageData.data[i + 2] = gray;
+    }
+    offscreenContext.putImageData(imageData, 0, 0);
+    paintPic(options);
+}
+
+// 彩色转R通道
+function imageConvertToR(){
+    var imageData = getImageDataForRGB();
+    var dataLength = imageData.data.length;
+    for (var i = 0; i < dataLength; i += 4) {
+        // green
+        imageData.data[i + 1] = 0;
+        // blue
+        imageData.data[i + 2] = 0;
+    }
+    offscreenContext.putImageData(imageData, 0, 0);
+    clearContext("bg");
+    paintPic(options);
+}
+
+// 彩色转G通道
+function imageConvertToG(){
+    var imageData = getImageDataForRGB();
+    var dataLength = imageData.data.length;
+    for (var i = 0; i < dataLength; i += 4) {
+        // red
+        imageData.data[i] = 0;
+        // blue
+        imageData.data[i + 2] = 0;
+    }
+    offscreenContext.putImageData(imageData, 0, 0);
+    clearContext("bg");
+    paintPic(options);
+
+}
+
+// 彩色转B通道
+function imageConvertToB(){
+    var imageData = getImageDataForRGB();
+    var dataLength = imageData.data.length;
+    for (var i = 0; i < dataLength; i += 4) {
+        // red
+        imageData.data[i] = 0;
+        // green
+        imageData.data[i + 1] = 0;
+    }
+    offscreenContext.putImageData(imageData, 0, 0);
+    clearContext("bg");
+    paintPic(options);
+
+}
+
+// 获取图像imageData
+function getImageDataForRGB(){
+    var imageData = null;
+    if(rgbBackupContext){
+        imageData = rgbBackupContext.getImageData(0,0,rgbBackupCanvas.width,rgbBackupCanvas.height);
+    }else{
+        imageData = offscreenContext.getImageData(0,0,offscreenCanvas.width,offscreenCanvas.height);
+
+        rgbBackupCanvas = document.getElementById("canvas_rgb_backup");
+        rgbBackupCanvas.width = offscreenCanvas.width;
+        rgbBackupCanvas.height = offscreenCanvas.height;
+        rgbBackupContext = rgbBackupCanvas.getContext('2d');
+        rgbBackupContext.putImageData(imageData, 0, 0);
+    }
+    return imageData;
+}
+
+// 还原彩色RGB混合通道
+function revertRGB(){
+    if(rgbBackupContext){
+        var imageData = rgbBackupContext.getImageData(0,0,rgbBackupCanvas.width,rgbBackupCanvas.height);
+        offscreenContext.putImageData(imageData, 0, 0);
+        paintPic(options);
+        rgbBackupCanvas = null;
+        rgbBackupContext = null;
     }
 }
 
@@ -1859,6 +1958,9 @@ function clearContext(type,coverageId){
         this.graphList = [];
         this.previousSelectedGraph = null;
         this.canvasNum = 2;
+
+        rgbBackupCanvas = null;
+        rgbBackupContext = null;
     }
 }
 
