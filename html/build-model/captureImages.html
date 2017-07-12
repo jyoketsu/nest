@@ -54,14 +54,18 @@
                             console.log("收到采图返回消息：",data);
                             url=data.body.param.url;
                             options = null;
-                            initPic(url);
+                            initPic([{
+                                img:"",
+                                src:url
+                            }]);
                             drawDetectRange();
                         }
                     }
                 }
             } else {
                 // 浏览器不支持 WebSocket
-                alert("您的浏览器不支持 WebSocket!");
+                $("#alertDialogBody").html("您的浏览器不支持 WebSocket!！");
+                $("#alertDialog").modal("show");
             }
 
             // 获取session中的建模数据
@@ -115,7 +119,8 @@
             $("#nextStep").on("click",function(){
                 var result = operateComplete();
                 if(!result.result){
-                    alert(result.msg);
+                    $("#alertDialogBody").html(result.msg);
+                    $("#alertDialog").modal("show");
                 } else {
                     // 进入下一步
                     nextFlow();
@@ -149,7 +154,8 @@
                     }
                     ws.send(JSON.stringify(message));
                  } else {
-                    alert("未与IPUServer建立连接，请确认是否正确连接！");
+                    $("#alertDialogBody").html("未与IPUServer建立连接，请确认是否正确连接！");
+                    $("#alertDialog").modal("show");
                 }
             });
 
@@ -158,13 +164,17 @@
                 var image = event.target.files[0];
                 if(image){
                     if (!image.type.match('image.*')) {
-                        alert("请选择图片！");
+                        $("#alertDialogBody").html("请选择图片！");
+                        $("#alertDialog").modal("show");
                     } else{
                         var reader = new FileReader();
                         reader.onload = function () {
                             options = null;
                             currentDetectRange = null;
-                            initPic(reader.result);
+                            initPic([{
+                                img:"",
+                                src:reader.result
+                            }]);
                             drawDetectRange();
                         }
                         reader.readAsDataURL(image);
@@ -216,11 +226,13 @@
             // 点击检测范围
             $("#detectRange").on("click",function () {
                 if(selectedNode.nodeType!="refImage"){
-                    alert("请选择一参考图！");
+                    $("#alertDialogBody").html("请选择一参考图！");
+                    $("#alertDialog").modal("show");
                 } else {
                     var refImgIds = [selectedNode.parents[0],selectedNode.id];
                     if(existDetectRange(refImgIds)){
-                        alert("请先删除当前检测范围!");
+                        $("#alertDialogBody").html("请先删除当前检测范围！");
+                        $("#alertDialog").modal("show");
                     }else{
                         mouseDraft("newROI","square",false);
                     }
@@ -242,7 +254,8 @@
                     deleteRegionInBuildModel();
                     currentDetectRange = null;
                 } else {
-                    alert("未选中任何图形！");
+                    $("#alertDialogBody").html("未选中任何图形！");
+                    $("#alertDialog").modal("show");
                 }
             });
 
@@ -274,11 +287,13 @@
             // 顺时针旋转
             $("#clockwise").on("click",function () {
                 if(selectedNode.nodeType!="refImage"){
-                    alert("请选择一参考图！");
+                    $("#alertDialogBody").html("请选择一参考图！");
+                    $("#alertDialog").modal("show");
                 } else {
                     var refImgIds = [selectedNode.parents[0],selectedNode.id];
                     if(existDetectRange(refImgIds)){
-                        alert("请先删除当前检测范围!");
+                        $("#alertDialogBody").html("请先删除当前检测范围！");
+                        $("#alertDialog").modal("show");
                     }else{
                         rotate("clockwise");
                     }
@@ -287,11 +302,13 @@
             // 逆时针旋转
             $("#antiClockwise").on("click",function () {
                 if(selectedNode.nodeType!="refImage"){
-                    alert("请选择一参考图！");
+                    $("#alertDialogBody").html("请选择一参考图！");
+                    $("#alertDialog").modal("show");
                 } else {
                     var refImgIds = [selectedNode.parents[0],selectedNode.id];
                     if(existDetectRange(refImgIds)){
-                        alert("请先删除当前检测范围!");
+                        $("#alertDialogBody").html("请先删除当前检测范围！");
+                        $("#alertDialog").modal("show");
                     }else{
                         rotate("antiClockwise");
                     }
@@ -300,11 +317,13 @@
             // 重置旋转
             $("#resetRotate").on("click",function () {
                 if(selectedNode.nodeType!="refImage"){
-                    alert("请选择一参考图！");
+                    $("#alertDialogBody").html("请选择一参考图！");
+                    $("#alertDialog").modal("show");
                 } else {
                     var refImgIds = [selectedNode.parents[0],selectedNode.id];
                     if(existDetectRange(refImgIds)){
-                        alert("请先删除当前检测范围!");
+                        $("#alertDialogBody").html("请先删除当前检测范围！");
+                        $("#alertDialog").modal("show");
                     }else{
                         rotate("resetRotate");
                     }
@@ -693,6 +712,26 @@
         <div class="modal-content" style="border-radius: 3px;">
             <div class="modal-body">
                 <i class="fa fa-spinner fa-spin fa-2x" style="margin-left: 90px;"></i>加载中......
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="alertDialog" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <!--对话框标题-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title"><i class="fa fa-info-circle"></i>警告</h4>
+            </div>
+            <!--对话框内容-->
+            <div class="modal-body" id="alertDialogBody">
+                sample：输入不正确！
+            </div>
+            <!--对话框按钮-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>

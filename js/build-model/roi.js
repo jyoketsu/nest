@@ -1758,6 +1758,7 @@ function unSelectGraph() {
         clearContext("content",this.previousSelectedGraph.coverageId);
         drawGraph(previousSelectedGraph);
         previousSelectedGraph = null;
+        graphSelected = false;
     }
 }
 
