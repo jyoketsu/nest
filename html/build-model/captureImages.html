@@ -58,7 +58,7 @@
                                 img:"",
                                 src:url
                             }]);
-                            drawDetectRange();
+                            initDetectRange();
                         }
                     }
                 }
@@ -167,17 +167,23 @@
                         $("#alertDialogBody").html("请选择图片！");
                         $("#alertDialog").modal("show");
                     } else{
-                        var reader = new FileReader();
+                        options = null;
+                        currentDetectRange = null;
+                        /*var reader = new FileReader();
                         reader.onload = function () {
-                            options = null;
-                            currentDetectRange = null;
                             initPic([{
                                 img:"",
                                 src:reader.result
                             }]);
                             drawDetectRange();
                         }
-                        reader.readAsDataURL(image);
+                        reader.readAsDataURL(image);*/
+
+                        initPic([{
+                            img:"",
+                            src:"/nest/testImage/"+image.name
+                        }]);
+                        initDetectRange();
                     }
                 }
             });
