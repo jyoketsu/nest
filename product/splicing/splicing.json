@@ -374,8 +374,8 @@
                                     "WorkStationID": "1",
                                     "GrabImageIndex": "0",
                                     "Enable": "1",
-                                    "YPos": "0",
-                                    "XPos": "0",
+                                    "YPos": "500",
+                                    "XPos": "2700",
                                     "RefImageID": "1"
                                 }
                             }

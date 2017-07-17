@@ -105,7 +105,7 @@ function initCanvas() {
     // 改变鼠标样式
     this.changeCursor("not-allowed");
 
-    this.offscreenCanvas = document.getElementById("canvas_compress");
+    this.offscreenCanvas = document.createElement('canvas');
     this.offscreenContext = this.offscreenCanvas.getContext('2d');
 }
 
@@ -131,6 +131,17 @@ function initOffScreen(imgInfoList,callback){
     // 显示加载模态框
     $("#canvasLoadingModal").modal("show");
 
+    /*if(offscreenCanvas){
+        offscreenCanvas = null;
+        offscreenContext = null;
+        offscreenCanvas = document.createElement('canvas');
+        offscreenContext = offscreenCanvas.getContext('2d');
+    }else{
+        offscreenCanvas = document.createElement('canvas');
+        offscreenContext = offscreenCanvas.getContext('2d');
+    }*/
+
+    var objectStartTime = new Date().getTime();
     for(var i=0;i<imgInfoList.length;i++){
         imgInfoList[i].img = new Image();
         imgInfoList[i].img.src = imgInfoList[i].src;
@@ -151,6 +162,7 @@ function initOffScreen(imgInfoList,callback){
 
     var loadInterval = setInterval(function(){
         if(loadedCount == imgInfoList.length){
+            var objectEndTime = new Date().getTime();
             clearInterval(loadInterval);
             offscreenContext.clearRect(0,0,offscreenCanvas.width,offscreenCanvas.height);
             offscreenCanvas.width = offscreenWidth;
@@ -159,14 +171,26 @@ function initOffScreen(imgInfoList,callback){
             var drawX=0;
             var drawY=0;
             for(var i=0;i<imgInfoList.length;i++){
+                if(imgInfoList[i].xPos&&imgInfoList[i].yPos){
+                    drawX=drawX-imgInfoList[i].xPos;
+                    drawY = imgInfoList[i].yPos;
+                }
+
                 offscreenContext.drawImage(imgInfoList[i].img,drawX,drawY,imgInfoList[i].img.width,imgInfoList[i].img.height);
+
                 drawX+=imgInfoList[i].img.width;
+
                 imgInfoList[i].img = null;
             }
+
+            var drawOffScreenEndTime = new Date().getTime();
+
             callback();
 
+            var drawCanvasEndTime = new Date().getTime();
+
             var endTime = new Date().getTime();
-            console.log("image load time",(endTime - startTime)/1000);
+            console.log("refImageTotalTime",(endTime - startTime)/1000,"imageObjectTime:",(objectEndTime - objectStartTime)/1000,"offScreenDrawTime:",(drawOffScreenEndTime-objectEndTime)/1000,"refCanvasDrawTime:",(drawCanvasEndTime-drawOffScreenEndTime)/1000);
             // 隐藏加载模态框
             $("#canvasLoadingModal").modal("hide");
         }
@@ -220,6 +244,8 @@ function initPic (imgInfoList) {
 
 // 绘制位图
 function paintPic (options) {
+    var startTime = new Date().getTime();
+
     let scale = options.scale;
     let iw = options.iw;
     let ih = options.ih;
@@ -241,6 +267,9 @@ function paintPic (options) {
     this.context_bg.drawImage(this.offscreenCanvas, x - this.options.midpoint.canvasX, y - this.options.midpoint.canvasY, iw*scale, ih*scale);
     //this.context_bg.drawImage(this.img, x - this.options.midpoint.canvasX, y - this.options.midpoint.canvasY, iw*scale, ih*scale);
     this.context_bg.restore();
+
+    var endTime = new Date().getTime();
+    console.log("drawRefImageTime:",(endTime - startTime)/1000);
 }
 
 // 彩色转灰度
@@ -315,7 +344,7 @@ function getImageDataForRGB(){
     }else{
         imageData = offscreenContext.getImageData(0,0,offscreenCanvas.width,offscreenCanvas.height);
 
-        rgbBackupCanvas = document.getElementById("canvas_rgb_backup");
+        rgbBackupCanvas = document.createElement('canvas');
         rgbBackupCanvas.width = offscreenCanvas.width;
         rgbBackupCanvas.height = offscreenCanvas.height;
         rgbBackupContext = rgbBackupCanvas.getContext('2d');
@@ -1118,6 +1147,7 @@ function selectGraph() {
              }*/
             picDragging = true;
             graphSelected = false;
+            previousSelectedGraph = null;
         }
     };
 
