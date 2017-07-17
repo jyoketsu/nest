@@ -45,3 +45,16 @@ function postJson(data){
     });
     
 }
+
+// 提交数据
+function post(url,data){
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        success: function(data){},
+        dataType: "json",
+        contentType: "application/x-www-form-urlencoded; charset=utf-8"
+    });
+
+}

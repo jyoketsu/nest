@@ -75,13 +75,11 @@ var graphIndex = 0;
 // 原始图像像素信息
 var originImageData = null;
 
-$(document).ready(function(){
+$(function(){
     // 初始化画布
     initCanvas();
     // 设置画布大小
     setCanvasSize();
-    // 鼠标滚轮事件
-    $(canvas_bak).bind('mousewheel DOMMouseScroll',mouseWheel);
 });
 
 // 初始化画布
@@ -573,7 +571,12 @@ function mouseDraft(msg,graphType,continuous){
                         addRegionToBuildModel(graphObject);
 
                         if(continuous!=undefined&&!continuous){
-                            $(canvas_bak).unbind();
+                            $(canvas_bak).unbind('mousedown');
+                            $(canvas_bak).unbind('mousemove');
+                            $(canvas_bak).unbind('mouseup');
+                            $(canvas_bak).unbind('mouseout');
+                            $(canvas_bak).unbind('click');
+                            $(canvas_bak).unbind('dblclick');
                             // 改变鼠标样式
                             that.changeCursor("not-allowed");
                         }
@@ -748,7 +751,12 @@ function mouseDraft(msg,graphType,continuous){
 
             // 清空多边形点集
             pointList.length = 0;
-            $(that.canvas_bak).unbind();
+            $(canvas_bak).unbind('mousedown');
+            $(canvas_bak).unbind('mousemove');
+            $(canvas_bak).unbind('mouseup');
+            $(canvas_bak).unbind('mouseout');
+            $(canvas_bak).unbind('click');
+            $(canvas_bak).unbind('dblclick');
             // 改变鼠标样式
             changeCursor("not-allowed");
         }else if(msg=="combineROI"){ // 结合ROI的情况
@@ -830,11 +838,17 @@ function mouseDraft(msg,graphType,continuous){
         }
     }
 
-    $(that.canvas_bak).unbind();
-    $(that.canvas_bak).bind('mousedown',mousedown);
-    $(that.canvas_bak).bind('mousemove',mousemove);
-    $(that.canvas_bak).bind('mouseup',mouseup);
-    $(that.canvas_bak).bind('dblclick',dblclick);
+    $(canvas_bak).unbind('mousedown');
+    $(canvas_bak).unbind('mousemove');
+    $(canvas_bak).unbind('mouseup');
+    $(canvas_bak).unbind('mouseout');
+    $(canvas_bak).unbind('click');
+    $(canvas_bak).unbind('dblclick');
+
+    $(canvas_bak).bind('mousedown',mousedown);
+    $(canvas_bak).bind('mousemove',mousemove);
+    $(canvas_bak).bind('mouseup',mouseup);
+    $(canvas_bak).bind('dblclick',dblclick);
 }
 
 // 绘制图形
@@ -1011,7 +1025,7 @@ function drawRegions(regionList){
 }
 
 // 选择事件
-function selectGraph() {
+function selectGraph(selectNodeCallBack,updateDataCallback) {
     let that = this;
     // 改变鼠标样式
     changeCursor("pointer");
@@ -1095,16 +1109,16 @@ function selectGraph() {
             var flag = false;
             // 直线
             if (currentGraph.graphType == 'line') {
-                flag = that.isPointOnLine(currentGraph,clickX,clickY,rotatePoint);
+                flag = isPointOnLine(currentGraph,clickX,clickY,rotatePoint);
                 // 矩形
             } else if (currentGraph.graphType == 'square') {
-                flag = that.isPointInRect(currentGraph,clickX,clickY,rotatePoint);
+                flag = isPointInRect(currentGraph,clickX,clickY,rotatePoint);
                 // 圆角矩形
             } else if (currentGraph.graphType == 'roundRect') {
-                flag = that.isPointInRoundRect(currentGraph,that.roundRectRadius,clickX,clickY,rotatePoint);
+                flag = isPointInRoundRect(currentGraph,that.roundRectRadius,clickX,clickY,rotatePoint);
                 // 椭圆
             } else if (currentGraph.graphType == 'oval') {
-                flag = that.isPointInOval(currentGraph,clickX,clickY,rotatePoint);
+                flag = isPointInOval(currentGraph,clickX,clickY,rotatePoint);
                 // 多边形
             } else if (currentGraph.graphType == 'polygon') {
                 flag = isPointInPolygon(currentGraph,clickX,clickY,rotatePoint);
@@ -1116,7 +1130,8 @@ function selectGraph() {
                 selected(currentGraph,null);
                 graphSelected = true;
                 // 工位树选中
-                selectNode(currentGraph);
+                selectNodeCallBack(currentGraph);
+                /*selectNode(currentGraph);*/
 
                 var result = getOuerHW(selectedPeakPoints);
                 previousHeight = result.height;
@@ -1127,6 +1142,9 @@ function selectGraph() {
         }
         // 没有选中任何图形，并且在位图区域内，则选中位图
         if (!isDragging && isPointInPic(clickX,clickY)) {
+            // 工位树选中
+            selectNodeCallBack(null);
+            /*selectNode(null);*/
             // 改变鼠标样式
             changeCursor("move");
             // 清除之前选择的图形
@@ -1453,7 +1471,8 @@ function selectGraph() {
             }
 
             // 更新buildModel中的数据
-            updateRegionInBuildModel(previousSelectedGraph);
+            updateDataCallback(previousSelectedGraph);
+            /*updateRegionInBuildModel(previousSelectedGraph);*/
         }
 
 
@@ -1502,7 +1521,8 @@ function selectGraph() {
 
 
             // 更新buildModel中的数据
-            updateRegionInBuildModel(previousSelectedGraph);
+            updateDataCallback(previousSelectedGraph);
+            /*updateRegionInBuildModel(previousSelectedGraph);*/
 
             /*// 发送消息，将拖动后的图形数据发送给外部函数
             that.publishSubscribeService.publish("afterMoveGraph",that.previousSelectedGraph);*/
@@ -1513,14 +1533,17 @@ function selectGraph() {
     }
 
     // 移除蒙版的事件处理程序。
-    $(that.canvas_bak).unbind();
+    $(canvas_bak).unbind('mousedown');
+    $(canvas_bak).unbind('mousemove');
+    $(canvas_bak).unbind('mouseup');
+    $(canvas_bak).unbind('mouseout');
+    $(canvas_bak).unbind('click');
+    $(canvas_bak).unbind('dblclick');
     // 绑定鼠标事件
-    // 鼠标滚轮事件
-    $(canvas_bak).bind('mousewheel DOMMouseScroll',mouseWheel);
-    $(that.canvas_bak).bind('mousedown',canvasClick);
-    $(that.canvas_bak).bind('mousemove',mouseMove);
-    $(that.canvas_bak).bind('mouseup',mouseUp);
-    $(that.canvas_bak).bind('mouseout',mouseUp);
+    $(canvas_bak).bind('mousedown',canvasClick);
+    $(canvas_bak).bind('mousemove',mouseMove);
+    $(canvas_bak).bind('mouseup',mouseUp);
+    $(canvas_bak).bind('mouseout',mouseUp);
 }
 
 // 选中图形
@@ -1666,7 +1689,12 @@ function getGraphPeakPoints(graphPointList){
 
 // 获取鼠标点击的图形
 function getClickedGraph(callback) {
-    $(canvas_bak).unbind();
+    $(canvas_bak).unbind('mousedown');
+    $(canvas_bak).unbind('mousemove');
+    $(canvas_bak).unbind('mouseup');
+    $(canvas_bak).unbind('mouseout');
+    $(canvas_bak).unbind('click');
+    $(canvas_bak).unbind('dblclick');
     // 改变鼠标样式
     changeCursor("pointer");
     // 点击的图形
@@ -1730,7 +1758,12 @@ function getClickedGraph(callback) {
         var clickTargetId = $(e.target).attr("id");
         if(clickTargetId != "canvas_bak"){
             clearInterval(interval);
-            $(canvas_bak).unbind();
+            $(canvas_bak).unbind('mousedown');
+            $(canvas_bak).unbind('mousemove');
+            $(canvas_bak).unbind('mouseup');
+            $(canvas_bak).unbind('mouseout');
+            $(canvas_bak).unbind('click');
+            $(canvas_bak).unbind('dblclick');
             $("body").unbind();
             // 改变鼠标样式
             changeCursor("not-allowed");
@@ -1744,7 +1777,12 @@ function getClickedGraph(callback) {
     var interval = setInterval(function(){
         console.log("interval");
         if(clickedGraph){
-            $(canvas_bak).unbind();
+            $(canvas_bak).unbind('mousedown');
+            $(canvas_bak).unbind('mousemove');
+            $(canvas_bak).unbind('mouseup');
+            $(canvas_bak).unbind('mouseout');
+            $(canvas_bak).unbind('click');
+            $(canvas_bak).unbind('dblclick');
             $("body").unbind();
             clearInterval(interval);
             callback(clickedGraph);
@@ -1937,17 +1975,14 @@ function zoomPic(zoom) {
     }
 }
 
-// 鼠标滚轮事件
-var mouseWheel = function(e){
-    var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? "zoom-in" : "zoom-out")) ||
-        (e.originalEvent.detail && (e.originalEvent.detail > 0 ? "zoom-out" : "zoom-in"));
-    zoomPic(delta);
-    selectGraph();
-}
-
 // 旋转
 function rotate(direction) {
-    $(canvas_bak).unbind();
+    $(canvas_bak).unbind('mousedown');
+    $(canvas_bak).unbind('mousemove');
+    $(canvas_bak).unbind('mouseup');
+    $(canvas_bak).unbind('mouseout');
+    $(canvas_bak).unbind('click');
+    $(canvas_bak).unbind('dblclick');
     // 改变鼠标样式
     changeCursor("not-allowed");
     if (direction == "clockwise") {

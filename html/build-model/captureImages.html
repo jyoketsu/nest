@@ -36,6 +36,14 @@
         // 现在的检测范围
         var currentDetectRange = null;
 
+        // 鼠标滚轮事件
+        var mouseWheel = function(e){
+            var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? "zoom-in" : "zoom-out")) ||
+                    (e.originalEvent.detail && (e.originalEvent.detail > 0 ? "zoom-out" : "zoom-in"));
+            zoomPic(delta);
+            selectGraph(selectNode,updateRegionInBuildModel);
+        };
+
         $(document).ready(function(){
             // WebSocket连接
             if ("WebSocket" in window) {
@@ -101,6 +109,9 @@
             imgInfoList=null;
             // 初始化检测范围
             initDetectRange();
+
+            // 鼠标滚轮事件
+            $(canvas_bak).bind('mousewheel DOMMouseScroll',mouseWheel);
 
             // 单击退出按钮
             $("#quit").on("click",function(){
@@ -217,7 +228,7 @@
                         }
                     }
                     // 选中事件
-                    selectGraph();
+                    selectGraph(selectNode,updateRegionInBuildModel);
                 } else{
                     // 清空检测范围显示
                     if(currentDetectRange){
@@ -228,7 +239,7 @@
                         currentDetectRange = null;
                     }
                     // 选中事件
-                    selectGraph();
+                    selectGraph(selectNode,updateRegionInBuildModel);
                 }
             });
             
@@ -251,7 +262,7 @@
             // 选择ROI
             $("#selectRoi").on("click",function () {
                 // 图形：选中
-                selectGraph();
+                selectGraph(selectNode,updateRegionInBuildModel);
             });
             
             // 点击删除检测范围
@@ -434,19 +445,22 @@
         function selectNode(currentGraph){
             var idsList = new Array();
             var workStationList = buildModel.Product.WorkStationList;
-            // 寻找使用当前检测区的对象节点
-            for(var i=0;i<workStationList.length;i++){
-                var workStation = workStationList[i];
-                var refImageList = workStation.RefImageList;
-                for (var j=0;j<refImageList.length;j++){
-                    var refImage = refImageList[j];
-                    var regionList = refImage.RegionList;
-                    for(var m=0;m<regionList.length;m++){
-                        if(regionList[m].Attribute.ID == currentGraph.id){
-                            var ids = [workStation.Attribute.ID,refImage.Attribute.ID];
-                            idsList.push(ids);
-                        }
-                    }
+            // 如果选中了图形
+            if(currentGraph){
+                var imgList = findRegionImg(currentGraph);
+                for(var i=0;i<imgList.length;i++){
+                    var img = imgList[i];
+                    idsList.push([img.Attribute.WorkStationID,img.Attribute.ID]);
+                }
+            }else{
+                // 如果没有选中图形，则树节点选中上次选中图形所在的工位
+                if(!previousSelectedGraph){
+                    return;
+                }
+                var imgList = findRegionImg(previousSelectedGraph);
+                for(var i=0;i<imgList.length;i++){
+                    var img = imgList[i];
+                    idsList.push([img.Attribute.WorkStationID]);
                 }
             }
 
@@ -455,6 +469,26 @@
                 $('#tree').treeview('selectNode', [ node, { silent: true } ]);
                 selectedNode = node;
                 console.log("selectedNode",selectedNode);
+            }
+
+            // 寻找使用了当前检测范围的参考图节点
+            function findRegionImg(graph){
+                var workStationList = buildModel.Product.WorkStationList;
+                var refImgList = [];
+                for(var i=0;i<workStationList.length;i++){
+                    var workStation = workStationList[i];
+                    var refImageList = workStation.RefImageList;
+                    for (var j=0;j<refImageList.length;j++){
+                        var refImage = refImageList[j];
+                        var regionList = refImage.RegionList;
+                        for(var m=0;m<regionList.length;m++){
+                            if(regionList[m].Attribute.ID == graph.id){
+                                refImgList.push(refImage);
+                            }
+                        }
+                    }
+                }
+                return refImgList;
             }
         }
 

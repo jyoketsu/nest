@@ -84,6 +84,14 @@
         // 复制region的偏移值
         var copyDeviant = 50;
 
+        // 鼠标滚轮事件
+        var mouseWheel = function(e){
+            var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? "zoom-in" : "zoom-out")) ||
+                    (e.originalEvent.detail && (e.originalEvent.detail > 0 ? "zoom-out" : "zoom-in"));
+            zoomPic(delta);
+            selectGraph(selectNode,updateRegionInBuildModel);
+        };
+
         $(document).ready(function(){
             // WebSocket连接
             if ("WebSocket" in window) {
@@ -405,6 +413,9 @@
                 }
             },50);
 
+            // 鼠标滚轮事件
+            $(canvas_bak).bind('mousewheel DOMMouseScroll',mouseWheel);
+
             // 绘制矩形
             $("#newSquare").on("click",function () {
                 if(checkAddRoi()){
@@ -482,7 +493,7 @@
             // 选择ROI
             $("#selectRoi").on("click",function () {
                 // 图形：选中
-                selectGraph();
+                selectGraph(selectNode,updateRegionInBuildModel);
 
             });
             // 删除region
@@ -638,7 +649,7 @@
                     // 选中图形
                     selectGraphById(currentObject.RegionIDList[0].ID);
                     // 选中事件
-                    selectGraph();
+                    selectGraph(selectNode,updateRegionInBuildModel);
                 }
             } else if(selectedNode.nodeType == "inspMethod"||selectedNode.nodeType == "region"){
                 currentObject = findObjectInArray(buildModel.Product.WorkStationList,objIds);
@@ -647,12 +658,12 @@
                     // 选中图形
                     selectGraphById(currentObject.RegionIDList[0].ID);
                     // 选中事件
-                    selectGraph();
+                    selectGraph(selectNode,updateRegionInBuildModel);
                 }
             } else { // 取消选中
                 unSelectGraph();
                 // 选中事件
-                selectGraph();
+                selectGraph(selectNode,updateRegionInBuildModel);
             }
         }
 
@@ -2033,28 +2044,24 @@
         // 根据当前选中的region选中对象树节点
         function selectNode(currentGraph){
             var idsList = new Array();
-            var workStationList = buildModel.Product.WorkStationList;
-            // 寻找使用当前检测区的对象节点
-            for(var i=0;i<workStationList.length;i++){
-                var workStation = workStationList[i];
-                var refImageList = workStation.RefImageList;
-                for (var j=0;j<refImageList.length;j++){
-                    var refImage = refImageList[j];
-                    var groupList = refImage.GroupList;
-                    for(var k=0;k<groupList.length;k++){
-                        var group = groupList[k];
-                        var inspObjList = group.InspObjList;
-                        for(var l=0;l<inspObjList.length;l++){
-                            var inspObj = inspObjList[l];
-                            var regionIDList = inspObj.RegionIDList;
-                            for(var m=0;m<regionIDList.length;m++){
-                                if(regionIDList[m].ID == currentGraph.id){
-                                    var ids = [workStation.Attribute.ID,refImage.Attribute.ID,group.Attribute.ID,inspObj.Attribute.ID];
-                                    idsList.push(ids);
-                                }
-                            }
-                        }
-                    }
+            // 如果选中了图形
+            if(currentGraph){
+                // 寻找使用当前检测区的对象节点
+                var objectList = findRegionObjects(currentGraph);
+                for(var i=0;i<objectList.length;i++){
+                    var obj = objectList[i];
+                    idsList.push([obj.Attribute.WorkStationID,obj.Attribute.RefImageID,obj.Attribute.GroupID,obj.Attribute.ID]);
+                }
+            }else{
+                // 如果没有选中图形，则树节点选中上次选中图形所在的分组
+                // 寻找使用当前检测区的对象节点
+                if(!previousSelectedGraph){
+                    return;
+                }
+                var objectList = findRegionObjects(previousSelectedGraph);
+                for(var i=0;i<objectList.length;i++){
+                    var obj = objectList[i];
+                    idsList.push([obj.Attribute.WorkStationID,obj.Attribute.RefImageID,obj.Attribute.GroupID]);
                 }
             }
 
@@ -2066,16 +2073,47 @@
                 // 标识关联对象区域
                 markAssocRegion(selectedNode);
             }
+
+            // 寻找使用了当前检测区的对象节点
+            function findRegionObjects(graph){
+                var objectList = [];
+                var workStationList = buildModel.Product.WorkStationList;
+                for(var i=0;i<workStationList.length;i++){
+                    var workStation = workStationList[i];
+                    var refImageList = workStation.RefImageList;
+                    for (var j=0;j<refImageList.length;j++){
+                        var refImage = refImageList[j];
+                        var groupList = refImage.GroupList;
+                        for(var k=0;k<groupList.length;k++){
+                            var group = groupList[k];
+                            var inspObjList = group.InspObjList;
+                            for(var l=0;l<inspObjList.length;l++){
+                                var inspObj = inspObjList[l];
+                                var regionIDList = inspObj.RegionIDList;
+                                for(var m=0;m<regionIDList.length;m++){
+                                    if(regionIDList[m].ID == graph.id){
+                                        objectList.push(inspObj);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return objectList;
+            }
         }
         /*对象、region相关---end------------------------------------------*/
 
 
         // 显示右侧区域
         function showRightContent(){
-            // jquery ui switchClass
-            $("#right-content").css( "display", "block");
-            $("#center-content").switchClass( "col-md-9", "col-md-6", 500);
-            $("#collapse-button").find("i").attr("class","fa fa-angle-double-right");
+            // 只有选中对象时才可显示右侧区域
+            if(selectedNode && (selectedNode.nodeType=="object"||selectedNode.nodeType=="inspMethod"||selectedNode.nodeType=="region")){
+                // jquery ui switchClass
+                $("#right-content").css( "display", "block");
+                $("#center-content").switchClass( "col-md-9", "col-md-6", 500);
+                $("#collapse-button").find("i").attr("class","fa fa-angle-double-right");
+            }
         }
 
         // 隐藏右侧区域
